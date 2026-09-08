@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use HAMON</title>
+<meta name="description" content="Install the HAMON Python library and convert harmony between encodings in three commands: pip install hamonpy, parse a progression, export it to any supported format.">
+<link rel="canonical" href="https://omr-praig-ua-es.github.io/hamon-site/use.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HAMON">
+<meta property="og:title" content="Use HAMON">
+<meta property="og:description" content="Install the HAMON Python library and convert harmony between encodings in three commands: pip install hamonpy, parse a progression, export it to any supported format.">
+<meta property="og:url" content="https://omr-praig-ua-es.github.io/hamon-site/use.html">
+<meta property="og:image" content="https://omr-praig-ua-es.github.io/hamon-site/assets/figures/figure_native_loss_matrix.png">
+<meta property="og:image:alt" content="Heat map: for each example and each target encoding, the number of analytical aspects that encoding cannot express in its own vocabulary. HAMON&#x27;s column is zero throughout; Humdrum is the closest of the rest; Dezrann and DCML lose the most.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Use HAMON">
+<meta name="twitter:description" content="Install the HAMON Python library and convert harmony between encodings in three commands: pip install hamonpy, parse a progression, export it to any supported format.">
+<meta name="twitter:image" content="https://omr-praig-ua-es.github.io/hamon-site/assets/figures/figure_native_loss_matrix.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <span class="brand">HAMON</span>
+  <nav><a href="index.html" class="">Home</a><a href="use.html" class="active">Use it</a><a href="icccm26.html" class="">ICCCM&#x27;26</a><a href="fixtures.html" class="">Fixtures</a></nav>
+  <a class="repo" href="https://github.com/OMR-PRAIG-UA-ES/hamon-site" target="_blank" rel="noopener">GitHub ↗</a>
+</header>
+<main>
+
+<section>
+  <h1>Use HAMON</h1>
+  <p class="lead">HAMON ships as a Python library, <code>hamonpy</code>, with a
+  <code>hamon</code> command line tool. It reads harmony out of any supported encoding
+  into one typed model, and writes that model back out to any other.</p>
+
+  <div class="method">
+    <b>Availability.</b> <code>hamonpy</code> goes to PyPI after ICCCM'26
+    (21–23 September 2026). Until then it is available on request for research and
+    evaluation — please contact the authors. Only the install command differs; everything
+    below is the same either way.
+  </div>
+
+  <h2>1 · Install</h2>
+  <p>Python 3.10 or newer. The library itself has a single dependency, the ANTLR runtime.</p>
+  <pre><code># after the conference
+pip install hamonpy
+
+# before it, from a checkout you have been given access to
+git clone https://github.com/OMR-PRAIG-UA-ES/hamon.git
+cd hamon
+pip install -e "./hamonpy[dev]"</code></pre>
+  <p class="hint">The package lives in the <code>hamonpy/</code> subdirectory, so point pip
+  at <code>./hamonpy</code> rather than at the repository root. Optional extras bring in the
+  ecosystems HAMON can read from and write to:
+  <code>pip install "hamonpy[music21,ms3,partitura]"</code>.</p>
+
+  <h2>2 · Parse a progression</h2>
+  <p>A HAMON file is one label per line, under a header saying which system they are in.
+  Parsing gives you a typed sequence that serializes to JSON and round-trips back to the
+  exact glyphs you started from.</p>
+  <pre><code>from hamonpy.parse import parse_hamon_sequence
+from hamonpy.serialize import sequence_to_json, sequence_to_hamon_text
+
+seq = parse_hamon_sequence("@cs\nCmaj7\nAm7\nDm7\nG7")
+
+print(sequence_to_json(seq))        # the canonical JSON
+print(sequence_to_hamon_text(seq))  # back to the surface, unchanged</code></pre>
+
+  <h2>3 · Convert between encodings</h2>
+  <p>Reading a real file needs no more than this. The format is detected from the
+  extension, or you can name it.</p>
+  <pre><code>from pathlib import Path
+from hamonpy.cli import convert_file
+
+seq = convert_file(Path("song.mei"))          # MEI, MusicXML, Humdrum, DCML, Harte…
+seq = convert_file(Path("changes.lab"), "harte")</code></pre>
+
+  <h2>4 · Or from the command line</h2>
+  <pre><code>hamon convert  changes.tsv            # any supported format → canonical HAMON JSON
+hamon export   song.mei --to harte    # one encoding → another, through HAMON
+hamon report   song.mei --to harte    # the same, and name everything the target loses
+hamon validate corpus.hamon --strict  # corpus QA: opaque labels, position warnings</code></pre>
+  <p>The export prints the target's own vocabulary, nothing smuggled:</p>
+  <pre><code>$ hamon export song.mei --to harte
+C:min7
+F:7
+Bb:maj7
+Eb:maj7
+A:min7</code></pre>
+  <p class="hint">Swap <code>export</code> for <code>report</code> and you get the same
+  conversion plus a field-by-field account of what that encoding could not carry — the
+  measurement behind the <a href="icccm26.html">ICCCM'26 page</a>.</p>
+
+  <h2>5 · Next</h2>
+  <p>The checkout carries the full documentation, also bundled as a single PDF: a tutorial
+  from one chord to a positioned analysis, a per-format cookbook, the complete command
+  reference, and the grammar. The <a href="icccm26.html">loss viewer</a> shows what every
+  encoding does with the same music, and the <a href="fixtures.html">fixture corpus</a> is
+  the conformance suite, browsable.</p>
+  <p class="hint">Please cite the paper if you use HAMON in your work — see
+  <a href="icccm26.html#cite">how to cite</a>. The code is <strong>Apache-2.0</strong> and
+  the standard and its data are <strong>CC BY 4.0</strong>.</p>
+</section>
+
+</main>
+<footer>HAMON — to be presented at <a href="https://digital.musicology.org/icccm-2026/" target="_blank" rel="noopener">ICCCM 2026</a> (Würzburg, 21–23 September 2026)
+ · © 2026 the authors · code <strong>Apache-2.0</strong>, standard &amp; data <strong>CC BY 4.0</strong> (see <a href="LICENSE" target="_blank" rel="noopener">LICENSE</a>)
+ · generated by <code>site/build.py</code></footer>
+
+</body>
+</html>

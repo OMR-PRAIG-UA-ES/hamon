@@ -39,7 +39,7 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
 
 /* landing */
 .hero h1 { font-size: 40px; color: var(--green); }
-.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 26px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 26px; }
 .card { border: 1px solid var(--line); border-radius: 12px; padding: 20px; color: var(--ink);
   transition: box-shadow .15s, transform .15s; display: block; }
 .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); transform: translateY(-2px); text-decoration: none; }

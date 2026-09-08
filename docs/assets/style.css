@@ -148,3 +148,14 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
 .meta-row { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* figure caption, citation block, and the no-JavaScript export index */
+.figures figcaption { color: var(--muted); font-size: 13px; line-height: 1.5;
+  max-width: 90ch; margin-top: 8px; }
+pre.bibtex { border: 1px solid var(--line); border-radius: 9px; background: var(--soft);
+  padding: 12px; overflow-x: auto; font-size: 13px; }
+noscript .noscript-exports { columns: 2; column-gap: 26px; font-size: 13px;
+  list-style: none; padding: 0; }
+noscript .noscript-exports li { break-inside: avoid; padding: 2px 0; }
+noscript h3 { margin-bottom: 2px; }
+@media (max-width: 720px) { noscript .noscript-exports { columns: 1; } }

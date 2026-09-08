@@ -3,14 +3,19 @@
    computed by hamonpy). If the CDN or rendering fails, callers fall back to
    text — the experiment is unaffected. */
 (function () {
-  const CDN = "https://www.verovio.org/javascript/latest/verovio-toolkit-wasm.js";
+  /* Two independent CDNs, tried in order. The toolkit is a 7 MB WASM bundle and this
+     page is read on conference wifi, so one blocked or slow host should not be the
+     difference between a score and no score. */
+  const CDNS = [
+    "https://www.verovio.org/javascript/latest/verovio-toolkit-wasm.js",
+    "https://cdn.jsdelivr.net/npm/verovio/dist/verovio-toolkit-wasm.js",
+  ];
   let tkPromise = null;
 
-  function load() {
-    if (tkPromise) return tkPromise;
-    tkPromise = new Promise((resolve, reject) => {
+  function loadFrom(url) {
+    return new Promise((resolve, reject) => {
       const s = document.createElement("script");
-      s.src = CDN;
+      s.src = url;
       s.async = true;
       s.onload = () => {
         if (!window.verovio || !window.verovio.module) { reject(new Error("verovio global missing")); return; }
@@ -18,9 +23,16 @@
           resolve(new window.verovio.toolkit());
         };
       };
-      s.onerror = () => reject(new Error("failed to load Verovio from CDN"));
+      s.onerror = () => reject(new Error("failed to load Verovio from " + url));
       document.head.appendChild(s);
     });
+  }
+
+  function load() {
+    if (tkPromise) return tkPromise;
+    tkPromise = CDNS.reduce(
+      (chain, url) => chain.catch(() => loadFrom(url)),
+      Promise.reject(new Error("no CDN tried yet")));
     return tkPromise;
   }
 

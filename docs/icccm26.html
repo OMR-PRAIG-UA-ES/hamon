@@ -4,6 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICCCM&#x27;26 — HAMON</title>
+<meta name="description" content="Every harmony aspect each encoding cannot express, counted against its own vocabulary. Seven examples exported to thirteen encodings, with an interactive loss viewer. The ICCCM&#x27;26 companion page for HAMON.">
+<link rel="canonical" href="https://omr-praig-ua-es.github.io/hamon-site/icccm26.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HAMON">
+<meta property="og:title" content="ICCCM&#x27;26 — HAMON">
+<meta property="og:description" content="Every harmony aspect each encoding cannot express, counted against its own vocabulary. Seven examples exported to thirteen encodings, with an interactive loss viewer. The ICCCM&#x27;26 companion page for HAMON.">
+<meta property="og:url" content="https://omr-praig-ua-es.github.io/hamon-site/icccm26.html">
+<meta property="og:image" content="https://omr-praig-ua-es.github.io/hamon-site/assets/figures/figure_native_loss_matrix.png">
+<meta property="og:image:alt" content="Heat map: for each example and each target encoding, the number of analytical aspects that encoding cannot express in its own vocabulary. HAMON&#x27;s column is zero throughout; Humdrum is the closest of the rest; Dezrann and DCML lose the most.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ICCCM&#x27;26 — HAMON">
+<meta name="twitter:description" content="Every harmony aspect each encoding cannot express, counted against its own vocabulary. Seven examples exported to thirteen encodings, with an interactive loss viewer. The ICCCM&#x27;26 companion page for HAMON.">
+<meta name="twitter:image" content="https://omr-praig-ua-es.github.io/hamon-site/assets/figures/figure_native_loss_matrix.png">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -20,10 +33,10 @@
     <div class="venue">To be presented at
       <a href="https://digital.musicology.org/icccm-2026/" target="_blank" rel="noopener">ICCCM 2026</a></div>
     <ul class="authors">
-      <li><strong>Patricia Garcia-Iasci</strong> — University of Alicante / University of Salamanca, Spain</li>
+      <li><strong>Patricia Garcia-Iasci</strong> — Universidad de Alicante / Universidad de Salamanca, Spain</li>
       <li><strong>Johannes Hentschel</strong> — Linz Computational Music Analysis Research Group, Anton Bruckner University, Austria</li>
       <li><strong>Fabian C. Moss</strong> — Institut für Musikforschung, Julius-Maximilians-Universität Würzburg, Germany</li>
-      <li><strong>David Rizo</strong> — EASDA/ISEA.CV, University of Alicante, Spain</li>
+      <li><strong>David Rizo</strong> — Universidad de Alicante and Instituto Superior de Enseñanzas Artísticas de la Comunidad Valenciana (ISEA.CV), Spain</li>
     </ul>
   </div>
   <p class="lead">Each example is authored in HAMON and exported to every encoding using only that
@@ -47,7 +60,13 @@
 
 
   <div class="figures">
-    <figure><img src="assets/figures/figure_native_loss_matrix.svg" alt="native-loss matrix"></figure>
+    <figure>
+      <img src="assets/figures/figure_native_loss_matrix.svg" alt="Heat map: for each example and each target encoding, the number of analytical aspects that encoding cannot express in its own vocabulary. HAMON's column is zero throughout; Humdrum is the closest of the rest; Dezrann and DCML lose the most.">
+      <figcaption>Each cell counts the analytical aspects that target cannot express in its
+      own vocabulary, for that example. Zero means the encoding says all of it, and only
+      HAMON is zero down the whole column. Carrying the label as an opaque string is not
+      counted as saying it.</figcaption>
+    </figure>
   </div>
 
   <h2>Interactive loss viewer</h2>
@@ -57,6 +76,153 @@
   <b>Native</b> vs <b>Native + HAMON</b> to see what a clearly-labelled out-of-band annotation
   recovers.</p>
   <div id="viewer" class="viewer"></div>
+
+<noscript>
+  <div class="method">
+    <b>The loss viewer needs JavaScript.</b> Every file it would show is listed below:
+    for each example, each encoding in its own vocabulary (<em>native</em>) and with a
+    clearly-labelled out-of-band HAMON annotation added (<em>native + HAMON</em>).
+  </div>
+<h3>Love Walked In — George Gershwin</h3>
+<p>A lead sheet carrying two coordinated readings at once: the chord symbols and a Roman-numeral analysis (with a secondary dominant, V7/ii → ii).</p>
+<ul class="noscript-exports">
+<li>HAMON (lossless): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.hamon">native</a></li>
+<li>DCML (27 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.tsv">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.tsv">native + HAMON</a></li>
+<li>Dezrann (39 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.dez">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.dez">native + HAMON</a></li>
+<li>MEI (11 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.mei">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.mei">native + HAMON</a></li>
+<li>Harte (20 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.lab">native</a></li>
+<li>JAMS (19 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.jams">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.jams">native + HAMON</a></li>
+<li>MusicXML (2 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.musicxml">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.musicxml">native + HAMON</a></li>
+<li>LilyPond (11 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.ly">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.ly">native + HAMON</a></li>
+<li>ABC (11 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.abc">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.abc">native + HAMON</a></li>
+<li>MuseScore (11 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.mscx">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.mscx">native + HAMON</a></li>
+<li>RomanText (18 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.rntxt">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.rntxt">native + HAMON</a></li>
+<li>Humdrum (lossless): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.krn">native</a> · <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.hamon.krn">native + HAMON</a></li>
+<li>iReal Pro (11 aspects lost): <a href="exports/icccm26/flagship_love_walked_in/flagship_love_walked_in.native.txt">native</a></li>
+</ul>
+<h3>Roman-numeral analysis</h3>
+<p>A functional analysis in the DCML idiom: scale-degree numerals, an applied chord, and a key change.</p>
+<ul class="noscript-exports">
+<li>HAMON (lossless): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.hamon">native</a></li>
+<li>DCML (lossless): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.tsv">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.tsv">native + HAMON</a></li>
+<li>Dezrann (15 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.dez">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.dez">native + HAMON</a></li>
+<li>MEI (11 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.mei">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.mei">native + HAMON</a></li>
+<li>Harte (11 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.lab">native</a></li>
+<li>JAMS (10 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.jams">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.jams">native + HAMON</a></li>
+<li>MusicXML (2 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.musicxml">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.musicxml">native + HAMON</a></li>
+<li>LilyPond (11 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.ly">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.ly">native + HAMON</a></li>
+<li>ABC (11 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.abc">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.abc">native + HAMON</a></li>
+<li>MuseScore (11 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.mscx">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.mscx">native + HAMON</a></li>
+<li>RomanText (lossless): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.rntxt">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.rntxt">native + HAMON</a></li>
+<li>Humdrum (lossless): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.krn">native</a> · <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.hamon.krn">native + HAMON</a></li>
+<li>iReal Pro (11 aspects lost): <a href="exports/icccm26/sat_roman_dcml/sat_roman_dcml.native.txt">native</a></li>
+</ul>
+<h3>Figured bass (thoroughbass)</h3>
+<p>Bass figures alone: the cadential 6-4 → 5-3, then 7 → 6-5.</p>
+<ul class="noscript-exports">
+<li>HAMON (lossless): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.hamon">native</a></li>
+<li>DCML (8 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.tsv">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.tsv">native + HAMON</a></li>
+<li>Dezrann (4 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.dez">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.dez">native + HAMON</a></li>
+<li>MEI (lossless): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.mei">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.mei">native + HAMON</a></li>
+<li>Harte (8 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.lab">native</a></li>
+<li>JAMS (8 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.jams">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.jams">native + HAMON</a></li>
+<li>MusicXML (4 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.musicxml">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.musicxml">native + HAMON</a></li>
+<li>LilyPond (4 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.ly">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.ly">native + HAMON</a></li>
+<li>ABC (4 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.abc">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.abc">native + HAMON</a></li>
+<li>MuseScore (4 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.mscx">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.mscx">native + HAMON</a></li>
+<li>RomanText (4 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.rntxt">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.rntxt">native + HAMON</a></li>
+<li>Humdrum (lossless): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.krn">native</a> · <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.hamon.krn">native + HAMON</a></li>
+<li>iReal Pro (4 aspects lost): <a href="exports/icccm26/sat_figured_bass/sat_figured_bass.native.txt">native</a></li>
+</ul>
+<h3>Mozart — Piano Sonata K. 282/i (Adagio)</h3>
+<p>Figured bass placed over the real score.</p>
+<ul class="noscript-exports">
+<li>HAMON (lossless): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.hamon">native</a></li>
+<li>DCML (44 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.tsv">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.tsv">native + HAMON</a></li>
+<li>Dezrann (23 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.dez">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.dez">native + HAMON</a></li>
+<li>MEI (1 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.mei">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.mei">native + HAMON</a></li>
+<li>Harte (45 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.lab">native</a></li>
+<li>JAMS (44 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.jams">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.jams">native + HAMON</a></li>
+<li>MusicXML (23 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.musicxml">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.musicxml">native + HAMON</a></li>
+<li>LilyPond (23 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.ly">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.ly">native + HAMON</a></li>
+<li>ABC (23 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.abc">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.abc">native + HAMON</a></li>
+<li>MuseScore (23 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.mscx">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.mscx">native + HAMON</a></li>
+<li>RomanText (22 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.rntxt">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.rntxt">native + HAMON</a></li>
+<li>Humdrum (lossless): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.krn">native</a> · <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.hamon.krn">native + HAMON</a></li>
+<li>iReal Pro (23 aspects lost): <a href="exports/icccm26/sat_mozart_fb/sat_mozart_fb.native.txt">native</a></li>
+</ul>
+<h3>Nashville number system</h3>
+<p>Key-relative numbers — how session players chart a tune. Nothing carries them natively; this is the gap HAMON bridges.</p>
+<ul class="noscript-exports">
+<li>HAMON (lossless): <a href="exports/icccm26/sat_nashville/sat_nashville.native.hamon">native</a></li>
+<li>DCML (7 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.tsv">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.tsv">native + HAMON</a></li>
+<li>Dezrann (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.dez">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.dez">native + HAMON</a></li>
+<li>MEI (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.mei">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.mei">native + HAMON</a></li>
+<li>Harte (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.lab">native</a></li>
+<li>JAMS (7 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.jams">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.jams">native + HAMON</a></li>
+<li>MusicXML (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.musicxml">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.musicxml">native + HAMON</a></li>
+<li>LilyPond (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.ly">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.ly">native + HAMON</a></li>
+<li>ABC (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.abc">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.abc">native + HAMON</a></li>
+<li>MuseScore (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.mscx">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.mscx">native + HAMON</a></li>
+<li>RomanText (7 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.rntxt">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.rntxt">native + HAMON</a></li>
+<li>Humdrum (7 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.krn">native</a> · <a href="exports/icccm26/sat_nashville/sat_nashville.hamon.krn">native + HAMON</a></li>
+<li>iReal Pro (8 aspects lost): <a href="exports/icccm26/sat_nashville/sat_nashville.native.txt">native</a></li>
+</ul>
+<h3>Time-aligned progression</h3>
+<p>Chord symbols anchored to measure : beat positions.</p>
+<ul class="noscript-exports">
+<li>HAMON (lossless): <a href="exports/icccm26/sat_positions/sat_positions.native.hamon">native</a></li>
+<li>DCML (17 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.tsv">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.tsv">native + HAMON</a></li>
+<li>Dezrann (18 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.dez">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.dez">native + HAMON</a></li>
+<li>MEI (3 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.mei">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.mei">native + HAMON</a></li>
+<li>Harte (8 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.lab">native</a></li>
+<li>JAMS (7 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.jams">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.jams">native + HAMON</a></li>
+<li>MusicXML (3 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.musicxml">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.musicxml">native + HAMON</a></li>
+<li>LilyPond (3 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.ly">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.ly">native + HAMON</a></li>
+<li>ABC (3 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.abc">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.abc">native + HAMON</a></li>
+<li>MuseScore (3 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.mscx">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.mscx">native + HAMON</a></li>
+<li>RomanText (12 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.rntxt">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.rntxt">native + HAMON</a></li>
+<li>Humdrum (2 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.krn">native</a> · <a href="exports/icccm26/sat_positions/sat_positions.hamon.krn">native + HAMON</a></li>
+<li>iReal Pro (3 aspects lost): <a href="exports/icccm26/sat_positions/sat_positions.native.txt">native</a></li>
+</ul>
+<h3>HAMON pangram</h3>
+<p>One sequence exercising every harmony system: chord symbol, Roman, figured bass, Nashville, functional, and a non-harmonic tone.</p>
+<ul class="noscript-exports">
+<li>HAMON (lossless): <a href="exports/icccm26/pangram/pangram.native.hamon">native</a></li>
+<li>DCML (13 aspects lost): <a href="exports/icccm26/pangram/pangram.native.tsv">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.tsv">native + HAMON</a></li>
+<li>Dezrann (19 aspects lost): <a href="exports/icccm26/pangram/pangram.native.dez">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.dez">native + HAMON</a></li>
+<li>MEI (8 aspects lost): <a href="exports/icccm26/pangram/pangram.native.mei">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.mei">native + HAMON</a></li>
+<li>Harte (9 aspects lost): <a href="exports/icccm26/pangram/pangram.native.lab">native</a></li>
+<li>JAMS (9 aspects lost): <a href="exports/icccm26/pangram/pangram.native.jams">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.jams">native + HAMON</a></li>
+<li>MusicXML (8 aspects lost): <a href="exports/icccm26/pangram/pangram.native.musicxml">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.musicxml">native + HAMON</a></li>
+<li>LilyPond (9 aspects lost): <a href="exports/icccm26/pangram/pangram.native.ly">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.ly">native + HAMON</a></li>
+<li>ABC (9 aspects lost): <a href="exports/icccm26/pangram/pangram.native.abc">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.abc">native + HAMON</a></li>
+<li>MuseScore (9 aspects lost): <a href="exports/icccm26/pangram/pangram.native.mscx">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.mscx">native + HAMON</a></li>
+<li>RomanText (13 aspects lost): <a href="exports/icccm26/pangram/pangram.native.rntxt">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.rntxt">native + HAMON</a></li>
+<li>Humdrum (4 aspects lost): <a href="exports/icccm26/pangram/pangram.native.krn">native</a> · <a href="exports/icccm26/pangram/pangram.hamon.krn">native + HAMON</a></li>
+<li>iReal Pro (9 aspects lost): <a href="exports/icccm26/pangram/pangram.native.txt">native</a></li>
+</ul>
+</noscript>
+
+<h2 id="cite">How to cite</h2>
+<p>Garcia-Iasci, P., Hentschel, J., Moss, F. C., &amp; Rizo, D. (2026).
+<em>Bridging harmonic representations through a multi-modal encoding.</em> 4th International
+Conference on Computational and Cognitive Musicology (ICCCM26), Würzburg, Germany.</p>
+<pre class="bibtex"><code>@inproceedings{hamon2026,
+  author    = {Garcia-Iasci, Patricia and Hentschel, Johannes and
+               Moss, Fabian C. and Rizo, David},
+  title     = {Bridging harmonic representations through a multi-modal encoding},
+  booktitle = {Proceedings of the 4th International Conference on
+               Computational and Cognitive Musicology (ICCCM26)},
+  address   = {W\"urzburg, Germany},
+  year      = {2026}
+}</code></pre>
+<p class="hint"><b>Code and data.</b> This repository holds the site only. The reference
+implementation (<code>hamonpy</code>), the grammar and the conformance corpus are released
+after the conference; until then they are available on request — please contact the authors.
+The code is <strong>Apache-2.0</strong> and the standard and its data are
+<strong>CC BY 4.0</strong>, and both ask for attribution.</p>
+
 </section>
 
 </main>

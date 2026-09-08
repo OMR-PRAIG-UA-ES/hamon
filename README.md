@@ -13,7 +13,7 @@ corpus are under [`docs/`](docs/) (served via GitHub Pages).
 > Patricia Garcia-Iasci (University of Alicante / University of Salamanca),
 > Johannes Hentschel (Anton Bruckner University, Linz),
 > Fabian C. Moss (Julius-Maximilians-Universität Würzburg),
-> David Rizo (EASDA/ISEA.CV, University of Alicante).
+> David Rizo (Universidad de Alicante; Instituto Superior de Enseñanzas Artísticas de la Comunidad Valenciana).
 
 ## Using HAMON — access on request
 

@@ -39,6 +39,9 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
 
 /* landing */
 .hero h1 { font-size: 40px; color: var(--green); }
+.hero h1 + .expansion { margin: -4px 0 10px; font-size: 15px; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--green); opacity: .75; }
+.hero .expansion b { font-weight: 700; opacity: 1; }
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 26px; }
 .card { border: 1px solid var(--line); border-radius: 12px; padding: 20px; color: var(--ink);
   transition: box-shadow .15s, transform .15s; display: block; }

@@ -1,6 +1,6 @@
 # hamonpy
 
-We implement the **HAMON** standard in Python.
+We implement the **HAMON** standard — **Ha**rmony **Mo**del and **N**otation — in Python.
 
 We design this module to work well in a conda environment.
 

@@ -1,6 +1,6 @@
 # HAMON — Harmony Encoding Formats
 
-HAMON is a universal harmony-label standard — a stable exchange layer that sits between music-encoding ecosystems. Everything hinges on one **canonical JSON structure** (`grammar/hamon-schema.json`): it is the normative hub, and every external format maps to and from it. As long as the source format is expressive enough, round-trips lose nothing.
+HAMON — **Ha**rmony **Mo**del and **N**otation — is a universal harmony-label standard: a stable exchange layer that sits between music-encoding ecosystems. Everything hinges on one **canonical JSON structure** (`grammar/hamon-schema.json`): it is the normative hub, and every external format maps to and from it. As long as the source format is expressive enough, round-trips lose nothing.
 
 The **EBNF grammar** (`grammar/hamon.ebnf`) is a compact text serialization of that JSON — a human-readable surface string like `CΔ7`, `V7`, or `6-5`. Think of it as one encoding of the JSON, not the hub itself.
 

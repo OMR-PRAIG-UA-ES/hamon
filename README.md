@@ -1,6 +1,7 @@
 # HAMON
 
-**HAMON** is a universal, lossless harmony-label standard: one typed model for chord
+**HAMON** — **Ha**rmony **Mo**del and **N**otation — is a universal, lossless harmony-label
+standard: one typed model for chord
 symbols, Roman numerals, Nashville numbers, figured bass and functional analysis, that
 round-trips across MEI · MusicXML · Humdrum · LilyPond · ABC · MuseScore · Harte ·
 iReal Pro · DCML · RomanText · Dezrann.
@@ -64,6 +65,6 @@ See [`CITATION.cff`](CITATION.cff), or the paper above. Both licences ask for at
 
 ## License
 
-The code is **Apache-2.0**; the standard and its data (grammar, schema, conformance corpus,
-fixtures, documentation) are **CC BY 4.0**. See [`LICENSE`](LICENSE). Corpora that HAMON
-reads keep their own terms.
+Copyright © 2026 **Universidad de Alicante**. The code is **Apache-2.0**; the standard and
+its data (grammar, schema, conformance corpus, fixtures, documentation) are **CC BY 4.0**.
+See [`LICENSE`](LICENSE). Corpora that HAMON reads keep their own terms.

@@ -1,8 +1,13 @@
 HAMON — Licensing
 =================
 
-Copyright (c) 2026 Patricia Garcia-Iasci, Johannes Hentschel, Fabian C. Moss,
-and David Rizo, and their respective institutions.
+Copyright (c) 2026 Universidad de Alicante.
+
+The software was written by Patricia Garcia-Iasci and David Rizo. The standard
+and the ICCCM'26 paper it accompanies are the work of Patricia Garcia-Iasci,
+Johannes Hentschel, Fabian C. Moss and David Rizo. Authorship and ownership are
+different things: the citation under "Attribution" below is what both licences
+require of you.
 
 HAMON is a standard plus its reference implementation, so it is released under
 two licences — one for software, one for the specification and its data. Pick the

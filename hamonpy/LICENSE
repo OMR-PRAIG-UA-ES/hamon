@@ -1,8 +1,10 @@
 hamonpy — the Python reference implementation of HAMON
 =====================================================
 
-Copyright (c) 2026 Patricia Garcia-Iasci, Johannes Hentschel, Fabian C. Moss,
-and David Rizo, and their respective institutions.
+Copyright (c) 2026 Universidad de Alicante.
+
+hamonpy was written by Patricia Garcia-Iasci and David Rizo. It implements HAMON,
+the standard authored with Johannes Hentschel and Fabian C. Moss.
 
 This package is software, licensed under the Apache License 2.0, reproduced in
 full below (SPDX: Apache-2.0).
@@ -13,6 +15,16 @@ licensed separately under CC BY 4.0, and are not part of this package. See the
 LICENSE file in the HAMON repository for both.
 
 Datasets that HAMON reads are not redistributed here and keep their own terms.
+
+Attribution
+-----------
+
+Apache-2.0 requires you to keep this notice. If you use HAMON in research, cite:
+
+    Garcia-Iasci, P., Hentschel, J., Moss, F. C., & Rizo, D. (2026).
+    Bridging harmonic representations through a multi-modal encoding.
+    International Conference on Computational and Cognitive Musicology
+    (ICCCM 2026). https://digital.musicology.org/icccm-2026/
 
 --------------------------------------------------------------------------------
 

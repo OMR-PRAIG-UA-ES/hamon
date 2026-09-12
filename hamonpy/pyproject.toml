@@ -14,15 +14,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hamonpy"
-version = "0.2.0"
-description = "HAMON — a universal, lossless harmony-label interlingua (Python reference implementation)"
+version = "0.3.0"
+description = "HAMON (Harmony Model and Notation) — a universal, lossless harmony-label interlingua (Python reference implementation)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
+# Authors of the SOFTWARE. The standard and the ICCCM'26 paper have four authors —
+# see CITATION.cff, which is what you cite.
 authors = [
     { name = "Patricia Garcia-Iasci" },
-    { name = "Johannes Hentschel" },
-    { name = "Fabian C. Moss" },
     { name = "David Rizo" },
 ]
 keywords = [

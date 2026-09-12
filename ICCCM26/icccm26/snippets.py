@@ -29,12 +29,19 @@ for g in seq.groups:                      # surface in, one typed model out
 harte = convert_file(Path("examples/changes.lab"), "harte")''',
 
     "2 · One typed AST → HAMON JSON": '''\
-from hamonpy.serialize import sequence_to_json
+import json, textwrap
+from hamonpy.serialize import sequence_to_dict
 
-print(sequence_to_json(seq))
-# {"groups":[{"primary":[{"surface":"Dm7",
-#   "semantic":{"kind":"chordSymbol","root":{"note":"D"},
-#               "quality":"minor","seventh":"min7"}}]}, ...]}''',
+lab = sequence_to_dict(seq)["groups"][3]["primary"][0]   # A7[of:ii]
+for k in ("surface", "semantic", "attributes"):
+    print(textwrap.fill(f"{k:10} {json.dumps(lab[k])}", 52,
+                        subsequent_indent=" " * 11))
+# surface    "A7[of:ii]"
+# semantic   {"kind": "chordSymbol", "root": {"note":
+#            "A"}, "quality": "major", "seventh":
+#            "dom7"}
+# attributes {"applied": {"target": "ii"}}
+# sequence_to_json(seq) writes the whole sequence, all 108 lines of it''',
 
     "3 · What each encoding cannot say (xencoding)": '''\
 from hamonpy.capability import native_loss

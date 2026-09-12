@@ -15,8 +15,18 @@ from hamonpy.cli import convert_text, convert_file
 text = "@cs\\n@key:C\\nDm7\\nG7\\nCmaj7\\nA7[of:ii]"
 seq = convert_text(text, "hamon")
 
+for g in seq.groups:                      # surface in, one typed model out
+    lab = g.primary[0]
+    of = lab.attributes and lab.attributes.applied
+    print(lab.surface, "\u2192", lab.semantic.root.note, lab.semantic.quality,
+          lab.semantic.seventh, f"of {of.target}" if of else "")
+# Dm7       \u2192 D minor min7
+# G7        \u2192 G major dom7
+# Cmaj7     \u2192 C major maj7
+# A7[of:ii] \u2192 A major dom7 of ii      <- the function, recovered
+
 # ...or read any encoding from disk (Harte, iReal, DCML, MEI, Humdrum, MusicXML)
-seq = convert_file(Path("changes.lab"), "harte")''',
+harte = convert_file(Path("changes.lab"), "harte")''',
 
     "2 · One typed AST → HAMON JSON": '''\
 from hamonpy.serialize import sequence_to_json

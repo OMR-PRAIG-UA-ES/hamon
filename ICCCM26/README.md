@@ -6,7 +6,12 @@
 > Johannes Hentschel (Anton Bruckner University, Linz), Fabian C. Moss
 > (Julius-Maximilians-Universität Würzburg), David Rizo (Universidad de Alicante; Instituto Superior de Enseñanzas Artísticas de la Comunidad Valenciana).
 >
-> Code **Apache-2.0**, prose and data **CC BY 4.0**. See [`../LICENSE`](../LICENSE).
+> **Contributions:** HAMON was designed and implemented by Patricia Garcia-Iasci and David
+> Rizo. Johannes Hentschel and Fabian C. Moss took part as **expert advisers**, on the design
+> of the standard and on the role it should play in the computational musicology community.
+>
+> Code **Apache-2.0**, prose and data **CC BY 4.0**. Copyright Universidad de Alicante.
+> See [`../LICENSE`](../LICENSE).
 
 Companion code and poster assets for **ICCCM26**. It takes a handful of
 representative harmony examples and asks, of every supported encoding, **what it can and

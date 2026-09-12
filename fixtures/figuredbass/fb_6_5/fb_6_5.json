@@ -1,0 +1,45 @@
+{
+  "id": "fb_6_5",
+  "@version": "0.1.0",
+  "description": "Figured bass 6-5 (first inversion resolution)",
+  "sequenceSystemHint": "fb",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "figuredBass",
+            "number": 6,
+            "tail": "-5"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "mei": {
+      "file": "mei.snippet.xml",
+      "notationType": "modern"
+    },
+    "kern_fb": {
+      "file": "kern_fb.snippet.krn",
+      "notationType": "modern"
+    },
+    "kern_harm": {
+      "file": "kern_harm.snippet.krn",
+      "notationType": "modern"
+    },
+    "lilypond": {
+      "file": "lilypond.snippet.ly",
+      "notationType": "modern"
+    },
+    "abc": {
+      "file": "abc.snippet.abc",
+      "notationType": "modern"
+    },
+    "musescorexml": {
+      "file": "musescorexml.snippet.mscx",
+      "notationType": "modern"
+    }
+  }
+}

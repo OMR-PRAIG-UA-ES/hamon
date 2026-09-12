@@ -1,0 +1,63 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "attributes": {
+            "arpeggiated": true
+          },
+          "detectedSystem": "cs",
+          "semantic": {
+            "kind": "chordSymbol",
+            "quality": "major",
+            "root": {
+              "note": "C"
+            }
+          },
+          "sequenceSystemHint": "cs",
+          "surface": "C[arp]",
+          "system": "cs"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "attributes": {
+            "pedal": true
+          },
+          "detectedSystem": "cs",
+          "semantic": {
+            "kind": "chordSymbol",
+            "quality": "major",
+            "root": {
+              "note": "G"
+            }
+          },
+          "sequenceSystemHint": "cs",
+          "surface": "G[ped]",
+          "system": "cs"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "cs",
+          "semantic": {
+            "kind": "chordSymbol",
+            "quality": "major",
+            "root": {
+              "note": "C"
+            }
+          },
+          "sequenceSystemHint": "cs",
+          "surface": "C",
+          "system": "cs"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "cs",
+  "version": "0.2.0"
+}

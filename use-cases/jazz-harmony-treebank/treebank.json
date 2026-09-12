@@ -1,0 +1,9 @@
+[
+  {
+    "title": "HAMON synthetic ii-V-I (not from the treebank)",
+    "composers": "HAMON example",
+    "year": 2026,
+    "key": "C",
+    "chords": ["Dm7", "G7", "C^7", "A7", "Dm7", "G7", "Eh7", "A7"]
+  }
+]

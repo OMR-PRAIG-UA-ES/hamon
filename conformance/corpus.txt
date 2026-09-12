@@ -1,0 +1,178 @@
+# HAMON cross-implementation conformance corpus
+# One surface label per line. Blank lines and lines starting with '#' are ignored.
+# Each label is parsed in isolation (no @system hint) by the reference implementation;
+# the resulting semantic + detectedSystem + rendering form the golden that any
+# implementation of the standard must reproduce.
+#
+# --- Chord symbols: triads ---
+C
+Cm
+C-
+Cmaj
+Cdim
+C°
+Caug
+C+
+F#m
+Bbm
+Ab
+# --- Chord symbols: sevenths ---
+Cmaj7
+CM7
+CΔ7
+Cm7
+C7
+Cdim7
+C°7
+Cø7
+Cø
+Bø7
+Abm7
+F#maj7
+# The minor-major seventh, in every spelling. The letter-led ones (mmaj7, mM7) used
+# to read as a dominant seventh: one tokenizer rule away from the parenthesized and
+# Δ spellings, which were always right. Pinned here so no implementation can drift
+# on one spelling while matching on another.
+Cmmaj7
+CmM7
+CminMaj7
+Cm(maj7)
+CmΔ7
+C-maj7
+# --- Chord symbols: extensions ---
+C9
+C11
+C13
+Cmaj9
+Cmaj13
+Cm9
+C6
+Cm6
+# --- Chord symbols: combined quality + extension (edge cases) ---
+Cø9
+C°9
+Bø11
+Cø13
+# --- Chord symbols: alterations ---
+C7b9
+C7#11
+C7#9
+C13#11
+Cmaj7#5
+Cb9
+# --- Chord symbols: add / omit / no / sus ---
+Csus
+Csus4
+Csus2
+Cadd9
+C(add9)
+C(no3)
+C7(sus4)
+Comit5
+Cno3
+C7sus4
+# --- Chord symbols: slash bass ---
+C/E
+C/G
+Cm7/Bb
+Cmaj7/G
+F#m7/C#
+# --- Roman numerals ---
+I
+ii
+iii
+IV
+V
+vi
+V7
+V/V
+V7/IV
+V/bVII
+V42/bVII
+V/#iv
+viio7
+ii65
+V43
+# --- Roman numerals: flat/sharp prefix (WORD maximal-munch path) ---
+bVII
+bII
+bbIII
+iim7
+Vm7
+# --- Number harmony: Nashville ---
+1
+4
+5
+2m
+b3
+# --- Number harmony: figured bass ---
+6-5
+4-3
+7-6
+# --- Functional ---
+T
+S
+DD
+# functional chains: '->' disambiguates the dominant 'D' from the pitch D
+D->T
+DD->D->T
+PD->D->T
+# --- No chord ---
+N.C.
+# --- Text ---
+"hello"
+# --- Analytical layer (v0.2.0): functional reinterpretation on a function: layer ---
+fn:T
+fn:D
+fn:DD
+# --- Analytical layer: degree / chord layer tags (semantic unchanged) ---
+rn:V7
+cs:Cmaj7
+# --- Analytical layer: melodic harmonic / non-harmonic tones ---
+melodic:E[HT]
+melodic:F[NHT:passing]
+melodic:A[NHT:cambiata]
+melodic:D[NHT:app]
+# --- Analytical layer: bracketed attributes (semantic unchanged, attrs not dumped) ---
+viio7[no1]
+C[arp]
+D7[of:V]
+# --- Applied function on WORD-led / flat-rooted / m7b5 chords (bracket no longer swallowed) ---
+Dm7[of:V]
+Cmaj7[of:I]
+Bb7[of:I]
+Em7b5[of:ii]
+# --- Parenthesised tension list (comma stays inside the paren group) ---
+A7(b9,b13)[of:ii]
+# --- Parenthesised tensions lifted into alterations / extensions (v0.3.0) ---
+G7(b9,b13)
+C7(#11)
+Dm7(9)
+# --- WORD-led (minor/maj) chord with a comma tension list (comma stays in the paren) ---
+Cm7(9,11)
+Dm7(9,11,13)
+Cmaj7(9,13)
+# --- Chord-scale attribute (v0.3.0): parses, chord semantic unchanged ---
+G7[scale:altered]
+Dm7[scale:dorian][scale:lydian]
+# --- Analytical layer: figured-bass figures on a bass: layer ---
+fb:6
+fb:6-5
+# --- Extent (v0.4.1): how long the reading lasts, on the label, in quarter notes ---
+C[dur:4]
+Cmaj7[dur:3/4]
+G7[dur:1.5]
+Dm7[endref:note-12]
+A7[of:ii][dur:2][endref:n9]
+# an unreadable extent is ignored, never guessed (the surface still round-trips)
+C[dur:soon]
+# --- Physical time (v0.5): `s:` seconds, the audio clock — a group-level position ---
+s:12.34,C
+s:0,Cmaj7
+m:25,ts:1,s:48.5,G7
+# the clocks coexist: whatever the source stated is held, none derived from another
+m:25,ts:1,t:96/1,s:48.5,ref:note-9,Dm7
+# --- Extent in seconds (v0.5): the extent inherits the clock the source stated ---
+C[dur:1.85s]
+s:0,Cmaj7[dur:2.5s]
+# (the bare `G7[dur:1.5]` above stays quarter notes — the suffix is the whole difference)

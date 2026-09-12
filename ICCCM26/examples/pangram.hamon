@@ -1,0 +1,11 @@
+@version:0.3.0
+@auto
+Cmaj7[scale:ionian]
+Dm7
+G7[of:I]
+V7/V
+6-5
+2m
+DD->D->T
+PD->T
+melodic:F[NHT:passing]

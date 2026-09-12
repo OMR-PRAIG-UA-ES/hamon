@@ -1,0 +1,101 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "E[HT]",
+          "semantic": {
+            "category": "harmonic",
+            "kind": "tone",
+            "pitch": {
+              "note": "E"
+            },
+            "type": "chord-tone"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "layer": "melodic"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "F[NHT:passing]",
+          "semantic": {
+            "category": "nonharmonic",
+            "kind": "tone",
+            "pitch": {
+              "note": "F"
+            },
+            "type": "passing"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "layer": "melodic"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "G[HT]",
+          "semantic": {
+            "category": "harmonic",
+            "kind": "tone",
+            "pitch": {
+              "note": "G"
+            },
+            "type": "chord-tone"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "layer": "melodic"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "D[NHT:app]",
+          "semantic": {
+            "category": "nonharmonic",
+            "kind": "tone",
+            "pitch": {
+              "note": "D"
+            },
+            "type": "appoggiatura"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "layer": "melodic"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "A[NHT:cambiata]",
+          "semantic": {
+            "category": "nonharmonic",
+            "kind": "tone",
+            "pitch": {
+              "note": "A"
+            },
+            "type": "cambiata"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "layer": "melodic"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "auto",
+  "version": "0.2.0"
+}

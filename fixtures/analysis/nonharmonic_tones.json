@@ -1,0 +1,21 @@
+{
+  "id": "analysis_nonharmonic_tones",
+  "description": "Melodic analysis over a C-major chord: E (harmonic) - F (unaccented passing) - G (harmonic), plus a D appoggiatura and a Fuxian nota cambiata. Demonstrates ToneSemantic (HT/NHT) on a melodic layer.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "auto",
+    "groups": [
+      { "primary": [ { "surface": "E", "layer": "melodic", "detectedSystem": "text", "system": "text",
+        "semantic": { "kind": "tone", "category": "harmonic", "pitch": { "note": "E" }, "type": "chord-tone", "voice": "soprano" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "F", "layer": "melodic", "detectedSystem": "text", "system": "text",
+        "semantic": { "kind": "tone", "category": "nonharmonic", "pitch": { "note": "F" }, "type": "passing", "metric": "unaccented", "approach": "step-up", "departure": "step-up", "voice": "soprano" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "G", "layer": "melodic", "detectedSystem": "text", "system": "text",
+        "semantic": { "kind": "tone", "category": "harmonic", "pitch": { "note": "G" }, "type": "chord-tone", "voice": "soprano" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "D", "layer": "melodic", "detectedSystem": "text", "system": "text",
+        "semantic": { "kind": "tone", "category": "nonharmonic", "pitch": { "note": "D" }, "type": "appoggiatura", "metric": "accented", "approach": "leap-up", "departure": "step-down", "voice": "soprano" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "A", "layer": "melodic", "detectedSystem": "text", "system": "text",
+        "semantic": { "kind": "tone", "category": "nonharmonic", "pitch": { "note": "A" }, "type": "cambiata", "approach": "step-down", "departure": "leap-down", "voice": "alto" } } ], "alternatives": [] }
+    ]
+  }
+}

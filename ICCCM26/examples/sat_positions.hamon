@@ -1,0 +1,9 @@
+@version:0.4.0
+@cs
+@meter:4/4
+@key:C
+m:1,ts:1,Dm7
+m:2,ts:1,G7
+m:3,ts:1,Cmaj7
+m:3,ts:3,A7[of:ii][scale:altered]
+m:4,ts:1,Dm7

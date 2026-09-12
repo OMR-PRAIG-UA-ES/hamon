@@ -1,0 +1,26 @@
+{
+  "id": "analysis_alternative_progression",
+  "description": "A ii-V-I in C, with one point-alternative (bVII7 as a tritone-sub reading of V7) and one whole-progression alternative (the same span read as chord symbols Dm7 G7 Cmaj7).",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "rn",
+    "groups": [
+      { "primary": [ { "surface": "ii7", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "ii", "tail": "7" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "V7",  "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "V", "tail": "7" } } ],
+        "alternatives": [ [ { "surface": "bII7", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "II", "prefixAccidentals": ["b"], "tail": "7" } } ] ] },
+      { "primary": [ { "surface": "I",   "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "I" } } ], "alternatives": [] }
+    ],
+    "alternativeAnalyses": [
+      {
+        "label": "chord-symbols",
+        "system": "cs",
+        "groups": [
+          { "primary": [ { "surface": "Dm7",   "detectedSystem": "cs", "system": "cs", "semantic": { "kind": "chordSymbol", "root": { "note": "D" }, "quality": "minor", "seventh": "min7" } } ], "alternatives": [] },
+          { "primary": [ { "surface": "G7",    "detectedSystem": "cs", "system": "cs", "semantic": { "kind": "chordSymbol", "root": { "note": "G" }, "quality": "major", "seventh": "dom7" } } ], "alternatives": [] },
+          { "primary": [ { "surface": "Cmaj7", "detectedSystem": "cs", "system": "cs", "semantic": { "kind": "chordSymbol", "root": { "note": "C" }, "quality": "major", "seventh": "maj7" } } ], "alternatives": [] }
+        ]
+      }
+    ]
+  }
+}

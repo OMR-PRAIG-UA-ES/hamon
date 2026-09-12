@@ -1,0 +1,61 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "C",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "layer": "key"
+        },
+        {
+          "surface": "D",
+          "semantic": {
+            "chain": [
+              "D"
+            ],
+            "kind": "functional"
+          },
+          "detectedSystem": "fun",
+          "system": "fun",
+          "sequenceSystemHint": "auto",
+          "layer": "function"
+        },
+        {
+          "surface": "V7",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "auto",
+          "layer": "degree"
+        },
+        {
+          "surface": "6-5",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass",
+            "tail": "-5"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "sequenceSystemHint": "auto",
+          "layer": "bass"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "auto",
+  "version": "0.2.0"
+}

@@ -1,0 +1,430 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 4.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 4.5
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 2,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "4-2",
+          "semantic": {
+            "number": 4,
+            "kind": "figuredBass",
+            "tail": "-2"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 2,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 2,
+        "beat": 4.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "4-2",
+          "semantic": {
+            "number": 4,
+            "kind": "figuredBass",
+            "tail": "-2"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 3,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 3,
+        "beat": 2.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "7",
+          "semantic": {
+            "number": 7,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 3,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "7",
+          "semantic": {
+            "number": 7,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 3,
+        "beat": 4.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 4,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 5,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 5,
+        "beat": 2.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 6,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 6,
+        "beat": 2.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 6,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "7",
+          "semantic": {
+            "number": 7,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 7,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "7",
+          "semantic": {
+            "number": 7,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 7,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 8,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 8,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 8,
+        "beat": 4.0
+      }
+    }
+  ],
+  "version": "0.4.0",
+  "meters": [
+    {
+      "numerator": 4,
+      "denominator": 4,
+      "fromGroup": 0
+    }
+  ],
+  "regions": [
+    {
+      "key": {
+        "tonic": {
+          "note": "E",
+          "accidental": "flat"
+        },
+        "mode": "major"
+      },
+      "kind": "key",
+      "fromGroup": 0
+    }
+  ]
+}

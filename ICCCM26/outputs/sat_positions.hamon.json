@@ -1,0 +1,163 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "Dm7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "D"
+            },
+            "quality": "minor",
+            "seventh": "min7"
+          },
+          "rendering": {
+            "qualityGlyph": "m",
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "cs"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "G7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "G"
+            },
+            "quality": "major",
+            "seventh": "dom7"
+          },
+          "rendering": {
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "cs"
+        }
+      ],
+      "position": {
+        "measure": 2,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "Cmaj7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major",
+            "seventh": "maj7"
+          },
+          "rendering": {
+            "qualityGlyph": "maj",
+            "seventhGlyph": "maj"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "cs"
+        }
+      ],
+      "position": {
+        "measure": 3,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "A7[of:ii][scale:altered]",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "A"
+            },
+            "quality": "major",
+            "seventh": "dom7"
+          },
+          "rendering": {
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "cs",
+          "attributes": {
+            "applied": {
+              "target": "ii"
+            },
+            "scales": [
+              {
+                "name": "altered"
+              }
+            ]
+          }
+        }
+      ],
+      "position": {
+        "measure": 3,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "Dm7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "D"
+            },
+            "quality": "minor",
+            "seventh": "min7"
+          },
+          "rendering": {
+            "qualityGlyph": "m",
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "cs"
+        }
+      ],
+      "position": {
+        "measure": 4,
+        "beat": 1.0
+      }
+    }
+  ],
+  "sequenceSystemHint": "cs",
+  "version": "0.4.0",
+  "meters": [
+    {
+      "numerator": 4,
+      "denominator": 4,
+      "fromGroup": 0
+    }
+  ],
+  "regions": [
+    {
+      "key": {
+        "tonic": {
+          "note": "C"
+        },
+        "mode": "major"
+      },
+      "kind": "key",
+      "fromGroup": 0
+    }
+  ]
+}

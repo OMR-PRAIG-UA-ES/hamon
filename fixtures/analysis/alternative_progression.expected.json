@@ -1,0 +1,68 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "ii",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "ii7",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "alternatives": [
+        [
+          {
+            "detectedSystem": "rn",
+            "semantic": {
+              "degree": "II",
+              "kind": "roman",
+              "prefixAccidentals": [
+                "b"
+              ],
+              "tail": "7"
+            },
+            "sequenceSystemHint": "rn",
+            "surface": "bII7",
+            "system": "rn"
+          }
+        ]
+      ],
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "V7",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "I",
+          "system": "rn"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "rn",
+  "version": "0.2.0"
+}

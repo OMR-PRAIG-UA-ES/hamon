@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use HAMON, please cite the paper below."
+title: "HAMON — a universal, lossless harmony-label interlingua"
+abstract: >-
+  HAMON is an exchange layer for harmony labels across music encodings. It parses a
+  harmony surface string into a typed AST, normalizes it, and round-trips it losslessly,
+  keeping both the exact glyphs and the normalized meaning. hamonpy is the Python
+  reference implementation.
+type: software
+license: Apache-2.0
+repository-artifact: "https://pypi.org/project/hamonpy/"
+url: "https://omr-praig-ua-es.github.io/hamon-site/"
+authors:
+  - family-names: Garcia-Iasci
+    given-names: Patricia
+    affiliation: "Universidad de Alicante; Universidad de Salamanca"
+  - family-names: Hentschel
+    given-names: Johannes
+    affiliation: "Anton Bruckner University, Linz"
+  - family-names: Moss
+    given-names: Fabian C.
+    affiliation: "Julius-Maximilians-Universität Würzburg"
+  - family-names: Rizo
+    given-names: David
+    affiliation: "Universidad de Alicante; Instituto Superior de Enseñanzas Artísticas de la Comunidad Valenciana"
+preferred-citation:
+  type: conference-paper
+  title: "Bridging harmonic representations through a multi-modal encoding"
+  year: 2026
+  collection-title: >-
+    Proceedings of the 4th International Conference on Computational and Cognitive
+    Musicology (ICCCM26)
+  location:
+    name: "Würzburg, Germany"
+  authors:
+    - family-names: Garcia-Iasci
+      given-names: Patricia
+    - family-names: Hentschel
+      given-names: Johannes
+    - family-names: Moss
+      given-names: Fabian C.
+    - family-names: Rizo
+      given-names: David

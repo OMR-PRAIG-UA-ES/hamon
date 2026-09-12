@@ -1,0 +1,85 @@
+name: Publish hamonpy to PyPI
+
+# Manual on purpose. Nothing here fires from a push or a tag, so no accident can put
+# hamonpy on PyPI before you mean to. Run it from the Actions tab: pick the tag, pick
+# the index. TestPyPI is the default — do that run first and install from it.
+#
+# One-time setup, repository secrets:
+#   TEST_PYPI_API_TOKEN   a token from https://test.pypi.org/manage/account/token/
+#   PYPI_API_TOKEN        a token from https://pypi.org/manage/account/token/
+# Until the project exists the token has to be account-scoped; narrow it to the
+# hamonpy project right after the first successful upload.
+#
+# A version can only be uploaded once, on either index. To retry, bump the version in
+# hamonpy/pyproject.toml.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Tag or branch to publish (e.g. hamonpy-v0.2.0)"
+        required: true
+        default: "main"
+      index:
+        description: "Where to upload"
+        required: true
+        default: "testpypi"
+        type: choice
+        options: [testpypi, pypi]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hamonpy      # the package is a subdirectory, not the repo root
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Build wheel + sdist
+        run: |
+          python -m pip install --upgrade pip build twine
+          python -m build
+
+      - name: Check the metadata PyPI will render
+        run: python -m twine check dist/*
+
+      - name: Smoke-install the wheel in a clean venv
+        run: |
+          python -m venv /tmp/smoke
+          /tmp/smoke/bin/pip install dist/*.whl
+          /tmp/smoke/bin/hamon --help
+          /tmp/smoke/bin/python -c "from hamonpy import parse_hamon_sequence; print(parse_hamon_sequence('C'))"
+
+      - name: The wheel must carry the licence
+        run: |
+          python - <<'PY'
+          import glob, zipfile, sys
+          whl = glob.glob("dist/*.whl")[0]
+          names = zipfile.ZipFile(whl).namelist()
+          if not any("LICENSE" in n for n in names):
+              sys.exit("::error::no LICENSE inside the wheel — Apache-2.0 requires shipping it")
+          print("licence present:", [n for n in names if "LICENSE" in n])
+          PY
+
+      - name: Upload to TestPyPI
+        if: ${{ inputs.index == 'testpypi' }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: hamonpy/dist
+
+      - name: Upload to PyPI
+        if: ${{ inputs.index == 'pypi' }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          packages-dir: hamonpy/dist

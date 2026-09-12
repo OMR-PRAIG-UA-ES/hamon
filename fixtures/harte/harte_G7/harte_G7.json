@@ -1,0 +1,28 @@
+{
+  "id": "harte_G7",
+  "@version": "0.1.0",
+  "description": "Harte: G dominant seventh",
+  "sequenceSystemHint": "cs",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "G"
+            },
+            "quality": "major",
+            "seventh": "dom7"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "harte": {
+      "file": "harte.txt",
+      "notationType": "modern"
+    }
+  }
+}

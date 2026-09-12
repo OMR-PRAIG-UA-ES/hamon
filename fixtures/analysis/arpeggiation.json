@@ -1,0 +1,19 @@
+{
+  "id": "analysis_arpeggiation",
+  "description": "A tonic C-major chord realized as an arpeggio (despliegue), followed by a passing V that prolongs the tonic (prolongs group 0). Demonstrates HarmonyAttributes.arpeggiated / prolongation / prolongs.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "cs",
+    "groups": [
+      { "primary": [ { "surface": "C", "detectedSystem": "cs", "system": "cs",
+        "semantic": { "kind": "chordSymbol", "root": { "note": "C" }, "quality": "major" },
+        "attributes": { "arpeggiated": true } } ], "alternatives": [] },
+      { "primary": [ { "surface": "G", "detectedSystem": "cs", "system": "cs",
+        "semantic": { "kind": "chordSymbol", "root": { "note": "G" }, "quality": "major" },
+        "attributes": { "prolongation": "passing", "prolongs": 0 } } ], "alternatives": [] },
+      { "primary": [ { "surface": "C", "detectedSystem": "cs", "system": "cs",
+        "semantic": { "kind": "chordSymbol", "root": { "note": "C" }, "quality": "major" } } ], "alternatives": [] }
+    ]
+  }
+}

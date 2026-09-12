@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="hamon.odd.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="hamon.odd.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.0">
+    <meiHead>
+        <fileDesc>
+            <titleStmt>
+                <title/>
+            </titleStmt>
+            <pubStmt/>
+        </fileDesc>
+    </meiHead>
+    <music>
+        <body>
+            <mdiv>
+                <score>
+                    <scoreDef>
+                        <staffGrp>
+                            <staffDef n="1" lines="5" clef.shape="G" clef.line="2" meter.count="4" meter.unit="4"/>                     
+                        </staffGrp>
+                    </scoreDef>
+                    <section>
+                        <measure n="1">
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="n1" pname="c" oct="4" dur="1"/>
+                                </layer>
+                            </staff>
+                            <!--<harm startid="#n1"> C♯maj7/G </harm>-->                     
+                            <harm startid="#n1"
+                                root.pname="c"
+                                root.accid="s"
+                                bass.pname="g"
+                                chord.kind="major-seventh">
+                                C♯maj7/G
+                            </harm>                  
+                        </measure>
+                    </section>
+                </score>
+            </mdiv>
+        </body>
+    </music>
+</mei>

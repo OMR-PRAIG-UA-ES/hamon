@@ -1,0 +1,338 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "C",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "I",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 25,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "F",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "F"
+            },
+            "quality": "major"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "IV",
+          "semantic": {
+            "degree": "IV",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 27,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "Fm7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "F"
+            },
+            "quality": "minor",
+            "seventh": "min7"
+          },
+          "rendering": {
+            "qualityGlyph": "m",
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "iv7",
+          "semantic": {
+            "degree": "iv",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 28,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "Bb7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "B",
+              "accidental": "flat"
+            },
+            "quality": "major",
+            "seventh": "dom7"
+          },
+          "rendering": {
+            "seventhGlyph": "7",
+            "accidentalGlyphs": {
+              "flat": "b"
+            }
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "bVII7",
+          "semantic": {
+            "degree": "VII",
+            "kind": "roman",
+            "prefixAccidentals": [
+              "b"
+            ],
+            "tail": "7"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 28,
+        "beat": 4.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "C",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "I",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 29,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "A7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "A"
+            },
+            "quality": "major",
+            "seventh": "dom7"
+          },
+          "rendering": {
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "V7/ii",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7",
+            "secondary": "ii"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 29,
+        "beat": 4.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "Dm7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "D"
+            },
+            "quality": "minor",
+            "seventh": "min7"
+          },
+          "rendering": {
+            "qualityGlyph": "m",
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "ii7",
+          "semantic": {
+            "degree": "ii",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 30,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "G7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "G"
+            },
+            "quality": "major",
+            "seventh": "dom7"
+          },
+          "rendering": {
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "V7",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 30,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "C",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "layer": "chord"
+        },
+        {
+          "surface": "I",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "layer": "degree"
+        }
+      ],
+      "position": {
+        "measure": 31,
+        "beat": 1.0
+      }
+    }
+  ],
+  "version": "0.4.0",
+  "meters": [
+    {
+      "numerator": 4,
+      "denominator": 4,
+      "fromGroup": 0
+    }
+  ],
+  "regions": [
+    {
+      "key": {
+        "tonic": {
+          "note": "C"
+        },
+        "mode": "major"
+      },
+      "kind": "key",
+      "fromGroup": 0
+    }
+  ]
+}

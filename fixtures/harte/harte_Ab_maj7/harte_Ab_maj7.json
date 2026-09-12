@@ -1,0 +1,29 @@
+{
+  "id": "harte_Ab_maj7",
+  "@version": "0.1.0",
+  "description": "Harte: A-flat major seventh",
+  "sequenceSystemHint": "cs",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "A",
+              "accidental": "flat"
+            },
+            "quality": "major",
+            "seventh": "maj7"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "harte": {
+      "file": "harte.txt",
+      "notationType": "modern"
+    }
+  }
+}

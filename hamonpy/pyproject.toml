@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Published to PyPI after ICCCM'26 (21-23 September 2026). The *source repository*
+# opens later, with the journal paper — publishing the package does not open the repo,
+# but note that a wheel carries the .py sources, so the implementation is public from
+# the first upload. The grammar, conformance corpus, fixtures and documentation are
+# not in the package.
+# Release: tag, then GitHub Release → .github/workflows/publish-pypi.yml uploads it.
+# The code is Apache-2.0; the standard and its data are CC BY 4.0 — see ./LICENSE.
+# ─────────────────────────────────────────────────────────────────────────────
+
+[project]
+name = "hamonpy"
+version = "0.2.0"
+description = "HAMON — a universal, lossless harmony-label interlingua (Python reference implementation)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Patricia Garcia-Iasci" },
+    { name = "Johannes Hentschel" },
+    { name = "Fabian C. Moss" },
+    { name = "David Rizo" },
+]
+keywords = [
+    "harmony", "music", "music-theory", "musicology", "chord", "roman-numerals",
+    "figured-bass", "nashville", "interlingua", "MEI", "MusicXML", "Humdrum", "DCML", "OMR",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "antlr4-python3-runtime==4.13.2",
+]
+
+[project.urls]
+Repository = "https://github.com/OMR-PRAIG-UA-ES/hamon"
+Homepage = "https://omr-praig-ua-es.github.io/hamon/"
+Documentation = "https://omr-praig-ua-es.github.io/hamon/use.html"
+"Loss viewer" = "https://omr-praig-ua-es.github.io/hamon/icccm26.html"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+demo = ["streamlit>=1.30"]
+music21 = ["music21>=9"]
+partitura = ["partitura>=1.3"]
+ms3 = ["ms3>=2.0"]
+flexohr = ["flexohr>=1"]
+bps = ["pandas>=1.5", "openpyxl>=3"]
+# Toolchain to view/execute the use-cases/notebooks/ tours as .ipynb
+# (the pytest suite runs them as plain scripts and needs none of this).
+notebooks = ["jupytext>=1.16", "nbconvert>=7", "ipykernel>=6"]
+
+[project.scripts]
+hamon = "hamonpy.cli:main"
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+packages = ["hamonpy", "hamonpy.generated", "hamonpy.generated.antlr", "hamonpy.adapters"]
+
+# The ANTLR .tokens/.interp files are not needed at runtime (the generated .py
+# embeds the ATN), but shipping them keeps the sdist/wheel self-describing.
+[tool.setuptools.package-data]
+"hamonpy.generated.antlr" = ["*.tokens", "*.interp"]

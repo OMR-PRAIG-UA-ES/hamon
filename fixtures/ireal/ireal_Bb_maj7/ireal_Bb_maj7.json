@@ -1,0 +1,29 @@
+{
+  "id": "ireal_Bb_maj7",
+  "@version": "0.1.0",
+  "description": "iReal Pro: Bb major seventh (hat notation)",
+  "sequenceSystemHint": "cs",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "B",
+              "accidental": "flat"
+            },
+            "quality": "major",
+            "seventh": "maj7"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "ireal": {
+      "file": "ireal.txt",
+      "notationType": "modern"
+    }
+  }
+}

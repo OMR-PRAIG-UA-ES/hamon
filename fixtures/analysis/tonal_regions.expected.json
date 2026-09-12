@@ -1,0 +1,129 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "I",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "vi",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "vi",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "ii",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "ii",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "V7",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "ii",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "ii",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "V7",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "I",
+          "system": "rn"
+        }
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "fromGroup": 0,
+      "key": {
+        "mode": "major",
+        "tonic": {
+          "note": "C"
+        }
+      },
+      "kind": "key",
+      "toGroup": 3
+    },
+    {
+      "fromGroup": 4,
+      "key": {
+        "mode": "major",
+        "tonic": {
+          "note": "G"
+        }
+      },
+      "kind": "key"
+    }
+  ],
+  "sequenceSystemHint": "rn",
+  "version": "0.2.0"
+}

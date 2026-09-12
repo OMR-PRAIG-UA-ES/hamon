@@ -1,0 +1,43 @@
+{
+  "id": "rn_bVII",
+  "@version": "0.1.0",
+  "description": "Roman numeral bVII (flat seventh)",
+  "sequenceSystemHint": "rn",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "roman",
+            "degree": "VII",
+            "prefixAccidentals": [
+              "b"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "mei": {
+      "file": "mei.snippet.xml",
+      "notationType": "modern"
+    },
+    "kern_harm": {
+      "file": "kern_harm.snippet.krn",
+      "notationType": "modern"
+    },
+    "lilypond": {
+      "file": "lilypond.snippet.ly",
+      "notationType": "modern"
+    },
+    "abc": {
+      "file": "abc.snippet.abc",
+      "notationType": "modern"
+    },
+    "musescorexml": {
+      "file": "musescorexml.snippet.mscx",
+      "notationType": "modern"
+    }
+  }
+}

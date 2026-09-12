@@ -1,0 +1,27 @@
+{
+  "id": "harte_C_maj",
+  "@version": "0.1.0",
+  "description": "Harte: C major triad",
+  "sequenceSystemHint": "cs",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "harte": {
+      "file": "harte.txt",
+      "notationType": "modern"
+    }
+  }
+}

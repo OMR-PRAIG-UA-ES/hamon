@@ -1,0 +1,28 @@
+{
+  "id": "analysis_secondary_dominant_DD",
+  "description": "Dominant of the dominant expressed functionally (DD -> D -> T) as an alternative reading of the Roman progression V7/V -> V7 -> I.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "rn",
+    "groups": [
+      { "primary": [ { "surface": "V7/V", "detectedSystem": "rn", "system": "rn",
+        "semantic": { "kind": "roman", "degree": "V", "tail": "7", "secondary": "V" },
+        "attributes": { "applied": { "target": "V" } } } ], "alternatives": [] },
+      { "primary": [ { "surface": "V7", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "V", "tail": "7" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "I",  "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "I" } } ], "alternatives": [] }
+    ],
+    "alternativeAnalyses": [
+      {
+        "label": "functional",
+        "system": "fun",
+        "scope": { "fromGroup": 0, "toGroup": 2 },
+        "groups": [
+          { "primary": [ { "surface": "DD", "detectedSystem": "fun", "system": "fun", "semantic": { "kind": "functional", "chain": ["DD"] } } ], "alternatives": [] },
+          { "primary": [ { "surface": "D",  "detectedSystem": "fun", "system": "fun", "semantic": { "kind": "functional", "chain": ["D"] } } ], "alternatives": [] },
+          { "primary": [ { "surface": "T",  "detectedSystem": "fun", "system": "fun", "semantic": { "kind": "functional", "chain": ["T"] } } ], "alternatives": [] }
+        ]
+      }
+    ]
+  }
+}

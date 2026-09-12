@@ -1,0 +1,118 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "1",
+          "semantic": {
+            "number": 1,
+            "kind": "nashville"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "ns"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "5",
+          "semantic": {
+            "number": 5,
+            "kind": "nashville"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "ns"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "6m",
+          "semantic": {
+            "number": 6,
+            "kind": "nashville",
+            "tail": "m"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "ns"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "4",
+          "semantic": {
+            "number": 4,
+            "kind": "nashville"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "ns"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "1",
+          "semantic": {
+            "number": 1,
+            "kind": "nashville"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "ns"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "5sus",
+          "semantic": {
+            "number": 5,
+            "kind": "nashville",
+            "tail": "sus"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "ns"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "5",
+          "semantic": {
+            "number": 5,
+            "kind": "nashville"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "ns"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "ns",
+  "version": "0.3.0",
+  "regions": [
+    {
+      "key": {
+        "tonic": {
+          "note": "G"
+        },
+        "mode": "major"
+      },
+      "kind": "key",
+      "fromGroup": 0
+    }
+  ]
+}

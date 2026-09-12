@@ -1,0 +1,26 @@
+{
+  "id": "dcml_V7_IV",
+  "@version": "0.1.0",
+  "description": "DCML: secondary dominant V7/IV",
+  "sequenceSystemHint": "rn",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "roman",
+            "degree": "V",
+            "tail": "7",
+            "secondary": "IV"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "dcml": {
+      "file": "dcml.tsv",
+      "notationType": "modern"
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "Cmaj7[scale:ionian]",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major",
+            "seventh": "maj7"
+          },
+          "rendering": {
+            "qualityGlyph": "maj",
+            "seventhGlyph": "maj"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "attributes": {
+            "scales": [
+              {
+                "name": "ionian"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "Dm7",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "D"
+            },
+            "quality": "minor",
+            "seventh": "min7"
+          },
+          "rendering": {
+            "qualityGlyph": "m",
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "G7[of:I]",
+          "semantic": {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "G"
+            },
+            "quality": "major",
+            "seventh": "dom7"
+          },
+          "rendering": {
+            "seventhGlyph": "7"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "attributes": {
+            "applied": {
+              "target": "I"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "V7/V",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7",
+            "secondary": "V"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "auto"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "6-5",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass",
+            "tail": "-5"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "sequenceSystemHint": "auto"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "2m",
+          "semantic": {
+            "number": 2,
+            "kind": "nashville",
+            "tail": "m"
+          },
+          "detectedSystem": "ns",
+          "system": "ns",
+          "sequenceSystemHint": "auto"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "DD->D->T",
+          "semantic": {
+            "chain": [
+              "DD",
+              "D",
+              "T"
+            ],
+            "kind": "functional"
+          },
+          "detectedSystem": "fun",
+          "system": "fun",
+          "sequenceSystemHint": "auto"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "PD->T",
+          "semantic": {
+            "chain": [
+              "PD",
+              "T"
+            ],
+            "kind": "functional"
+          },
+          "detectedSystem": "fun",
+          "system": "fun",
+          "sequenceSystemHint": "auto"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "F[NHT:passing]",
+          "semantic": {
+            "category": "nonharmonic",
+            "kind": "tone",
+            "pitch": {
+              "note": "F"
+            },
+            "type": "passing"
+          },
+          "detectedSystem": "cs",
+          "system": "cs",
+          "sequenceSystemHint": "auto",
+          "layer": "melodic"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "auto",
+  "version": "0.3.0"
+}

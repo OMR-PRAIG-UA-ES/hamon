@@ -1,0 +1,56 @@
+{
+  "id": "C_maj7",
+  "@version": "0.1.0",
+  "description": "C major seventh chord, surface variant Cmaj7",
+  "sequenceSystemHint": "auto",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major",
+            "seventh": "maj7"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "musicxml": {
+      "file": "musicxml.snippet.xml",
+      "notationType": "modern"
+    },
+    "mei": {
+      "file": "mei.snippet.xml",
+      "notationType": "modern"
+    },
+    "lilypond": {
+      "file": "lilypond.snippet.ly",
+      "notationType": "modern"
+    },
+    "kern_mxhm": {
+      "file": "kern_mxhm.snippet.krn",
+      "notationType": "modern"
+    },
+    "kern_jazz": {
+      "file": "kern_jazz.snippet.krn",
+      "notationType": "modern"
+    },
+    "kern_irb": {
+      "file": "kern_irb.snippet.krn",
+      "notationType": "modern"
+    },
+    "musescorexml": {
+      "file": "musescorexml.snippet.mscx",
+      "notationType": "modern"
+    },
+    "abc": {
+      "file": "abc.snippet.abc",
+      "notationType": "modern"
+    }
+  }
+}

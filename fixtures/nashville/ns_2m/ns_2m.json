@@ -1,0 +1,41 @@
+{
+  "id": "ns_2m",
+  "@version": "0.1.0",
+  "description": "Nashville number 2 minor (supertonic minor)",
+  "sequenceSystemHint": "ns",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "nashville",
+            "number": 2,
+            "tail": "m"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "mei": {
+      "file": "mei.snippet.xml",
+      "notationType": "modern"
+    },
+    "kern_harm": {
+      "file": "kern_harm.snippet.krn",
+      "notationType": "modern"
+    },
+    "lilypond": {
+      "file": "lilypond.snippet.ly",
+      "notationType": "modern"
+    },
+    "abc": {
+      "file": "abc.snippet.abc",
+      "notationType": "modern"
+    },
+    "musescorexml": {
+      "file": "musescorexml.snippet.mscx",
+      "notationType": "modern"
+    }
+  }
+}

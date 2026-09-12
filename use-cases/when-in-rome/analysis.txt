@@ -1,0 +1,8 @@
+Composer: HAMON example (synthetic — not from the corpus)
+Title: RomanText regions demo
+Time Signature: 4/4
+
+m1 C: I b2 IV b3 V7
+m2 vi b2 ii6 b3 V
+m3 G: I b2 V/V b3 V
+m4 I

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt><title>ii–V–I turnaround — HAMON example</title></titleStmt>
+      <pubStmt/>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef><staffGrp><staffDef n="1" lines="5" clef.shape="G" clef.line="2"/></staffGrp></scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1"><layer n="1"><note pname="c" oct="5" dur="1"/></layer></staff>
+              <harm staff="1" tstamp="1">Cm7</harm>
+            </measure>
+            <measure n="2">
+              <staff n="1"><layer n="1"><note pname="a" oct="4" dur="1"/></layer></staff>
+              <harm staff="1" tstamp="1">F7</harm>
+            </measure>
+            <measure n="3">
+              <staff n="1"><layer n="1"><note pname="d" oct="5" dur="2"/><note pname="f" oct="5" dur="2"/></layer></staff>
+              <harm staff="1" tstamp="1">BbMaj7</harm>
+              <harm staff="1" tstamp="3">EbMaj7</harm>
+            </measure>
+            <measure n="4">
+              <staff n="1"><layer n="1"><note pname="c" oct="5" dur="1"/></layer></staff>
+              <harm staff="1" tstamp="1">Am7b5</harm>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>

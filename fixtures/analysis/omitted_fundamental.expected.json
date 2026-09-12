@@ -1,0 +1,50 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "viio7[no1]",
+          "semantic": {
+            "degree": "vii",
+            "kind": "roman",
+            "tail": "o7"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn",
+          "attributes": {
+            "omittedRoot": true
+          }
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "I",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "rn",
+  "version": "0.2.0",
+  "regions": [
+    {
+      "key": {
+        "tonic": {
+          "note": "C"
+        },
+        "mode": "major"
+      },
+      "kind": "key",
+      "fromGroup": 0
+    }
+  ]
+}

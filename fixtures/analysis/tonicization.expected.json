@@ -1,0 +1,101 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "I",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "secondary": "V",
+            "tail": "7"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "V7/V",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "V",
+          "system": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "detectedSystem": "rn",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "sequenceSystemHint": "rn",
+          "surface": "I",
+          "system": "rn"
+        }
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "fromGroup": 0,
+      "key": {
+        "mode": "major",
+        "tonic": {
+          "note": "C"
+        }
+      },
+      "kind": "key",
+      "toGroup": 2
+    },
+    {
+      "degree": "V",
+      "fromGroup": 1,
+      "key": {
+        "label": "V",
+        "mode": "major",
+        "tonic": {
+          "note": "G"
+        }
+      },
+      "kind": "tonicization",
+      "parent": 0,
+      "toGroup": 2
+    },
+    {
+      "fromGroup": 3,
+      "key": {
+        "mode": "major",
+        "tonic": {
+          "note": "C"
+        }
+      },
+      "kind": "key"
+    }
+  ],
+  "sequenceSystemHint": "rn",
+  "version": "0.2.0"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "C_aug",
+  "@version": "0.1.0",
+  "description": "C augmented triad",
+  "sequenceSystemHint": "cs",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "augmented"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "musicxml": {
+      "file": "musicxml.snippet.xml",
+      "notationType": "modern"
+    },
+    "mei": {
+      "file": "mei.snippet.xml",
+      "notationType": "modern"
+    },
+    "kern_mxhm": {
+      "file": "kern_mxhm.snippet.krn",
+      "notationType": "modern"
+    },
+    "kern_jazz": {
+      "file": "kern_jazz.snippet.krn",
+      "notationType": "modern"
+    },
+    "kern_irb": {
+      "file": "kern_irb.snippet.krn",
+      "notationType": "modern"
+    },
+    "lilypond": {
+      "file": "lilypond.snippet.ly",
+      "notationType": "modern"
+    },
+    "abc": {
+      "file": "abc.snippet.abc",
+      "notationType": "modern"
+    },
+    "musescorexml": {
+      "file": "musescorexml.snippet.mscx",
+      "notationType": "modern"
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "I",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "vi",
+          "semantic": {
+            "degree": "vi",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "ii6",
+          "semantic": {
+            "degree": "ii",
+            "kind": "roman",
+            "tail": "6"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "V7/V",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7",
+            "secondary": "V"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "V",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "I6",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman",
+            "tail": "6"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "IV",
+          "semantic": {
+            "degree": "IV",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "V7",
+          "semantic": {
+            "degree": "V",
+            "kind": "roman",
+            "tail": "7"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    },
+    {
+      "primary": [
+        {
+          "surface": "I",
+          "semantic": {
+            "degree": "I",
+            "kind": "roman"
+          },
+          "detectedSystem": "rn",
+          "system": "rn",
+          "sequenceSystemHint": "rn"
+        }
+      ]
+    }
+  ],
+  "sequenceSystemHint": "rn",
+  "version": "0.3.0",
+  "regions": [
+    {
+      "key": {
+        "tonic": {
+          "note": "C"
+        },
+        "mode": "major"
+      },
+      "kind": "key",
+      "fromGroup": 0
+    },
+    {
+      "key": {
+        "tonic": {
+          "note": "G"
+        },
+        "mode": "major",
+        "label": "V"
+      },
+      "kind": "tonicization",
+      "fromGroup": 5,
+      "degree": "V",
+      "parent": 0
+    }
+  ]
+}

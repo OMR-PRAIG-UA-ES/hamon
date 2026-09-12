@@ -1,0 +1,8 @@
+<measure>
+  <harm type="hamon:key">C</harm>
+  <harm type="degree">I</harm>
+  <harm type="tone">E[HT]</harm>
+  <harm type="tone">F[NHT:passing]</harm>
+  <harm type="tone">G[HT]</harm>
+  <harm type="tone">A[NHT:neighbor]</harm>
+</measure>

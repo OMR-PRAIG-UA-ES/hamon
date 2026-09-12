@@ -1,0 +1,215 @@
+/**
+ * hamon — Universal Harmony Label Grammar (surface-first)
+ * @version 0.5.0
+ * We parse common written harmony labels and preserve exact glyphs.
+ * We optionally accept a sequence prefix to hint the system, but we can also detect it.
+ */
+
+start ::= versionDecl? systemDecl? line ( EOL+ line )* EOL*
+
+/** A line is either an analytical directive (meter/key/region) or a harmony group.
+ *  Analytical directives were added in v0.2.0 and are fully optional. */
+line ::= meterDecl | keyDecl | scaleDecl | harmonyGroup
+
+/** Version of the HAMON standard, e.g. @version:0.3.0 (semver, aligned with hamon-schema.json) */
+versionDecl ::= "@version:" VERSION
+VERSION ::= NUMBER ( "." NUMBER )*
+
+/** We optionally hint the system for the whole sequence. */
+systemDecl ::= "@" systemId
+
+systemId ::= "auto" | "cs" | "rn" | "ns" | "fb" | "fun" | "text"
+
+/** v0.4: the time-aligned position is written FIRST, comma-separated with the labels,
+ *  e.g. `m:25,ts:1,cs:C,rn:I`. Alternatives still use "|". */
+harmonyGroup ::= ( positionItem "," )* harmonyList ( "|" harmonyList )*
+harmonyList ::= harmony ( "," harmony )*
+
+/** Position items (map to HarmonyGroup.position in hamon-schema.json). They COEXIST:
+ *  a position carries whichever clocks the source stated, and none is derived from
+ *  another — deriving one from another launders an estimate into a fact.
+ *   "m:25"       measure number
+ *   "ts:1"       timestamp/beat — MEI data.BEAT, 1-based decimal (e.g. "ts:2.5")
+ *   "t:5/4"      absolute MUSICAL time, a fraction of QUARTER notes (t:4 = the 5th quarter)
+ *   "s:12.34"    absolute PHYSICAL time in SECONDS (v0.5) — audio or a performance. In a
+ *                recording the seconds are the certain datum and the bar is an estimate;
+ *                in a score it is the other way round. Both may be present.
+ *   "ref:note-9" score-object id reference */
+positionItem ::= ( "m:" NUMBER )
+               | ( "ts:" NUMBER ( "." NUMBER )? )
+               | ( "t:" NUMBER ( "/" NUMBER )? )
+               | ( "s:" NUMBER ( "." NUMBER )? )
+               | ( "ref:" REF_CHAR+ )
+REF_CHAR ::= [^#x9#xA#xD#x20#x2C#x7C]
+
+/** We parse any harmony label we can recognize, otherwise we preserve it as raw.
+ *  v0.2.0: a label may be prefixed with an analytical layer tag (so several
+ *  readings of the same sonority can be stacked in one group) and suffixed with
+ *  bracketed analytical attributes (inversion, omitted root, arpeggiation,
+ *  tonicization, non-harmonic-tone class, …). Both are optional and additive. */
+harmony ::= layerTag? harmonyAtom analysisAttr*
+
+harmonyAtom ::= noChord
+          | functionalHarmony
+          | chordSymbol
+          | romanNumeral
+          | numberHarmony
+          | textLabel
+
+
+/** ---------------- No chord ---------------- */
+noChord ::= "NC" | "N.C." | "n.c." | "NoChord"
+
+
+/** ---------------- Functional ----------------
+ * T = tonic, S = subdominant, D = dominant, PD = predominant, SD = subdominant
+ * (alt. label), DD = Doppeldominante / dominant of the dominant (V/V). Chains
+ * with "->" express a functional progression, e.g. DD->D->T.
+ *
+ * IMPL NOTE: the dominant token "D" is spelled like the pitch D, which the
+ * lexer's NOTE rule ([A-G]) claims first. In a chain the "->" makes the intent
+ * unambiguous (chord symbols never contain "->"), so "D" is recovered there. A
+ * *lone* "D" instead stays a chord symbol — write a chain, or the layered form
+ * `function:D`, for a single dominant. */
+functionalHarmony ::= funcToken ( "->" funcToken )+ | funcSingleToken
+funcToken ::= "T" | "S" | "D" | "PD" | "SD" | "DD"
+funcSingleToken ::= "T" | "S" | "PD" | "SD" | "DD"
+
+
+/** ---------------- Chord symbols (surface-first) ----------------
+ * Examples: CΔ7, Cmaj7, CM7, Cm7, C-7, F#ø7, B♭°7, C7(#11)/G
+ */
+chordSymbol ::= pitch chordPart* slashBass?
+slashBass ::= "/" pitch
+
+pitch ::= NOTE accidentalGlyph?
+
+NOTE ::= "A" | "B" | "C" | "D" | "E" | "F" | "G"
+
+accidentalGlyph ::= "#" | "b" | "x" | "♯" | "♭" | "𝄪" | "𝄫" | "♮" | "n"
+
+/** We keep chordPart permissive: we parse what we recognize and keep the rest for lossless roundtrip. */
+chordPart ::= seventhMark
+            | qualityMark
+            | extension
+            | alteration
+            | addOmitSus
+            | parenGroup
+            | word
+
+qualityMark ::= "maj" | "Maj" | "M" | "min" | "m" | "-" | "dim" | "o" | "°" | "aug" | "+" | "ø"
+
+seventhMark ::= "Δ" NUMBER? | ("maj" | "M") NUMBER
+
+extension ::= NUMBER
+
+alteration ::= ( "#" | "b" | "♯" | "♭" | "♮" | "n" | "x" | "𝄪" | "𝄫" ) NUMBER
+
+addOmitSus ::= ("add" | "omit" | "no" | "sus") NUMBER?
+
+parenGroup ::= "(" parenItem* ")"
+parenItem ::= alteration | seventhMark | NUMBER | word | qualityMark | "/" | "-" | ","
+
+word ::= LETTER+
+LETTER ::= "a".."z" | "A".."Z"
+
+
+/** ---------------- Roman numerals (surface-first) ----------------
+ * Examples: V, bII65/V, #iv°7, Ger65
+ */
+romanNumeral ::= rnAccidental* rnDegree rnTail* rnSecondary?
+rnAccidental ::= "#" | "b" | "♯" | "♭" | "x" | "𝄪" | "𝄫" | "♮" | "n"
+rnDegree ::= ROMAN
+rnTail ::= NUMBER | qualityMark | word
+rnSecondary ::= "/" rnAccidental* ROMAN
+              | "/" word
+
+ROMAN ::= "I" | "II" | "III" | "IV" | "V" | "VI" | "VII"
+        | "i" | "ii" | "iii" | "iv" | "v" | "vi" | "vii"
+
+
+/** ---------------- Number-based (Nashville or figured bass) ----------------
+ * We parse the shape and decide system later (hint + heuristics).
+ * Examples: b7, 1m, 6-5, #4°7, 5/7
+ */
+numberHarmony ::= rnAccidental* NUMBER numberTail* numberSecondary?
+numberTail ::= ( "-" NUMBER ) | qualityMark | extension | alteration | parenGroup | word
+numberSecondary ::= "/" ( NUMBER | pitch )
+
+
+/** ---------------- Analytical layer (v0.2.0) ----------------
+ * Optional, additive surface for harmonic analysis. See documentation/analysis.md
+ * and grammar/hamon-schema.json (the canonical model) for the full semantics.
+ */
+
+/** A meter directive (v0.4.0) declares the time signature in effect, at the start and
+ *  at every metric change. It fixes the valid range of a group's ts (MEI data.BEAT):
+ *  the numerator N is the beat count, so ts spans [1, N+1). Examples: "@meter:4/4"
+ *  (ts 1..<5), "@meter:2/2" (ts 1..<3), "@meter:6/8" (ts 1..<7). */
+meterDecl ::= "@meter:" NUMBER "/" NUMBER
+
+/** A key/region directive opens a tonal region that applies to the following
+ *  groups until the next keyDecl (or the end of the sequence).
+ *  Examples: "@key:C", "@key:A:minor", "@key:D:dorian", "@key:V" (tonicize V). */
+keyDecl ::= "@key:" keyTarget modeSuffix?
+/* absolute tonic, or a (possibly altered) degree to tonicize. Maximal-munch lexing
+   collapses 'Bb', 'bVI', … into a single word, re-split in the normalizer. */
+keyTarget ::= pitch | rnAccidental* ROMAN | RAW_TEXT
+modeSuffix ::= ":" modeName
+modeName ::= "major" | "minor" | "ionian" | "dorian" | "phrygian"
+           | "lydian" | "mixolydian" | "aeolian" | "locrian"
+
+/** Chord-scale directive (v0.3.0): the recommended scale(s) for the region opened
+ *  by the preceding keyDecl. Examples: "@scale:dorian", "@scale:lydian-dominant",
+ *  "@scale:dorian,mixolydian". Per-chord scales use the [scale:NAME] attribute. */
+scaleDecl ::= "@scale:" scaleName ( "," scaleName )*
+scaleName ::= ( modeName | LETTER+ ) ( "-" ( modeName | LETTER+ | NUMBER ) )*
+
+/** A layer tag marks which analytical viewpoint a label expresses, so a chord symbol,
+ *  a Roman numeral, a figured bass and a function can be stacked (',' join) in one
+ *  group. v0.4 short tags. Examples: "cs:C", "rn:V7", "fb:6", "fn:D", "melodic:E". */
+layerTag ::= layerName ":"
+layerName ::= "cs" | "rn" | "ns" | "fb" | "fn" | "melodic" | "tone" | "key"
+
+/** Bracketed analytical attributes, appended to a label. Content is kept
+ *  permissive (parsed and preserved); the normalizer recognizes these keywords:
+ *    no<n>     omitted degree / fundamental omitida (no1 = omitted root)
+ *    rootless  rootless voicing
+ *    arp       arpeggiation / despliegue
+ *    ped       pedal point
+ *    inv:<n>   inversion (0 root .. 3 third)
+ *    ton:<deg> tonicizes the given degree
+ *    of:<deg>  applied / secondary function target (e.g. of:V)
+ *    HT        harmonic (chord) tone
+ *    NHT:<t>   non-harmonic tone of type <t> (passing, neighbor, susp, app, …)
+ *    dur:<q>   extent in QUARTER notes (v0.4.1) — a fraction "3/4", an integer "2" or a
+ *              decimal "1.5". Same unit as the position item "t:". On the LABEL, not the
+ *              group, so two alternatives can segment the same passage differently.
+ *              Only ever what a source stated: absent means unknown, and "runs to the
+ *              next group" stays a computation that is never written into the data.
+ *    endref:<id>  the score object it ends on (MEI @endid), the counterpart of "ref:"
+ *  Examples: "V7[no1]", "I[arp]", "I64[ped]", "V[of:V]", "I[inv:1]", "E[NHT:passing]",
+ *            "Cmaj7[dur:3/4]", "Dm7[endref:note-12]". */
+analysisAttr ::= "[" attrItem+ "]"
+attrItem ::= LETTER+ | NUMBER | ROMAN | NOTE | ":" | "/" | accidentalGlyph | "-"
+
+
+/** ---------------- Text (lossless) ---------------- */
+textLabel ::= QUOTED_TEXT | RAW_TEXT
+
+QUOTED_TEXT ::= '"' TEXTCHAR* '"'
+/* any character except the double quote */
+TEXTCHAR ::= [^#x22]
+
+RAW_TEXT ::= ( RAW_PARENS | RAW_CHAR )+
+/* a balanced "(" … ")" may hold commas (a tension list on a WORD-led chord like
+   Cm7(9,11)); inside the parens the comma groups rather than separating, so it does
+   not end the raw run — mirrors chordSymbol's parenGroup on the NOTE-led path */
+RAW_PARENS ::= "(" ( RAW_CHAR | "," )* ")"
+/* any character except tab, LF, CR, space, ",", "|", "[" or "]" — brackets end a
+   raw run so a trailing analyticalAttr (e.g. Bb7[of:I]) is parsed, not swallowed */
+RAW_CHAR ::= [^#x9#xA#xD#x20#x2C#x7C#x5B#x5D]
+
+EOL ::= "\n" | "\r\n"
+NUMBER ::= DIGIT+
+DIGIT ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"

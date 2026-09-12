@@ -1,0 +1,23 @@
+{
+  "file_metadata": {
+    "title": "C major seventh",
+    "duration": 2.0,
+    "identifiers": {},
+    "jams_version": "0.3.4"
+  },
+  "annotations": [
+    {
+      "namespace": "chord",
+      "data": [
+        { "time": 0.0, "duration": 2.0, "value": "C:maj7", "confidence": 1.0 }
+      ],
+      "annotation_metadata": {
+        "corpus": "hamon fixtures",
+        "data_source": "hamon C_M7 fixture",
+        "annotator": {}, "curator": { "name": "", "email": "" }
+      },
+      "sandbox": {}
+    }
+  ],
+  "sandbox": {}
+}

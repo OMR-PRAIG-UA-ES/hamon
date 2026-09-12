@@ -1,0 +1,752 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hamon.music/schema/hamon-sequence.json",
+  "title": "HamonSequence",
+  "version": "0.5.0",
+  "description": "Canonical JSON representation of a hamon harmony sequence. This is the hub of the hamon standard: all source formats (MEI, MusicXML, Humdrum, LilyPond, ABC, MuseScore) map to and from this structure. The text surface syntax (grammar/hamon.ebnf) is the serialization of this JSON into a compact string form. Version 0.2.0 adds the optional analytical layer (tonal regions, tonicizations, secondary dominants, layered functional analysis, non-harmonic-tone melodic analysis, modal harmony, omitted fundamentals, arpeggiation, and alternative whole-progression analyses); see documentation/analysis.md. Version 0.2.1 adds the optional HarmonyGroup.position (time-aligned position from positioned formats such as MEI @tstamp/@startid). Version 0.4.0 adds the optional top-level meters array (time signatures, surface '@meter:N/D') that bounds the valid Position.beat range. Version 0.5.0 adds Position.seconds (surface 's:12.34'), the physical-time clock, so that audio-time sources (Harte .lab, JAMS) keep the only position they state; the clocks coexist and none is derived from another. All analytical and positional fields are optional and backward compatible with 0.1.0 documents.",
+  "$ref": "#/$defs/HamonSequence",
+
+  "$defs": {
+
+    "HamonSequence": {
+      "type": "object",
+      "description": "A complete harmony sequence, optionally scoped to a notation system.",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The HAMON standard version this sequence targets, as a semver string (e.g. '0.1.0'). Maps to the @version:<semver> surface directive. Absent means version is unspecified.",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "sequenceSystemHint": {
+          "$ref": "#/$defs/SequenceSystem",
+          "description": "Optional declaration of the notation system for the whole sequence (@cs, @rn, @ns, @fb, @fun, @text, @auto). When absent, each label's system is detected individually."
+        },
+        "groups": {
+          "type": "array",
+          "description": "Ordered list of harmony groups, one per time point (beat, measure, or event).",
+          "items": { "$ref": "#/$defs/HarmonyGroup" }
+        },
+        "meters": {
+          "type": "array",
+          "description": "Optional time signatures (v0.4.0): the meter in effect, declared at the start and at every metric change. Each meter's numerator is the beat count and thus bounds the valid range of a group's Position.beat (MEI data.BEAT): beat spans [1, numerator+1). Surface: '@meter:N/D' directive lines. A beat outside its meter is a non-blocking warning. See documentation/positions.md.",
+          "items": { "$ref": "#/$defs/Meter" }
+        },
+        "regions": {
+          "type": "array",
+          "description": "Optional analytical layer (v0.2.0): tonal regions, modulations and tonicizations spanning ranges of groups. Each region declares the local key in force over [fromGroup, toGroup]. Surface: '@key:' directive lines and ':' / 'of' tonicization spans. See documentation/analysis.md.",
+          "items": { "$ref": "#/$defs/TonalRegion" }
+        },
+        "alternativeAnalyses": {
+          "type": "array",
+          "description": "Optional analytical layer (v0.2.0): alternative whole-progression readings of (a span of) the same sequence — e.g. two analysts proposing different Roman-numeral progressions, or a chord-symbol reading vs. a functional reading. For single-time-point alternatives use HarmonyGroup.alternatives instead.",
+          "items": { "$ref": "#/$defs/AlternativeAnalysis" }
+        }
+      },
+      "required": ["groups"],
+      "additionalProperties": false
+    },
+
+    "HarmonyGroup": {
+      "type": "object",
+      "description": "The harmony at one time point. Primary labels are the main reading; alternatives are other simultaneous interpretations (e.g., two analysts' readings, or layered encodings).",
+      "properties": {
+        "primary": {
+          "type": "array",
+          "description": "The primary harmony labels at this time point. Most sequences have exactly one primary label per group.",
+          "items": { "$ref": "#/$defs/HarmonyLabel" },
+          "minItems": 1
+        },
+        "alternatives": {
+          "type": "array",
+          "description": "Alternative simultaneous readings. Each element is a list of labels forming one alternative layer.",
+          "items": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/HarmonyLabel" }
+          }
+        },
+        "position": {
+          "$ref": "#/$defs/Position",
+          "description": "Optional time-aligned position of this group in the source (v0.2.1). Populated when imported from a positioned format (e.g. MEI @tstamp / @startid); absent for line-ordered surfaces, where group order is the only positional information."
+        }
+      },
+      "required": ["primary", "alternatives"],
+      "additionalProperties": false
+    },
+
+    "Meter": {
+      "type": "object",
+      "description": "A time signature (v0.4.0) declared with the '@meter:N/D' surface directive, at the start and at every metric change. numerator is the beat count and bounds the valid range of a group's Position.beat (MEI data.BEAT): beat spans [1, numerator+1). fromGroup is the index of the first group it governs.",
+      "properties": {
+        "numerator": { "type": "integer", "exclusiveMinimum": 0, "description": "Beats per measure (the time-signature numerator); bounds the valid Position.beat range." },
+        "denominator": { "type": "integer", "exclusiveMinimum": 0, "description": "Beat unit (the time-signature denominator)." },
+        "fromGroup": { "type": "integer", "minimum": 0, "description": "Index into groups of the first group this meter governs (until the next meter)." }
+      },
+      "required": ["numerator", "denominator", "fromGroup"],
+      "additionalProperties": false
+    },
+
+    "Fraction": {
+      "type": "object",
+      "description": "An exact rational number (e.g. a metric position in quarter notes).",
+      "properties": {
+        "numerator": { "type": "integer" },
+        "denominator": { "type": "integer", "exclusiveMinimum": 0 }
+      },
+      "required": ["numerator", "denominator"],
+      "additionalProperties": false
+    },
+
+    "Position": {
+      "type": "object",
+      "description": "A time-aligned position for a HarmonyGroup (v0.2.1). All fields optional: measure+beat mirror an MEI @tstamp; time is an absolute musical offset; seconds is physical time (v0.5); ref points at a score-object id (MEI @startid). A position carries whichever of these the source provided, and none is derived from another.",
+      "properties": {
+        "measure": {
+          "type": "integer",
+          "description": "1-based measure number."
+        },
+        "beat": {
+          "type": "number",
+          "description": "Beat within the measure (1-based; may be fractional, mirroring MEI @tstamp)."
+        },
+        "time": {
+          "$ref": "#/$defs/Fraction",
+          "description": "Absolute fractional position from the start, in QUARTER notes — the unit every source HAMON reads uses (DCML quarterbeats, Dezrann start, DiLeMMa, music21 offsets)."
+        },
+        "seconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Absolute PHYSICAL time from the start, in seconds (v0.5) — audio or a performance (Harte .lab, JAMS). A different clock from `time`: it is stored only when the source stated it, and is never converted to or from musical time."
+        },
+        "ref": {
+          "type": "string",
+          "description": "Reference to a score-object id the harmony is anchored to (e.g. MEI @startid)."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "HarmonyLabel": {
+      "type": "object",
+      "description": "A single harmony label: the exact surface string plus its normalized semantic and rendering hints.",
+      "properties": {
+        "surface": {
+          "type": "string",
+          "description": "The exact original string as it appeared in the source (glyphs preserved). This is the lossless representation."
+        },
+        "sequenceSystemHint": {
+          "$ref": "#/$defs/SequenceSystem",
+          "description": "System hint declared at sequence level, propagated here for convenience."
+        },
+        "detectedSystem": {
+          "$ref": "#/$defs/DetectedSystem",
+          "description": "The notation system as detected by the grammar from the surface form."
+        },
+        "system": {
+          "$ref": "#/$defs/DetectedSystem",
+          "description": "The resolved notation system: equals detectedSystem unless a sequenceSystemHint overrides it."
+        },
+        "semantic": {
+          "$ref": "#/$defs/HarmonySemantic",
+          "description": "Normalized semantic content. May be absent for unparsed or deferred labels."
+        },
+        "rendering": {
+          "$ref": "#/$defs/RenderingHints",
+          "description": "The glyphs the source used for accidentals, quality, and seventh — needed to round-trip back to the original surface."
+        },
+        "layer": {
+          "$ref": "#/$defs/AnalyticalLayer",
+          "description": "Optional analytical layer (v0.2.0). When several labels in one HarmonyGroup describe the SAME sonority from different analytical viewpoints (a vertical 'analysis stack'), each carries a distinct layer tag: e.g. a 'degree' Roman numeral, a 'function' T/S/D token, a 'chord' chord-symbol, a 'bass' figured-bass, and a 'key' label, all aligned at one time point. Absent for a plain single-reading label."
+        },
+        "localKey": {
+          "$ref": "#/$defs/Key",
+          "description": "Optional analytical layer (v0.2.0). The local key in force for this label, when it differs from the prevailing region (e.g. inside a tonicization). For Roman numerals this is the key the degree is measured against."
+        },
+        "attributes": {
+          "$ref": "#/$defs/HarmonyAttributes",
+          "description": "Optional analytical layer (v0.2.0): analytical attributes of this harmony (omitted fundamental, rootless voicing, inversion, arpeggiation/prolongation, tonicization target, secondary-dominant application, pedal)."
+        }
+      },
+      "required": ["surface", "detectedSystem", "system"],
+      "additionalProperties": false
+    },
+
+    "HarmonySemantic": {
+      "description": "The normalized semantic content of a harmony label. Discriminated by the 'kind' field.",
+      "oneOf": [
+        { "$ref": "#/$defs/ChordSymbolSemantic" },
+        { "$ref": "#/$defs/RomanSemantic" },
+        { "$ref": "#/$defs/NashvilleSemantic" },
+        { "$ref": "#/$defs/FiguredBassSemantic" },
+        { "$ref": "#/$defs/FunctionalSemantic" },
+        { "$ref": "#/$defs/ToneSemantic" },
+        { "$ref": "#/$defs/NoChordSemantic" },
+        { "$ref": "#/$defs/TextSemantic" }
+      ]
+    },
+
+    "ChordSymbolSemantic": {
+      "type": "object",
+      "description": "A chord symbol (American/jazz notation): root pitch, triad quality, optional seventh, extensions, alterations, and slash bass.",
+      "properties": {
+        "kind": { "const": "chordSymbol" },
+        "root": {
+          "$ref": "#/$defs/PitchClass",
+          "description": "The root pitch of the chord."
+        },
+        "bass": {
+          "$ref": "#/$defs/PitchClass",
+          "description": "Slash bass note (e.g., C/E). Absent when there is no inversion or pedal point."
+        },
+        "quality": {
+          "$ref": "#/$defs/ChordQuality",
+          "description": "The triad quality. Defaults to 'major' when no quality marker is written."
+        },
+        "seventh": {
+          "$ref": "#/$defs/SeventhQuality",
+          "description": "The seventh interval, if present. Absent for triads."
+        },
+        "extensions": {
+          "type": "array",
+          "description": "Added tension intervals beyond the seventh (9, 11, 13).",
+          "items": { "type": "integer", "enum": [6, 9, 11, 13] }
+        },
+        "alterations": {
+          "type": "array",
+          "description": "Altered tension intervals (e.g., #11, b9).",
+          "items": { "$ref": "#/$defs/Alteration" }
+        },
+        "adds": {
+          "type": "array",
+          "description": "Added tones (add9, add11) that do not imply lower extensions.",
+          "items": { "type": "integer" }
+        },
+        "omits": {
+          "type": "array",
+          "description": "Omitted tones (omit3, no5).",
+          "items": { "type": "integer" }
+        },
+        "suspensions": {
+          "type": "array",
+          "description": "Suspended intervals (sus, sus2, sus4). Null means 'sus' without a specific interval.",
+          "items": { "type": ["integer", "null"] }
+        }
+      },
+      "required": ["kind", "root", "quality"],
+      "additionalProperties": false
+    },
+
+    "RomanSemantic": {
+      "type": "object",
+      "description": "A Roman numeral label (scale-degree analysis). Case encodes mode: uppercase = major, lowercase = minor.",
+      "properties": {
+        "kind": { "const": "roman" },
+        "degree": {
+          "type": "string",
+          "description": "The Roman numeral degree as written (e.g., 'V', 'iv', 'II'). Case is preserved.",
+          "pattern": "^(I{1,3}|IV|VI{0,3}|VII|i{1,3}|iv|vi{0,3}|vii)$"
+        },
+        "prefixAccidentals": {
+          "type": "array",
+          "description": "Accidental glyphs preceding the degree (e.g., ['b'] for bVII, ['#'] for #IV). Surface glyphs are preserved.",
+          "items": { "type": "string" }
+        },
+        "secondary": {
+          "type": "string",
+          "description": "Secondary function target written after '/' (e.g., 'V' in V/V). Roman token only, without accidentals.",
+          "pattern": "^(I{1,3}|IV|VI{0,3}|VII|i{1,3}|iv|vi{0,3}|vii)$"
+        },
+        "tail": {
+          "type": "string",
+          "description": "Remaining surface after the degree: figures, quality suffixes, etc. (e.g., '65', '°7', 'b5'). Not further parsed at this level."
+        }
+      },
+      "required": ["kind", "degree"],
+      "additionalProperties": false
+    },
+
+    "NashvilleSemantic": {
+      "type": "object",
+      "description": "A Nashville number system label (scale-degree chord symbol using integers).",
+      "properties": {
+        "kind": { "const": "nashville" },
+        "number": {
+          "type": "integer",
+          "description": "The scale degree (1–7).",
+          "minimum": 1,
+          "maximum": 7
+        },
+        "prefixAccidentals": {
+          "type": "array",
+          "description": "Accidental glyphs preceding the number (e.g., ['b'] for b7).",
+          "items": { "type": "string" }
+        },
+        "tail": {
+          "type": "string",
+          "description": "Quality and extension suffix after the number (e.g., 'm', 'maj7', 'sus4')."
+        },
+        "secondary": {
+          "type": "string",
+          "description": "Secondary target after '/' (e.g., '5' in 1/5, or a pitch name)."
+        }
+      },
+      "required": ["kind", "number"],
+      "additionalProperties": false
+    },
+
+    "FiguredBassSemantic": {
+      "type": "object",
+      "description": "A figured bass label (interval figures above a bass note, Baroque continuo notation).",
+      "properties": {
+        "kind": { "const": "figuredBass" },
+        "number": {
+          "type": "integer",
+          "description": "The primary (topmost or leftmost) figure.",
+          "minimum": 2
+        },
+        "prefixAccidentals": {
+          "type": "array",
+          "description": "Accidental glyphs preceding the primary figure.",
+          "items": { "type": "string" }
+        },
+        "tail": {
+          "type": "string",
+          "description": "Remaining figures written after the primary one (e.g., '-5' in '6-5', '-3' in '4-3')."
+        },
+        "secondary": {
+          "type": "string",
+          "description": "Content after '/' if present."
+        }
+      },
+      "required": ["kind", "number"],
+      "additionalProperties": false
+    },
+
+    "FunctionalSemantic": {
+      "type": "object",
+      "description": "A Riemannian functional harmony label (T, S, D and their variants, optionally chained with '->').",
+      "properties": {
+        "kind": { "const": "functional" },
+        "chain": {
+          "type": "array",
+          "description": "The sequence of functional tokens. Single-element for a plain label; multiple elements for a progression chain (e.g., ['D', 'T'] for D->T).",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      },
+      "required": ["kind", "chain"],
+      "additionalProperties": false
+    },
+
+    "NoChordSemantic": {
+      "type": "object",
+      "description": "Explicit absence of harmony (no chord symbol, rest, or tacet).",
+      "properties": {
+        "kind": { "const": "noChord" }
+      },
+      "required": ["kind"],
+      "additionalProperties": false
+    },
+
+    "TextSemantic": {
+      "type": "object",
+      "description": "A lossless fallback for labels that could not be parsed into any other semantic kind. The original text is preserved verbatim.",
+      "properties": {
+        "kind": { "const": "text" },
+        "text": {
+          "type": "string",
+          "description": "The raw label text, exactly as it appeared in the source."
+        }
+      },
+      "required": ["kind", "text"],
+      "additionalProperties": false
+    },
+
+    "ToneSemantic": {
+      "type": "object",
+      "description": "Analytical layer (v0.2.0): a single melodic note classified for harmonic/non-harmonic analysis. Used on a 'melodic' analytical layer to annotate chord tones (HT) and non-chord tones (NHT: passing, neighbor, suspension, appoggiatura, etc.). The Fuxian changing-note / nota cambiata is encoded as type 'cambiata'.",
+      "properties": {
+        "kind": { "const": "tone" },
+        "pitch": {
+          "$ref": "#/$defs/PitchClass",
+          "description": "The sounding pitch class of the note, when known."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["harmonic", "nonharmonic"],
+          "description": "Whether the tone belongs to the prevailing harmony (harmonic / HT) or not (nonharmonic / NHT)."
+        },
+        "type": {
+          "$ref": "#/$defs/NonHarmonicType",
+          "description": "The kind of non-harmonic tone. Required when category = 'nonharmonic'; absent (or 'chord-tone') when harmonic."
+        },
+        "metric": {
+          "type": "string",
+          "enum": ["accented", "unaccented"],
+          "description": "Metric placement, distinguishing e.g. accented vs. unaccented passing tones and appoggiatura vs. unaccented neighbor."
+        },
+        "approach": {
+          "$ref": "#/$defs/Motion",
+          "description": "Melodic motion into the tone (how it is approached from the previous note)."
+        },
+        "departure": {
+          "$ref": "#/$defs/Motion",
+          "description": "Melodic motion out of the tone (how it resolves to the next note)."
+        },
+        "voice": {
+          "type": "string",
+          "description": "Optional voice/part identifier the tone belongs to (e.g. 'soprano', 'bass', 'v1')."
+        }
+      },
+      "required": ["kind", "category"],
+      "additionalProperties": false
+    },
+
+    "NonHarmonicType": {
+      "type": "string",
+      "description": "Classification of a non-harmonic (non-chord) tone. 'cambiata' covers the Fuxian nota cambiata / changing-note figure; 'pedal' is a sustained pedal/organ point.",
+      "enum": [
+        "chord-tone",
+        "passing",
+        "neighbor",
+        "upper-neighbor",
+        "lower-neighbor",
+        "incomplete-neighbor",
+        "suspension",
+        "retardation",
+        "appoggiatura",
+        "escape",
+        "anticipation",
+        "pedal",
+        "cambiata",
+        "changing-tone"
+      ]
+    },
+
+    "Motion": {
+      "type": "string",
+      "description": "Melodic motion direction/manner used to characterize how a tone is approached or left.",
+      "enum": ["step-up", "step-down", "leap-up", "leap-down", "repeat", "common-tone", "resolve"]
+    },
+
+    "Mode": {
+      "type": "string",
+      "description": "Tonality/mode of a key. Supports common-practice major/minor and the diatonic church modes for modal-harmony analysis. 'major' is an alias of 'ionian' and 'minor' of 'aeolian'; both spellings are allowed so sources can preserve their own vocabulary.",
+      "enum": [
+        "major", "minor",
+        "ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"
+      ]
+    },
+
+    "Key": {
+      "type": "object",
+      "description": "Analytical layer (v0.2.0): a tonal centre — a tonic pitch class plus a mode. Used for tonal regions, local keys of tonicizations, and modal-harmony contexts.",
+      "properties": {
+        "tonic": {
+          "$ref": "#/$defs/PitchClass",
+          "description": "The tonic pitch class of the key (e.g. C, F#, Bb)."
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "description": "The mode/tonality. Defaults to 'major' when absent."
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional human-readable key label as written in the source (e.g. 'C', 'a', 'D dorian', 'Bb:')."
+        }
+      },
+      "required": ["tonic"],
+      "additionalProperties": false
+    },
+
+    "TonalRegion": {
+      "type": "object",
+      "description": "Analytical layer (v0.2.0): a span of groups governed by one local key. 'kind' distinguishes a stable home/region key, a passing tonicization (brief secondary-dominant target), and a confirmed modulation. Regions may nest (a tonicization inside a region) via 'parent'.",
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/Key",
+          "description": "The local key in force over this span."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["key", "region", "tonicization", "modulation"],
+          "description": "'key'/'region' = a tonal area; 'tonicization' = a brief emphasis of a degree as a local tonic (regiones tonales pasajeras); 'modulation' = a confirmed change of key."
+        },
+        "fromGroup": {
+          "type": "integer",
+          "description": "Index (into HamonSequence.groups) of the first group in this span, inclusive.",
+          "minimum": 0
+        },
+        "toGroup": {
+          "type": "integer",
+          "description": "Index of the last group in this span, inclusive. Absent means the region runs until the next region of the same level or the end of the sequence.",
+          "minimum": 0
+        },
+        "degree": {
+          "type": "string",
+          "description": "For tonicizations/regions expressed relative to a parent key: the scale degree being tonicized (e.g. 'V', 'ii', 'bVI'), i.e. the target of a secondary function."
+        },
+        "parent": {
+          "type": "integer",
+          "description": "Index into HamonSequence.regions of the enclosing region, when this region is nested (e.g. a V/V tonicization inside the dominant region).",
+          "minimum": 0
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional source label for the region (e.g. 'V of V', 'C: ... :', 'mediant region')."
+        },
+        "scales": {
+          "type": "array",
+          "description": "Chord-scale(s) valid over this region (jazz/Berklee), from the '@scale:' directive. Per-chord scales live on HarmonyAttributes.scales.",
+          "items": { "$ref": "#/$defs/ScaleSpec" }
+        }
+      },
+      "required": ["key", "kind", "fromGroup"],
+      "additionalProperties": false
+    },
+
+    "AnalyticalLayer": {
+      "type": "string",
+      "description": "The analytical viewpoint a label expresses within a HarmonyGroup's vertical analysis stack. Enables multi-layer functional analysis: a melodic/bass layer, a tonality layer, a tonal-function layer, and a scale-degree layer can coexist at one time point.",
+      "enum": ["chord", "degree", "function", "bass", "melodic", "key", "tone"]
+    },
+
+    "HarmonyAttributes": {
+      "type": "object",
+      "description": "Analytical layer (v0.2.0): optional analytical attributes attached to a HarmonyLabel. All properties are optional.",
+      "properties": {
+        "inversion": {
+          "type": "integer",
+          "description": "Inversion: 0 = root position, 1 = first inversion, 2 = second, 3 = third.",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "omittedRoot": {
+          "type": "boolean",
+          "description": "Fundamental omitida: the chord's root/fundamental is not sounded but is analytically understood (e.g. an incomplete dominant seventh, or a rootless jazz voicing analysed with its implied root)."
+        },
+        "rootless": {
+          "type": "boolean",
+          "description": "The voicing omits the root by performance convention (jazz rootless voicing). Distinct from 'omittedRoot', which is an analytical claim about an implied fundamental."
+        },
+        "impliedRoot": {
+          "$ref": "#/$defs/PitchClass",
+          "description": "The understood fundamental when it is omitted from the sounding chord."
+        },
+        "arpeggiated": {
+          "type": "boolean",
+          "description": "Despliegue: the chord is realized as an arpeggio/broken chord unfolding over time rather than sounded as a block."
+        },
+        "prolongation": {
+          "type": "string",
+          "enum": ["arpeggiation", "pedal", "neighbor", "passing", "prolongation"],
+          "description": "How this harmony prolongs/elaborates a structural harmony (Schenkerian-style): an arpeggiation, a pedal, a neighbor or passing chord, or a general prolongation."
+        },
+        "prolongs": {
+          "type": "integer",
+          "description": "Index (into HamonSequence.groups) of the structural harmony that this label prolongs/elaborates.",
+          "minimum": 0
+        },
+        "pedal": {
+          "type": "boolean",
+          "description": "The harmony sounds over a pedal point (sustained bass)."
+        },
+        "tonicizes": {
+          "type": "string",
+          "description": "The scale degree this harmony tonicizes (e.g. 'V' for a chord that tonicizes the dominant). Pairs with secondary-dominant Roman numerals like V/V."
+        },
+        "applied": {
+          "type": "object",
+          "description": "Secondary/applied function (secondary dominant, dominant of the dominant, applied leading-tone chord). The target is the degree the applied chord resolves to.",
+          "properties": {
+            "target": {
+              "type": "string",
+              "description": "The degree the applied chord resolves to, e.g. 'V' in V7/V, 'ii' in V/ii."
+            },
+            "chain": {
+              "type": "array",
+              "description": "Nested application chain for stacked secondaries (e.g. ['V','V'] for V/V/V), outermost first.",
+              "items": { "type": "string" }
+            }
+          },
+          "required": ["target"],
+          "additionalProperties": false
+        },
+        "scales": {
+          "type": "array",
+          "description": "Chord-scale(s) valid over this chord (jazz/Berklee), from one or more '[scale:NAME]' attributes (e.g. G7 → altered / lydian-dominant).",
+          "items": { "$ref": "#/$defs/ScaleSpec" }
+        },
+        "duration": {
+          "$ref": "#/$defs/Fraction",
+          "description": "Extent (v0.4.1), surface '[dur:3/4]': how long this reading lasts, in QUARTER notes — the same unit as Position.time. It sits on the LABEL, not the group, so two alternative readings can segment the same passage differently. Set ONLY from what a source stated (Dezrann 'duration', DCML 'duration_qb', AugmentedNet 'a_duration', MEI @tstamp2). Absent means unknown: the rule that a harmony runs to the next group is a computation, and is never stored as if it were data."
+        },
+        "durationSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Extent (v0.5), surface '[dur:1.85s]': how long this reading lasts in SECONDS — the same clock as Position.seconds. The extent inherits the clock of the source that stated it, so '[dur:…]' is one key with an optional 's' suffix: bare is quarter notes (see duration), suffixed is physical time (Harte's start/end, JAMS 'duration'). Never derived from duration or the reverse — crossing the clocks needs a tempo map the label stream does not have."
+        },
+        "endRef": {
+          "type": "string",
+          "description": "Extent (v0.4.1), surface '[endref:note-12]': the score object this harmony ends on (MEI @endid), the structural counterpart of Position.ref. Use when the source anchors to objects rather than to time."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "ScaleSpec": {
+      "type": "object",
+      "description": "A chord-scale (jazz/Berklee): the recommended scale for a chord or region. 'name' is an open vocabulary (church modes plus altered, lydian-dominant, locrian-natural-2, whole-tone, diminished-hw/-wh, harmonic-minor, melodic-minor, bebop-dominant, blues, …).",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The scale name, e.g. 'dorian', 'altered', 'lydian-dominant', 'whole-tone'."
+        },
+        "tonic": {
+          "$ref": "#/$defs/PitchClass",
+          "description": "The scale's tonic when it differs from the implied one (the chord root / region key)."
+        },
+        "pitches": {
+          "type": "array",
+          "description": "Explicit pitch classes of the scale, for non-standard scales.",
+          "items": { "$ref": "#/$defs/PitchClass" }
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+
+    "AlternativeAnalysis": {
+      "type": "object",
+      "description": "Analytical layer (v0.2.0): one alternative whole-progression reading of a span of the sequence. Lets multiple analyses of the same music coexist (different analysts, or a chord-symbol vs. Roman-numeral vs. functional reading).",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Identifier for this alternative reading (e.g. analyst name, source, or 'functional')."
+        },
+        "system": {
+          "$ref": "#/$defs/DetectedSystem",
+          "description": "The notation system this alternative reading is expressed in, when uniform."
+        },
+        "scope": {
+          "type": "object",
+          "description": "The span of the primary sequence this alternative re-analyses. Absent = the whole sequence.",
+          "properties": {
+            "fromGroup": { "type": "integer", "minimum": 0 },
+            "toGroup": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "groups": {
+          "type": "array",
+          "description": "The alternative reading itself, as a full list of harmony groups covering 'scope'.",
+          "items": { "$ref": "#/$defs/HarmonyGroup" }
+        }
+      },
+      "required": ["groups"],
+      "additionalProperties": false
+    },
+
+    "PitchClass": {
+      "type": "object",
+      "description": "A pitch class: a note letter (A–G) with an optional accidental. Enharmonic spelling is preserved from the source.",
+      "properties": {
+        "note": {
+          "type": "string",
+          "enum": ["A", "B", "C", "D", "E", "F", "G"],
+          "description": "The pitch letter name."
+        },
+        "accidental": {
+          "$ref": "#/$defs/Accidental",
+          "description": "The accidental, if any. Absent means natural (no accidental written)."
+        }
+      },
+      "required": ["note"],
+      "additionalProperties": false
+    },
+
+    "Accidental": {
+      "type": "string",
+      "description": "A normalized accidental token. The surface glyph (e.g., '#', '♯', 'b', '♭') that produced this value is stored in RenderingHints.accidentalGlyphs.",
+      "enum": ["sharp", "flat", "double-sharp", "double-flat", "natural"]
+    },
+
+    "ChordQuality": {
+      "type": "string",
+      "description": "The triad quality of a chord symbol.",
+      "enum": ["major", "minor", "diminished", "augmented", "half-diminished"]
+    },
+
+    "SeventhQuality": {
+      "type": "string",
+      "description": "The seventh interval quality. 'dom7' = minor seventh above a major triad (C7). 'maj7' = major seventh (Cmaj7). 'min7' = minor seventh above a minor triad (Cm7). 'dim7' = diminished seventh (C°7). 'hdim7' = minor seventh above a diminished triad (Cø7).",
+      "enum": ["maj7", "min7", "dom7", "dim7", "hdim7"]
+    },
+
+    "Alteration": {
+      "type": "object",
+      "description": "An altered tension interval (e.g., #11, b9).",
+      "properties": {
+        "accidental": {
+          "$ref": "#/$defs/Accidental",
+          "description": "The alteration direction."
+        },
+        "degree": {
+          "type": "integer",
+          "description": "The scale degree being altered (e.g., 9, 11, 13)."
+        },
+        "glyph": {
+          "type": "string",
+          "description": "The exact accidental glyph used in the source (e.g., '#', '♯', 'b', '♭')."
+        }
+      },
+      "required": ["accidental", "degree", "glyph"],
+      "additionalProperties": false
+    },
+
+    "RenderingHints": {
+      "type": "object",
+      "description": "The surface glyphs used in the original label, needed to reconstruct the original string losslessly. These are display preferences, not semantic content.",
+      "properties": {
+        "accidentalGlyphs": {
+          "type": "object",
+          "description": "Map from normalized accidental to the glyph written in the source (e.g., {\"sharp\": \"♯\"} or {\"flat\": \"b\"}).",
+          "properties": {
+            "sharp":       { "type": "string" },
+            "flat":        { "type": "string" },
+            "double-sharp":{ "type": "string" },
+            "double-flat": { "type": "string" },
+            "natural":     { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "qualityGlyph": {
+          "type": "string",
+          "description": "The quality marker as written (e.g., 'm', '-', '−', '°', 'o', 'ø', '+', 'maj', 'M', 'min', 'dim', 'aug')."
+        },
+        "seventhGlyph": {
+          "type": "string",
+          "description": "The seventh marker as written (e.g., 'Δ', 'M', 'maj', '7')."
+        },
+        "rawParts": {
+          "type": "array",
+          "description": "Fragments of the surface that were not interpreted into any semantic field but must be preserved for lossless round-trip.",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "SequenceSystem": {
+      "type": "string",
+      "description": "A notation system hint for a whole sequence, as declared by a '@<id>' prefix line.",
+      "enum": ["auto", "cs", "rn", "ns", "fb", "fun", "text"]
+    },
+
+    "DetectedSystem": {
+      "type": "string",
+      "description": "The notation system as resolved for a specific label (detected by the grammar, optionally overridden by a SequenceSystem hint).",
+      "enum": ["cs", "rn", "ns", "fb", "fun", "text", "unknown"]
+    }
+
+  }
+}

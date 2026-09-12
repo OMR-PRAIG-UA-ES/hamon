@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="301px" height="100px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible" id="j1xf0ru4">
+   <desc>Engraved by Verovio 6.2.1</desc>
+   <defs>
+      <g id="E050-j1xf0ru4">
+         <path transform="scale(1,-1)" d="M441 -245c-23 -4 -48 -6 -76 -6c-59 0 -102 7 -130 20c-88 42 -150 93 -187 154c-26 44 -43 103 -48 176c0 6 -1 13 -1 19c0 54 15 111 45 170c29 57 65 106 110 148s96 85 153 127c-3 16 -8 46 -13 92c-4 43 -5 73 -5 89c0 117 16 172 69 257c34 54 64 82 89 82 c21 0 43 -30 69 -92s39 -115 41 -159v-15c0 -109 -21 -162 -67 -241c-13 -20 -63 -90 -98 -118c-13 -9 -25 -19 -37 -29l31 -181c8 1 18 2 28 2c58 0 102 -12 133 -35c59 -43 92 -104 98 -184c1 -7 1 -15 1 -22c0 -123 -87 -209 -181 -248c8 -57 17 -110 25 -162 c5 -31 6 -58 6 -80c0 -30 -5 -53 -14 -70c-35 -64 -88 -99 -158 -103c-5 0 -11 -1 -16 -1c-37 0 -72 10 -108 27c-50 24 -77 59 -80 105v11c0 29 7 55 20 76c18 28 45 42 79 44h6c49 0 93 -42 97 -87v-9c0 -51 -34 -86 -105 -106c17 -24 51 -36 102 -36c62 0 116 43 140 85 c9 16 13 41 13 74c0 20 -1 42 -5 67c-8 53 -18 106 -26 159zM461 939c-95 0 -135 -175 -135 -286c0 -24 2 -48 5 -71c50 39 92 82 127 128c40 53 60 100 60 140v8c-4 53 -22 81 -55 81h-2zM406 119l54 -326c73 25 110 78 110 161c0 7 0 15 -1 23c-7 95 -57 142 -151 142h-12 zM382 117c-72 -2 -128 -47 -128 -120v-7c2 -46 43 -99 75 -115c-3 -2 -7 -5 -10 -10c-70 33 -116 88 -123 172v11c0 68 44 126 88 159c23 17 49 29 78 36l-29 170c-21 -13 -52 -37 -92 -73c-50 -44 -86 -84 -109 -119c-45 -69 -67 -130 -67 -182v-13c5 -68 35 -127 93 -176 s125 -73 203 -73c25 0 50 3 75 9c-19 111 -36 221 -54 331z" />
+      </g>
+      <g id="E084-j1xf0ru4">
+         <path transform="scale(1,-1)" d="M20 -78c84 97 114 180 134 329h170c-13 -32 -82 -132 -99 -151l-84 -97c-33 -36 -59 -63 -80 -81h162v102l127 123v-225h57v-39h-57v-34c0 -43 19 -65 57 -65v-34h-244v36c48 0 60 26 60 70v27h-203v39z" />
+      </g>
+   </defs>
+   <style type="text/css">#j1xf0ru4 g.ending, #j1xf0ru4 g.fing, #j1xf0ru4 g.reh, #j1xf0ru4 g.tempo {font-weight:bold;}#j1xf0ru4 g.dir, #j1xf0ru4 g.dynam, #j1xf0ru4 g.mNum {font-style:italic;}#j1xf0ru4 g.label {font-weight:normal;}#j1xf0ru4 ellipse, #j1xf0ru4 path, #j1xf0ru4 polygon, #j1xf0ru4 polyline, #j1xf0ru4 rect {stroke:currentColor}</style>
+   <svg class="definition-scale" color="black" font-family="Times, serif" viewBox="0 0 7520 2500">
+      <g class="page-margin" transform="translate(500, 500)">
+         <g id="ts98lit" class="mdiv pageMilestone" />
+         <g id="uvtocqe" class="score pageMilestone" />
+         <g id="e1axubox" class="system">
+            <g id="wiuq3o" class="section systemMilestone" />
+            <g id="yw0iory" class="section systemMilestone" />
+            <g id="idtrx9y" class="measure">
+               <g id="r1ohu93b" class="staff">
+                  <path d="M0 540 L2480 540" stroke-width="13" />
+                  <path d="M0 720 L2480 720" stroke-width="13" />
+                  <path d="M0 900 L2480 900" stroke-width="13" />
+                  <path d="M0 1080 L2480 1080" stroke-width="13" />
+                  <path d="M0 1260 L2480 1260" stroke-width="13" />
+                  <g id="g53vxlb" class="clef">
+                     <use xlink:href="#E050-j1xf0ru4" transform="translate(90, 1080) scale(0.72, 0.72)" />
+                  </g>
+                  <g id="h1uryiyr" class="keySig" />
+                  <g id="i6l76o9" class="meterSig">
+                     <use xlink:href="#E084-j1xf0ru4" transform="translate(721, 720) scale(0.72, 0.72)" />
+                     <use xlink:href="#E084-j1xf0ru4" transform="translate(721, 1080) scale(0.72, 0.72)" />
+                  </g>
+                  <g id="u1l9j7kt" class="layer">
+                     <g id="v1vpa00p" class="mSpace" />
+                  </g>
+               </g>
+               <g id="sozxof3" class="harm">
+                  <text x="2467" y="362" font-size="0px">
+                     <tspan id="t1mldbb0" class="text">
+                        <tspan font-size="405px" x="2467" y="362">Dm7</tspan>
+                     </tspan>
+                  </text>
+               </g>
+               <g id="q1jz5g92" class="barLine">
+                  <path d="M2467 540 L2467 1260" stroke-width="27" />
+               </g>
+            </g>
+            <g id="w2othu8" class="measure">
+               <g id="f17dl0mg" class="staff">
+                  <path d="M2480 540 L3857 540" stroke-width="13" />
+                  <path d="M2480 720 L3857 720" stroke-width="13" />
+                  <path d="M2480 900 L3857 900" stroke-width="13" />
+                  <path d="M2480 1080 L3857 1080" stroke-width="13" />
+                  <path d="M2480 1260 L3857 1260" stroke-width="13" />
+                  <g id="irybrka" class="layer">
+                     <g id="j19mrqjc" class="mSpace" />
+                  </g>
+               </g>
+               <g id="g127cmje" class="harm">
+                  <text x="3844" y="362" font-size="0px">
+                     <tspan id="hjrgp60" class="text">
+                        <tspan font-size="405px" x="3844" y="362">G7</tspan>
+                     </tspan>
+                  </text>
+               </g>
+               <g id="e1pnra4z" class="barLine">
+                  <path d="M3844 540 L3844 1260" stroke-width="27" />
+               </g>
+            </g>
+            <g id="keq04ie" class="measure">
+               <g id="tb11h6d" class="staff">
+                  <path d="M3857 540 L6524 540" stroke-width="13" />
+                  <path d="M3857 720 L6524 720" stroke-width="13" />
+                  <path d="M3857 900 L6524 900" stroke-width="13" />
+                  <path d="M3857 1080 L6524 1080" stroke-width="13" />
+                  <path d="M3857 1260 L6524 1260" stroke-width="13" />
+                  <g id="w49uks6" class="layer">
+                     <g id="xeukct8" class="mSpace" />
+                  </g>
+               </g>
+               <g id="uwu3hrj" class="harm">
+                  <text x="5221" y="362" font-size="0px">
+                     <tspan id="v1eo1pqj" class="text">
+                        <tspan font-size="405px" x="5221" y="362">CMaj7</tspan>
+                     </tspan>
+                  </text>
+               </g>
+               <g id="sodsnmq" class="barLine">
+                  <path d="M5221 540 L5221 1260" stroke-width="27" />
+                  <path d="M5351 540 L5351 1260" stroke-width="90" />
+               </g>
+            </g>
+            <g id="h1r1pmyd" class="systemMilestoneEnd yw0iory" />
+            <g id="i1tfxaej" class="systemMilestoneEnd wiuq3o" />
+         </g>
+         <g id="jjywtz4" class="pageMilestoneEnd uvtocqe" />
+         <g id="ktkk4sh" class="pageMilestoneEnd ts98lit" />
+      </g>
+   </svg>
+</svg>

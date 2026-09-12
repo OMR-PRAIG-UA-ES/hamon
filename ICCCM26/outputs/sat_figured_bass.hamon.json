@@ -1,0 +1,87 @@
+{
+  "groups": [
+    {
+      "primary": [
+        {
+          "surface": "6-4",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass",
+            "tail": "-4"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 1.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "5-3",
+          "semantic": {
+            "number": 5,
+            "kind": "figuredBass",
+            "tail": "-3"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 2.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "7",
+          "semantic": {
+            "number": 7,
+            "kind": "figuredBass"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 3.0
+      }
+    },
+    {
+      "primary": [
+        {
+          "surface": "6-5",
+          "semantic": {
+            "number": 6,
+            "kind": "figuredBass",
+            "tail": "-5"
+          },
+          "detectedSystem": "fb",
+          "system": "fb",
+          "layer": "bass"
+        }
+      ],
+      "position": {
+        "measure": 1,
+        "beat": 4.0
+      }
+    }
+  ],
+  "version": "0.4.0",
+  "meters": [
+    {
+      "numerator": 4,
+      "denominator": 4,
+      "fromGroup": 0
+    }
+  ]
+}

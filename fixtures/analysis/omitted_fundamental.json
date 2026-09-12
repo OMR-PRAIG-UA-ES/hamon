@@ -1,0 +1,18 @@
+{
+  "id": "analysis_omitted_fundamental",
+  "description": "A diminished-seventh chord (viio7) analyzed as a rootless dominant minor-ninth: the fundamental (G) is omitted but understood. Demonstrates HarmonyAttributes.omittedRoot / impliedRoot.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "rn",
+    "groups": [
+      { "primary": [ { "surface": "viio7", "detectedSystem": "rn", "system": "rn",
+        "semantic": { "kind": "roman", "degree": "vii", "tail": "o7" },
+        "attributes": { "omittedRoot": true, "impliedRoot": { "note": "G" } } } ], "alternatives": [] },
+      { "primary": [ { "surface": "I", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "I" } } ], "alternatives": [] }
+    ],
+    "regions": [
+      { "key": { "tonic": { "note": "C" }, "mode": "major" }, "kind": "key", "fromGroup": 0 }
+    ]
+  }
+}

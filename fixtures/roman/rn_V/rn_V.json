@@ -1,0 +1,40 @@
+{
+  "id": "rn_V",
+  "@version": "0.1.0",
+  "description": "Roman numeral V (dominant major)",
+  "sequenceSystemHint": "rn",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "roman",
+            "degree": "V"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "mei": {
+      "file": "mei.snippet.xml",
+      "notationType": "modern"
+    },
+    "kern_harm": {
+      "file": "kern_harm.snippet.krn",
+      "notationType": "modern"
+    },
+    "lilypond": {
+      "file": "lilypond.snippet.ly",
+      "notationType": "modern"
+    },
+    "abc": {
+      "file": "abc.snippet.abc",
+      "notationType": "modern"
+    },
+    "musescorexml": {
+      "file": "musescorexml.snippet.mscx",
+      "notationType": "modern"
+    }
+  }
+}

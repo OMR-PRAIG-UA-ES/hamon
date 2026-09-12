@@ -1,0 +1,24 @@
+{
+  "id": "dcml_I",
+  "@version": "0.1.0",
+  "description": "DCML: tonic I in C major",
+  "sequenceSystemHint": "rn",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "roman",
+            "degree": "I"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "dcml": {
+      "file": "dcml.tsv",
+      "notationType": "modern"
+    }
+  }
+}

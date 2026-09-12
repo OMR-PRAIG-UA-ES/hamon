@@ -1,0 +1,25 @@
+{
+  "id": "dcml_ii_m7",
+  "@version": "0.1.0",
+  "description": "DCML: supertonic minor seventh ii(m7)",
+  "sequenceSystemHint": "rn",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "roman",
+            "degree": "ii",
+            "tail": "m7"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "dcml": {
+      "file": "dcml.tsv",
+      "notationType": "modern"
+    }
+  }
+}

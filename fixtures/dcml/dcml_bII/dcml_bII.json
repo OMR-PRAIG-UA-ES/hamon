@@ -1,0 +1,27 @@
+{
+  "id": "dcml_bII",
+  "@version": "0.1.0",
+  "description": "DCML: Neapolitan flat-II",
+  "sequenceSystemHint": "rn",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "roman",
+            "degree": "II",
+            "prefixAccidentals": [
+              "b"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "dcml": {
+      "file": "dcml.tsv",
+      "notationType": "modern"
+    }
+  }
+}

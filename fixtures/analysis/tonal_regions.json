@@ -1,0 +1,22 @@
+{
+  "id": "analysis_tonal_regions",
+  "description": "C major: I vi ii V7 I, then a modulation to G major. Demonstrates TonalRegion (kind=key) and a modulation.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "rn",
+    "groups": [
+      { "primary": [ { "surface": "I",  "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "I"  } } ], "alternatives": [] },
+      { "primary": [ { "surface": "vi", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "vi" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "ii", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "ii" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "V7", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "V", "tail": "7" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "ii", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "ii" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "V7", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "V", "tail": "7" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "I",  "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "I"  } } ], "alternatives": [] }
+    ],
+    "regions": [
+      { "key": { "tonic": { "note": "C" }, "mode": "major" }, "kind": "key",        "fromGroup": 0, "toGroup": 3 },
+      { "key": { "tonic": { "note": "G" }, "mode": "major" }, "kind": "modulation", "fromGroup": 4, "toGroup": 6 }
+    ]
+  }
+}

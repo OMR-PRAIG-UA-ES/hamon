@@ -1,0 +1,184 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>HAMON MEI Customization</title>
+        <respStmt>
+          <resp>Authored by</resp>
+          <name xml:id="PGI">Patricia García-Iasci</name>
+          <name xml:id="DR">David Rizo</name>
+          <name xml:id="LP">Laurent Pugin</name>
+        </respStmt>
+      </titleStmt>
+      <editionStmt>
+        <edition>0.1</edition>
+      </editionStmt>
+      <publicationStmt>
+        <publisher>Not published yet</publisher>
+        <availability>
+          <licence target="https://opensource.org/license/ECL-2.0/">Licensed under the Educational Community License version 2.0</licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <p/>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <abstract>
+        <p>A customization devised for interchange and interoperability between harmony related datasets and tasks</p>
+      </abstract>
+    </profileDesc>
+    <revisionDesc>
+      <change n="1" when="2019-04-04" who="#DR">
+        <desc>Initial setup of the ODD.</desc>
+      </change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <front>
+      <divGen type="toc"/>
+    </front>
+    <body>
+      <schemaSpec ident="mei" start="mei meiHead meiCorpus music" ns="http://www.music-encoding.org/ns/mei">
+        <moduleRef key="MEI"/>
+        <moduleRef key="MEI.shared"/>
+        <moduleRef key="MEI.header"/>
+        <moduleRef key="MEI.cmn"/>
+        <moduleRef key="MEI.mensural"/>
+        <moduleRef key="MEI.neumes"/>
+        <moduleRef key="MEI.analysis"/>
+        <moduleRef key="MEI.cmnOrnaments"/>
+        <moduleRef key="MEI.corpus"/>
+        <moduleRef key="MEI.critapp"/>
+        <moduleRef key="MEI.edittrans"/>
+        <moduleRef key="MEI.facsimile"/>
+        <moduleRef key="MEI.figtable"/>
+        <moduleRef key="MEI.frbr"/>
+        <moduleRef key="MEI.harmony"/>
+        <moduleRef key="MEI.linkalign"/>
+        <moduleRef key="MEI.lyrics"/>
+        <moduleRef key="MEI.midi"/>
+        <moduleRef key="MEI.namesdates"/>
+        <moduleRef key="MEI.performance"/>
+        <moduleRef key="MEI.ptrref"/>
+        <moduleRef key="MEI.tablature"/>
+        <moduleRef key="MEI.text"/>
+        <moduleRef key="MEI.usersymbols"/>
+        
+        <!-- MusicXML-like chord kind datatype -->
+        <dataSpec ident="data.mxmlChordKind" module="MEI.harmony" mode="add">
+          <desc xml:lang="en"> MusicXML-style chord kind values. </desc>
+          
+          <content>
+            <!-- An enumerated list of allowed chord kinds -->
+            <valList type="closed">
+              <valItem ident="major"/>
+              <valItem ident="minor"/>
+              <valItem ident="augmented"/>
+              <valItem ident="diminished"/>
+              <valItem ident="dominant"/>
+              <valItem ident="major-seventh"/>
+              <valItem ident="minor-seventh"/>
+              <valItem ident="half-diminished"/>
+              <valItem ident="power"/>
+            </valList>
+          </content>
+        </dataSpec>
+        
+        
+        <!-- Attribute class att.harm.mxml -->
+        <classSpec ident="att.harm.mxml" module="MEI.harmony" type="atts" mode="add">
+          <desc xml:lang="en"> Adds MusicXML-like structured chord information (root, bass, kind,
+            text) to harmonic indications. </desc>
+          
+          <attList>
+            <attDef ident="root.pname" usage="opt">
+              <desc xml:lang="en"> Pitch name of the chord root (c–b). </desc>
+              <datatype>
+                <dataRef key="data.PITCHNAME"/>
+              </datatype>
+            </attDef>
+            
+            <attDef ident="root.accid" usage="opt">
+              <desc xml:lang="en"> Accidental of the chord root (s, f, n, etc.). </desc>
+              <datatype>
+                <dataRef key="data.ACCIDENTAL.WRITTEN"/>
+              </datatype>
+            </attDef>
+            
+            <attDef ident="root.oct" usage="opt">
+              <desc xml:lang="en"> Octave number of the chord root, if needed. </desc>
+              <datatype>
+                <dataRef key="data.OCTAVE"/>
+              </datatype>
+            </attDef>
+            
+            <attDef ident="bass.pname" usage="opt">
+              <desc xml:lang="en"> Pitch name of the bass note (c–b). </desc>
+              <datatype>
+                <dataRef key="data.PITCHNAME"/>
+              </datatype>
+            </attDef>
+            
+            <attDef ident="bass.accid" usage="opt">
+              <desc xml:lang="en"> Accidental of the bass note. </desc>
+              <datatype>
+                <dataRef key="data.ACCIDENTAL.WRITTEN"/>
+              </datatype>
+            </attDef>
+            
+            <attDef ident="bass.oct" usage="opt">
+              <desc xml:lang="en"> Octave number of the bass note, if needed. </desc>
+              <datatype>
+                <dataRef key="data.OCTAVE"/>
+              </datatype>
+            </attDef>
+            
+            <attDef ident="chord.kind" usage="opt">
+              <desc xml:lang="en"> MusicXML-style chord kind. </desc>
+              <datatype>
+                <dataRef key="data.mxmlChordKind"/>
+              </datatype>
+            </attDef>
+            
+            <attDef ident="chord.text" usage="opt">
+              <desc xml:lang="en"> Normalized chord symbol text, if different from the element
+                content. </desc>
+              <datatype>
+                <dataRef key="data.WORD"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </classSpec>
+        
+        <!-- Attach the attribute class to <harm> -->
+        <elementSpec ident="harm" module="MEI.harmony" mode="change">
+          <classes mode="change">
+            <memberOf key="att.harm.mxml"/>
+          </classes>
+        </elementSpec>
+        
+        <!--
+          Schematron constraints for <harm>.
+          if @root.pname is present, @chord.kind should also be present.
+        -->
+        <constraintSpec ident="harm-mxml-constraints" module="MEI.harmony" scheme="schematron"
+          mode="add">
+          <desc xml:lang="en"> Simple sanity checks for MusicXML-like chord attributes on
+            &lt;harm&gt;. </desc>
+          <constraint>
+            <!-- declare the MEI namespace for Schematron -->
+            <sch:ns prefix="mei" uri="http://www.music-encoding.org/ns/mei"/>
+            <sch:pattern>
+              <sch:rule context="mei:harm">
+                <sch:assert test="not(@root.pname) or @chord.kind"> If @root.pname is present,
+                  @chord.kind should also be given. </sch:assert>
+              </sch:rule>
+            </sch:pattern>
+          </constraint>
+        </constraintSpec>        
+      </schemaSpec>
+    </body>
+  </text>
+</TEI>

@@ -1,0 +1,20 @@
+{
+  "id": "analysis_functional_layers",
+  "description": "One dominant sonority analyzed on four aligned layers at a single time point: key (C), tonal function (D), scale degree (V7), and figured bass (6/5). Demonstrates HarmonyLabel.layer.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "auto",
+    "groups": [
+      {
+        "primary": [
+          { "surface": "C",  "layer": "key",      "detectedSystem": "text", "system": "text", "semantic": { "kind": "text", "text": "C" }, "localKey": { "tonic": { "note": "C" }, "mode": "major" } },
+          { "surface": "D",  "layer": "function", "detectedSystem": "fun",  "system": "fun",  "semantic": { "kind": "functional", "chain": ["D"] } },
+          { "surface": "V7", "layer": "degree",   "detectedSystem": "rn",   "system": "rn",   "semantic": { "kind": "roman", "degree": "V", "tail": "7" } },
+          { "surface": "65", "layer": "bass",     "detectedSystem": "fb",   "system": "fb",   "semantic": { "kind": "figuredBass", "number": 6, "tail": "5" } }
+        ],
+        "alternatives": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ireal_C_major",
+  "@version": "0.1.0",
+  "description": "iReal Pro: C major triad (plain text chart)",
+  "sequenceSystemHint": "cs",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "C"
+            },
+            "quality": "major"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "ireal": {
+      "file": "ireal.txt",
+      "notationType": "modern"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "harte_D_min7",
+  "@version": "0.1.0",
+  "description": "Harte: D minor seventh",
+  "sequenceSystemHint": "cs",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "chordSymbol",
+            "root": {
+              "note": "D"
+            },
+            "quality": "minor",
+            "seventh": "min7"
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "harte": {
+      "file": "harte.txt",
+      "notationType": "modern"
+    }
+  }
+}

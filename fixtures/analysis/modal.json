@@ -1,0 +1,18 @@
+{
+  "id": "analysis_modal",
+  "description": "D dorian: i - IV - bVII - i. The major IV and subtonic bVII are diagnostic of dorian. Demonstrates Mode (church mode) on a TonalRegion.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "rn",
+    "groups": [
+      { "primary": [ { "surface": "i",    "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "i" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "IV",   "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "IV" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "bVII", "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "VII", "prefixAccidentals": ["b"] } } ], "alternatives": [] },
+      { "primary": [ { "surface": "i",    "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "i" } } ], "alternatives": [] }
+    ],
+    "regions": [
+      { "key": { "tonic": { "note": "D" }, "mode": "dorian", "label": "D dorian" }, "kind": "region", "fromGroup": 0 }
+    ]
+  }
+}

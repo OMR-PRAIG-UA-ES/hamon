@@ -1,0 +1,43 @@
+{
+  "id": "fun_PD_T",
+  "@version": "0.1.0",
+  "description": "Functional pre-dominant to tonic chain (PD->T)",
+  "sequenceSystemHint": "fun",
+  "expected": {
+    "groups": [
+      {
+        "primary": [
+          {
+            "kind": "functional",
+            "chain": [
+              "PD",
+              "T"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sources": {
+    "mei": {
+      "file": "mei.snippet.xml",
+      "notationType": "modern"
+    },
+    "kern_function": {
+      "file": "kern_function.snippet.krn",
+      "notationType": "modern"
+    },
+    "lilypond": {
+      "file": "lilypond.snippet.ly",
+      "notationType": "modern"
+    },
+    "abc": {
+      "file": "abc.snippet.abc",
+      "notationType": "modern"
+    },
+    "musescorexml": {
+      "file": "musescorexml.snippet.mscx",
+      "notationType": "modern"
+    }
+  }
+}

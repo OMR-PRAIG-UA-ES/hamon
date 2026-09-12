@@ -1,0 +1,22 @@
+{
+  "id": "analysis_tonicization",
+  "description": "C major with a passing tonicization of the dominant (V/V -> V), modeled as a nested TonalRegion (kind=tonicization, degree=V, parent=0) plus an applied-function attribute on the secondary dominant.",
+  "version": "0.2.0",
+  "sequence": {
+    "version": "0.2.0",
+    "sequenceSystemHint": "rn",
+    "groups": [
+      { "primary": [ { "surface": "I",    "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "I" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "V7/V", "detectedSystem": "rn", "system": "rn",
+        "semantic": { "kind": "roman", "degree": "V", "tail": "7", "secondary": "V" },
+        "localKey": { "tonic": { "note": "G" }, "mode": "major" },
+        "attributes": { "applied": { "target": "V" }, "tonicizes": "V" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "V",    "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "V" } } ], "alternatives": [] },
+      { "primary": [ { "surface": "I",    "detectedSystem": "rn", "system": "rn", "semantic": { "kind": "roman", "degree": "I" } } ], "alternatives": [] }
+    ],
+    "regions": [
+      { "key": { "tonic": { "note": "C" }, "mode": "major" }, "kind": "key",          "fromGroup": 0 },
+      { "key": { "tonic": { "note": "G" }, "mode": "major" }, "kind": "tonicization", "degree": "V", "parent": 0, "fromGroup": 1, "toGroup": 2 }
+    ]
+  }
+}

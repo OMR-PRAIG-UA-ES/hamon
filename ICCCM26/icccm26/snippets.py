@@ -26,7 +26,7 @@ for g in seq.groups:                      # surface in, one typed model out
 # A7[of:ii] \u2192 A major dom7 of ii      <- the function, recovered
 
 # ...or read any encoding from disk (Harte, iReal, DCML, MEI, Humdrum, MusicXML)
-harte = convert_file(Path("changes.lab"), "harte")''',
+harte = convert_file(Path("examples/changes.lab"), "harte")''',
 
     "2 · One typed AST → HAMON JSON": '''\
 from hamonpy.serialize import sequence_to_json

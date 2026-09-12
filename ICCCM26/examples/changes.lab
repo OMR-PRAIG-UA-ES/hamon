@@ -1,0 +1,10 @@
+# Harte chord annotation (Harte et al., ISMIR 2005): "start end label", seconds.
+# The format audio-based chord estimation publishes in, and what the poster's
+# convert_file() line reads. Same progression as the HAMON text next to it —
+# but Harte has no way to say that the A:7 is the dominant OF ii, and no way to
+# say the key is C. That is the loss boxes 3 and 4 measure.
+0.000000 2.000000 D:min7
+2.000000 4.000000 G:7
+4.000000 8.000000 C:maj7
+8.000000 10.000000 A:7
+10.000000 12.000000 N

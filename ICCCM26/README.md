@@ -59,6 +59,10 @@ Each example is written directly in HAMON surface syntax. Together they exercise
 representation system** plus the analytical layer — keys and regions, applied dominants and
 tonicizations, chord-scales, and non-harmonic tones.
 
+One file in there is not HAMON: `changes.lab` is a **Harte** annotation, the format audio
+chord estimation publishes in. It is what the poster's `convert_file()` line reads, so that
+the code on the poster runs against a real file rather than an imaginary one.
+
 | File | System | Showcases |
 |---|---|---|
 | `flagship_love_walked_in.hamon` | layered `cs:` + `rn:` | **Two coordinated analyses of the same bars** — the chord symbols *and* the Roman-numeral reading, time-aligned (position-first `m:`/`ts:`). *Love Walked In* (Gershwin), the closing phrase (mm. 25–31), a harmony-only academic excerpt: a backdoor cadence (`Fm7 Bb7` → `C`, read `iv7 bVII7 I`) and an applied dominant (`A7` = `V7/ii`). Shows off HAMON's multi-modal layering: most target formats carry one analysis or the other; only HAMON and Humdrum keep both, and only HAMON keeps the key with them everywhere. |
@@ -105,7 +109,7 @@ the others readable.
 
 ```
 ICCCM26/
-├── examples/         # the .hamon source examples
+├── examples/         # the .hamon source examples (+ changes.lab, a Harte file)
 ├── icccm26/          # the package (roundtrip, figure, snippets, cli)
 ├── outputs/          # generated report + figures
 └── run.py            # thin launcher (no install needed)

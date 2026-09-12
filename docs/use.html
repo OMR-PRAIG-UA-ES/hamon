@@ -34,25 +34,23 @@
   into one typed model, and writes that model back out to any other.</p>
 
   <div class="method">
-    <b>Availability.</b> <code>hamonpy</code> goes to PyPI after ICCCM'26
-    (21–23 September 2026). Until then it is available on request for research and
-    evaluation — please contact the authors. Only the install command differs; everything
-    below is the same either way.
+    <b>Availability.</b> <code>hamonpy</code> reaches PyPI right after ICCCM'26
+    (21–23 September 2026); until that upload it is available on request for research and
+    evaluation, so contact the authors. The <em>source repository</em> — grammar,
+    conformance corpus, documentation — opens later, with the journal paper that follows.
+    The package is enough to use HAMON; the repository is what you need to extend it.
   </div>
 
   <h2>1 · Install</h2>
   <p>Python 3.10 or newer. The library itself has a single dependency, the ANTLR runtime.</p>
-  <pre><code># after the conference
-pip install hamonpy
+  <pre><code>pip install hamonpy
 
-# before it, from a checkout you have been given access to
-git clone https://github.com/OMR-PRAIG-UA-ES/hamon.git
-cd hamon
-pip install -e "./hamonpy[dev]"</code></pre>
-  <p class="hint">The package lives in the <code>hamonpy/</code> subdirectory, so point pip
-  at <code>./hamonpy</code> rather than at the repository root. Optional extras bring in the
-  ecosystems HAMON can read from and write to:
-  <code>pip install "hamonpy[music21,ms3,partitura]"</code>.</p>
+# before the PyPI upload, from a checkout you have been given access to:
+#   pip install -e "./hamonpy[dev]"</code></pre>
+  <p class="hint">Optional extras bring in the ecosystems HAMON can read from and write
+  to: <code>pip install "hamonpy[music21,ms3,partitura]"</code>. Installing from a checkout
+  instead? The package lives in the <code>hamonpy/</code> subdirectory, so point pip at
+  <code>./hamonpy</code> rather than at the repository root.</p>
 
   <h2>2 · Parse a progression</h2>
   <p>A HAMON file is one label per line, under a header saying which system they are in.

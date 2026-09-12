@@ -40,7 +40,7 @@ function highlightLines(panelPre, needles) {
 /** Illustrative-score block: renders MusicXML/MEI via Verovio, or a clear text fallback.
  *  scoreKind "overlay" = the real source score with HAMON harmony injected as positioned
  *  <harm>/<fb>; anything else = a music21 realization of the labels (display only). */
-function scoreBlock(container, musicxml, scoreKind) {
+function scoreBlock(container, musicxml, scoreKind, note) {
   const LABEL = scoreKind === "overlay"
     ? "Real source score (Verovio) with the HAMON harmony overlaid as positioned "
       + "&lt;harm&gt;/&lt;fb&gt; — the labels come solely from the .hamon."
@@ -48,8 +48,10 @@ function scoreBlock(container, musicxml, scoreKind) {
       + "(display only; not part of the HAMON pipeline).";
   if (!musicxml) {
     container.className = "score empty";
-    container.innerHTML = "No engraved preview for this example — the display realizer covers "
-      + "chord symbols &amp; Roman numerals only. The HAMON data below is complete and unaffected.";
+    container.innerHTML = note
+      ? note + " The HAMON data below is complete and unaffected."
+      : "No engraved preview for this example — the display realizer covers "
+        + "chord symbols &amp; Roman numerals only. The HAMON data below is complete and unaffected.";
     return;
   }
   container.className = "score";
@@ -172,7 +174,7 @@ async function initIcccm26() {
       b.onclick = () => { tgt = b.dataset.t; render(); });
     grid.querySelectorAll("[data-mode]").forEach((b) =>
       b.onclick = () => { mode = b.dataset.mode; render(); });
-    scoreBlock($("#ic-score", scoreRow), ex.musicxml, ex.scoreKind);
+    scoreBlock($("#ic-score", scoreRow), ex.musicxml, ex.scoreKind, ex.scoreNote);
   }
   render();
 }

@@ -9,7 +9,8 @@ abstract: >-
 type: software
 license: Apache-2.0
 repository-artifact: "https://pypi.org/project/hamonpy/"
-url: "https://omr-praig-ua-es.github.io/hamon-site/"
+repository-code: "https://github.com/OMR-PRAIG-UA-ES/hamon"
+url: "https://omr-praig-ua-es.github.io/hamon/"
 authors:
   - family-names: Garcia-Iasci
     given-names: Patricia

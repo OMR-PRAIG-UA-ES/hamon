@@ -1,23 +1,28 @@
 name: Publish hamonpy to PyPI
 
-# Manual on purpose. Nothing here fires from a push or a tag, so no accident can put
-# hamonpy on PyPI before you mean to. Run it from the Actions tab: pick the tag, pick
-# the index. TestPyPI is the default — do that run first and install from it.
+# This workflow is whitelisted into the PUBLIC mirror (OMR-PRAIG-UA-ES/hamon) and is meant
+# to be run THERE: PyPI ships from the repo everyone can read. Development happens in the
+# private working repo (hamon-praig-ua-es), which publishes the mirror first.
 #
-# One-time setup, repository secrets:
+# Manual on purpose. Nothing here fires from a push or a tag, so no accident can put
+# hamonpy on PyPI before you mean to. Run it from the Actions tab: pick the ref, pick
+# the index. TestPyPI is the default — do that run first and install from it. The mirror
+# carries no tags, so there the ref is `main`.
+#
+# One-time setup, repository secrets (on the public repo):
 #   TEST_PYPI_API_TOKEN   a token from https://test.pypi.org/manage/account/token/
 #   PYPI_API_TOKEN        a token from https://pypi.org/manage/account/token/
 # Until the project exists the token has to be account-scoped; narrow it to the
 # hamonpy project right after the first successful upload.
 #
 # A version can only be uploaded once, on either index. To retry, bump the version in
-# hamonpy/pyproject.toml.
+# hamonpy/pyproject.toml in the private repo and publish the mirror again.
 
 on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Tag or branch to publish (e.g. hamonpy-v0.2.0)"
+        description: "Ref to publish (the public mirror has no tags: use main)"
         required: true
         default: "main"
       index:

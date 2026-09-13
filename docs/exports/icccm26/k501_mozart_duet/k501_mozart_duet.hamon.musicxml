@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score-partwise version="4.0">
+  <part id="P1">
+    <measure number="1">
+  <harmony><root><root-step>G</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>D</root-step></root><kind text="7">other</kind></harmony>
+  <harmony><root><root-step>G</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>D</root-step></root><kind text="/A">other</kind></harmony>
+  <harmony><root><root-step>A</root-step></root><kind text="7">other</kind></harmony>
+  <harmony><root><root-step>D</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>G</root-step></root><kind text="7">other</kind></harmony>
+  <harmony><root><root-step>C</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>G</root-step></root><kind text="/B">other</kind></harmony>
+  <harmony><root><root-step>A</root-step></root><kind text="m/E">other</kind></harmony>
+  <harmony><root><root-step>D</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>D</root-step></root><kind text="7">other</kind></harmony>
+    </measure>
+  </part>
+</score-partwise>
+
+<!-- hamon: G · I · T · D7 · V7 · T · G · I · T · D/A · I64/V · D · A7 · V7/V · D · D · V · D · G7 · V7/IV · PD · C · IV · PD · G/B · I6 · PD · Am/E · ii64 · PD · D · V · D · D7 · V7 · D -->

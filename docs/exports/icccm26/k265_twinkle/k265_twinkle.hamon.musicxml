@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score-partwise version="4.0">
+  <part id="P1">
+    <measure number="1">
+  <harmony><root><root-step>C</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>C</root-step></root><kind text="/E">other</kind></harmony>
+  <harmony><root><root-step>F</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>C</root-step></root><kind text="/E">other</kind></harmony>
+  <harmony><root><root-step>D</root-step></root><kind text="m">other</kind></harmony>
+  <harmony><root><root-step>B</root-step></root><kind text="°">other</kind></harmony>
+  <harmony><root><root-step>C</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>A</root-step></root><kind text="m">other</kind></harmony>
+  <harmony><root><root-step>D</root-step></root><kind text="m/F">other</kind></harmony>
+  <harmony><root><root-step>G</root-step></root><kind></kind></harmony>
+  <harmony><root><root-step>C</root-step></root><kind></kind></harmony>
+    </measure>
+  </part>
+</score-partwise>
+
+<!-- hamon: C · I · T · C/E · I6 · T · F · IV · T · C/E · I6 · T · Dm · ii · T · B° · viio · T · C · I · T · Am · vi · T · Dm/F · ii6 · PD · G · V · D · C · I · T -->

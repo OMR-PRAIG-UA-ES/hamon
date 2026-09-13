@@ -1,0 +1,28 @@
+<measure n="1">
+<harm type="chord" tstamp="1">G</harm>
+<harm type="chord" tstamp="2">D7</harm>
+</measure>
+<measure n="2">
+<harm type="chord" tstamp="1">G</harm>
+</measure>
+<measure n="3">
+<harm type="chord" tstamp="1">D/A</harm>
+<harm type="chord" tstamp="2">A7</harm>
+</measure>
+<measure n="4">
+<harm type="chord" tstamp="1">D</harm>
+</measure>
+<measure n="5">
+<harm type="chord" tstamp="1">G7</harm>
+</measure>
+<measure n="6">
+<harm type="chord" tstamp="1">C</harm>
+<harm type="chord" tstamp="2">G/B</harm>
+</measure>
+<measure n="7">
+<harm type="chord" tstamp="1">Am/E</harm>
+<harm type="chord" tstamp="2">D</harm>
+</measure>
+<measure n="8">
+<harm type="chord" tstamp="1">D7</harm>
+</measure>

@@ -1,12 +1,12 @@
 """The ICCCM'26 showcase examples as unit-test objects.
 
-Each `ICCCM26/examples/*.hamon` is locked to its canonical JSON golden
-(`ICCCM26/outputs/<name>.hamon.json`, exactly what `icccm26/roundtrip.py` writes),
+Each `publications/ICCCM26/examples/*.hamon` is locked to its canonical JSON golden
+(`publications/ICCCM26/outputs/<name>.hamon.json`, exactly what `icccm26/roundtrip.py` writes),
 must parse, and must round-trip (parse -> serialize -> parse is stable). A few
 flagship-specific outcome checks pin the layered/positioned/meter semantics.
 
 If you intentionally change an example, regenerate the goldens:
-    cd ICCCM26 && python run.py
+    cd publications/ICCCM26 && python run.py
 """
 from __future__ import annotations
 
@@ -20,8 +20,8 @@ from hamonpy.parse import parse_hamon_sequence
 from hamonpy.serialize import sequence_to_hamon_text, sequence_to_json
 
 ROOT = Path(__file__).resolve().parents[2]
-EXAMPLES = ROOT / "ICCCM26" / "examples"
-OUTPUTS = ROOT / "ICCCM26" / "outputs"
+EXAMPLES = ROOT / "publications" / "ICCCM26" / "examples"
+OUTPUTS = ROOT / "publications" / "ICCCM26" / "outputs"
 
 _HAMON = sorted(EXAMPLES.glob("*.hamon"))
 
@@ -39,11 +39,11 @@ def test_example_parses(path: Path):
 @pytest.mark.parametrize("path", _HAMON, ids=lambda p: p.stem)
 def test_example_matches_canonical_json_golden(path: Path):
     gold = OUTPUTS / f"{path.stem}.hamon.json"
-    assert gold.exists(), f"missing golden {gold.name} — run `cd ICCCM26 && python run.py`"
+    assert gold.exists(), f"missing golden {gold.name} — run `cd publications/ICCCM26 && python run.py`"
     fresh = sequence_to_json(parse_hamon_sequence(path.read_text(encoding="utf-8")))
     assert json.loads(fresh) == json.loads(gold.read_text(encoding="utf-8")), (
         f"{path.name} drifted from its canonical JSON — regenerate with "
-        f"`cd ICCCM26 && python run.py`"
+        f"`cd publications/ICCCM26 && python run.py`"
     )
 
 
@@ -104,19 +104,44 @@ def test_mozart_example_is_figured_bass():
 # numbers underneath them. This asks the question the goldens do not.
 
 def test_committed_xencoding_report_is_current():
-    pytest.importorskip("matplotlib", reason="ICCCM26 package imports the figure module")
+    pytest.importorskip("matplotlib", reason="the ICCCM26 package imports the figure module")
     import sys
 
-    sys.path.insert(0, str(ROOT / "ICCCM26"))
+    sys.path.insert(0, str(ROOT / "publications" / "ICCCM26"))
     try:
         from icccm26.roundtrip import analyze_all, to_report_dict
     finally:
         sys.path.pop(0)
 
     committed = OUTPUTS / "xencoding_report.json"
-    assert committed.exists(), "missing xencoding_report.json — run `cd ICCCM26 && python run.py`"
+    assert committed.exists(), "missing xencoding_report.json — run `cd publications/ICCCM26 && python run.py`"
     fresh = to_report_dict(analyze_all())
     assert fresh == json.loads(committed.read_text(encoding="utf-8")), (
-        "ICCCM26/outputs/xencoding_report.json is stale — the loss matrix on the poster "
-        "no longer matches the code. Regenerate with `cd ICCCM26 && python run.py`."
+        "publications/ICCCM26/outputs/xencoding_report.json is stale — the loss matrix on the poster "
+        "no longer matches the code. Regenerate with `cd publications/ICCCM26 && python run.py`."
     )
+
+
+def test_readme_lists_every_example_in_run_order():
+    """The README's table is how a reader meets the examples; drift shows up here first.
+
+    A dropped example leaves a row describing a file that no longer exists (a `k265`
+    row outlived its example once), and a new one is easy to add to the pipeline and
+    forget in the prose. The order matters too: the hub figure is drawn for whichever
+    example `EXAMPLE_ORDER` runs first.
+    """
+    import re
+    import sys
+
+    sys.path.insert(0, str(ROOT / "publications" / "ICCCM26"))
+    from icccm26.roundtrip import EXAMPLE_ORDER
+
+    readme = (ROOT / "publications" / "ICCCM26" / "README.md").read_text(encoding="utf-8")
+    listed = re.findall(r"^\| `([a-z0-9_]+)\.hamon`", readme, re.MULTILINE)
+    on_disk = sorted(p.stem for p in EXAMPLES.glob("*.hamon"))
+
+    assert listed == EXAMPLE_ORDER, (
+        "the README table and EXAMPLE_ORDER disagree:\n"
+        f"  README: {listed}\n  code:   {EXAMPLE_ORDER}")
+    assert sorted(listed) == on_disk, (
+        f"the README describes {sorted(listed)} but examples/ holds {on_disk}")

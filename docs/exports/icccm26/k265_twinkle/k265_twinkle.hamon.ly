@@ -1,0 +1,38 @@
+\version "2.24.0"
+\chordmode {
+  c1 c:/e f c:/e d:m b:dim c a:m d:m/f g c
+}
+
+% hamon: C
+% hamon: I
+% hamon: T
+% hamon: C/E
+% hamon: I6
+% hamon: T
+% hamon: F
+% hamon: IV
+% hamon: T
+% hamon: C/E
+% hamon: I6
+% hamon: T
+% hamon: Dm
+% hamon: ii
+% hamon: T
+% hamon: B°
+% hamon: viio
+% hamon: T
+% hamon: C
+% hamon: I
+% hamon: T
+% hamon: Am
+% hamon: vi
+% hamon: T
+% hamon: Dm/F
+% hamon: ii6
+% hamon: PD
+% hamon: G
+% hamon: V
+% hamon: D
+% hamon: C
+% hamon: I
+% hamon: T

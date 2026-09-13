@@ -1,0 +1,133 @@
+{
+  "file_metadata": {
+    "title": "",
+    "artist": "",
+    "release": "",
+    "duration": null,
+    "identifiers": {},
+    "jams_version": "0.3.4"
+  },
+  "annotations": [
+    {
+      "namespace": "chord",
+      "data": [
+        {
+          "time": null,
+          "duration": null,
+          "value": "G:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "D:7",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "G:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "D:maj/5",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "A:7",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "D:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "G:7",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "C:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "G:maj/3",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "A:min/5",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "D:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "D:7",
+          "confidence": null
+        }
+      ],
+      "annotation_metadata": {
+        "corpus": "",
+        "version": "0.4.0",
+        "annotator": {},
+        "annotation_tools": "hamonpy",
+        "annotation_rules": "",
+        "validation": "",
+        "data_source": "HAMON",
+        "curator": {
+          "name": "",
+          "email": ""
+        }
+      },
+      "sandbox": {},
+      "time": 0,
+      "duration": null
+    },
+    {
+      "namespace": "key_mode",
+      "data": [
+        {
+          "time": 0,
+          "duration": null,
+          "value": "G:major",
+          "confidence": null
+        }
+      ],
+      "annotation_metadata": {
+        "corpus": "",
+        "version": "0.4.0",
+        "annotator": {},
+        "annotation_tools": "hamonpy",
+        "annotation_rules": "",
+        "validation": "",
+        "data_source": "HAMON",
+        "curator": {
+          "name": "",
+          "email": ""
+        }
+      },
+      "sandbox": {},
+      "time": 0,
+      "duration": null
+    }
+  ],
+  "sandbox": {}
+}

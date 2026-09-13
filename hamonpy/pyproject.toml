@@ -14,7 +14,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hamonpy"
-version = "0.3.0"
+version = "0.4.0"
 description = "HAMON (Harmony Model and Notation) — a universal, lossless harmony-label interlingua (Python reference implementation)"
 readme = "README.md"
 requires-python = ">=3.10"

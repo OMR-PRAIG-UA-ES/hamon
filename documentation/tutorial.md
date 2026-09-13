@@ -176,7 +176,7 @@ m:1,ts:3,fb:6
   "position": { "measure": 1, "beat": 1.0 } }
 ```
 
-(A real figured-bass example — Mozart, K. 282/i — ships in `ICCCM26/examples/sat_mozart_fb.hamon`.)
+(A real figured-bass example — Mozart, K. 282/i — ships in `publications/ICCCM26/examples/sat_mozart_fb.hamon`.)
 
 ---
 

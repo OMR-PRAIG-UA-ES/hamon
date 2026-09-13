@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worked cases</title>
+<meta name="description" content="Two worked cases for HAMON: auditing the DCML Choro Songbook corpus, and carrying a machine analysis of an unannotated Bach chorale out to every encoding while counting what each one loses.">
+<link rel="canonical" href="https://omr-praig-ua-es.github.io/hamon/cases.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HAMON">
+<meta property="og:title" content="Worked cases">
+<meta property="og:description" content="Two worked cases for HAMON: auditing the DCML Choro Songbook corpus, and carrying a machine analysis of an unannotated Bach chorale out to every encoding while counting what each one loses.">
+<meta property="og:url" content="https://omr-praig-ua-es.github.io/hamon/cases.html">
+<meta property="og:image" content="https://omr-praig-ua-es.github.io/hamon/assets/figures/figure_native_loss_matrix.png">
+<meta property="og:image:alt" content="Heat map: for each example and each target encoding, the number of analytical aspects that encoding cannot express in its own vocabulary. HAMON&#x27;s column is zero throughout; Humdrum is the closest of the rest; Dezrann and DCML lose the most.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Worked cases">
+<meta name="twitter:description" content="Two worked cases for HAMON: auditing the DCML Choro Songbook corpus, and carrying a machine analysis of an unannotated Bach chorale out to every encoding while counting what each one loses.">
+<meta name="twitter:image" content="https://omr-praig-ua-es.github.io/hamon/assets/figures/figure_native_loss_matrix.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <span class="brand">HAMON</span>
+  <nav><a href="index.html" class="">Home</a><a href="use.html" class="">Use it</a><a href="cases.html" class="active">Cases</a><a href="icccm26.html" class="">ICCCM&#x27;26</a><a href="fixtures.html" class="">Fixtures</a></nav>
+  <span class="repo">
+    <a href="https://github.com/OMR-PRAIG-UA-ES/hamon/issues" target="_blank" rel="noopener">Issues ↗</a>
+    <a href="https://github.com/OMR-PRAIG-UA-ES/hamon" target="_blank" rel="noopener">GitHub ↗</a>
+  </span>
+</header>
+<main>
+
+<section>
+  <h1>Worked cases</h1>
+  <p class="lead">Two things people do with an interlingua. Audit a corpus whose
+  harmony is written down several times over, and carry an analysis out to every
+  encoding that will take it. Both run as tours in the repository, and the output
+  below is what they printed when this page was built.</p>
+
+  <h2>Auditing a corpus — the DCML Choro Songbook</h2>
+  <p>The <a href="https://github.com/DCMLab/choro">Choro Songbook Corpus</a> (Moss,
+  Souza, Rohrmeier) stores the same music twice: a merged table with one row per
+  chord onset, and a per-piece form grammar. Each chord is written three times over,
+  as an absolute symbol, as a Roman numeral in the local key, and as a Harte label.
+  Trusting it means asking two questions that are painful by hand and one line each
+  once every encoding is in the same model.</p>
+  <p>Do the two representations agree chord for chord? And do the three encodings of
+  each chord name the same harmony? The second one is the hard one: <code>A7</code>,
+  <code>V7</code> and <code>A:7</code> are the same chord only once you know the key
+  and each notation's rules.</p>
+  <pre><code>
+Transcription vs TSV (chord sequence)
+-------------------------------------
+  1_forro_de_gala_WF.txt     txt= 68  tsv= 64  DIVERGES
+      first divergence at onset 64: txt=[&#x27;C&#x27;, &#x27;G7&#x27;, &#x27;C&#x27;] vs tsv=[]
+  1_assanhado_WF.txt         txt= 29  tsv= 29  consistent
+  3_davilicenca_WF.txt       txt= 57  tsv= 57  consistent
+
+chord vs harte (root)
+---------------------
+  150/150 chords agree on root  (100.0%)
+
+chord vs Roman-in-key (root)
+----------------------------
+  150/150 chords agree with their Roman numeral  (100.0%)
+
+Choro corpus audit complete.</code></pre>
+  <p class="hint">Over the full corpus 292 of 295 pieces reproduce each other exactly,
+  and both correctness audits pass at 100%. The three that diverge are the finding:
+  cross-file, cross-encoding, easy to miss by hand.</p>
+  <p class="hint">The corpus is <strong>CC BY-NC-SA 4.0</strong> and HAMON does not
+  redistribute it: the run above used a local copy, and <code>hamon datasets download
+  choro</code> fetches it from its authors. Everything HAMON adds is the exchange and
+  validation layer; the data and its terms stay with DCMLab.</p>
+
+  <h2>From a score with no analysis to every encoding</h2>
+  <p>A Bach chorale out of music21's corpus: four voices, a key signature, and not one
+  harmonic label in the file. The chain is analyse, carry, write — and the only part
+  that is HAMON's is the carrying. music21 does the musicology;
+  <a href="https://pypi.org/project/flexohr/">FlexOHR</a> (DCMLab) is the object model
+  at the far end. HAMON is what lets them be swapped without the harmony quietly
+  degrading on the way.</p>
+  <pre><code>  4 voices, 165 notes, 0 harmony labels
+
+music21 says: f# minor
+----------------------
+  III bVII6 i bVII6 III bVII6 III III6 bVII bVII7 III V6
+
+HAMON
+-----
+  12 labels over one region: F# minor
+
+what each encoding cannot say
+-----------------------------
+  hamon      nothing
+  dcml       nothing
+  dezrann    roman fn. x12, 7th/tensions x6, key/region x1
+  mei        roman fn. x12, key/region x1
+  harte      roman fn. x12, key/region x1
+  jams       roman fn. x12
+  musicxml   key/region x1
+  lilypond   roman fn. x12, key/region x1
+  abc        roman fn. x12, key/region x1
+  musescore  roman fn. x12, key/region x1
+  romantext  nothing
+  humdrum    nothing
+  ireal      roman fn. x12, key/region x1
+
+RomanText
+---------
+  Time Signature: 4/4
+  m1 f#: III
+  m2 bVII6
+  m3 i
+  m4 bVII6
+  m5 III
+
+HAMON → FlexOHR
+---------------
+  III     → quality=major_triad            inversion=root_position
+  bVII6   → quality=major_triad            inversion=first
+  i       → quality=minor_triad            inversion=root_position
+  bVII6   → quality=major_triad            inversion=first</code></pre>
+  <p class="hint">The split in that table is clean because the input is a pure Roman
+  analysis. The formats built for functional analysis carry every bit of it; the
+  formats built for chord symbols keep no numerals at all, so for them the analysis
+  <em>is</em> the loss. Run the same chain on a lead sheet and the table turns over,
+  which is the argument the <a href="icccm26.html">ICCCM'26 page</a> makes at length.</p>
+
+  <h2>The corpora HAMON reads</h2>
+  <p>Both cases above lean on the same fact: the formats research actually ships in
+  are readable without a bespoke parser per corpus. HAMON reads 22
+  formats and writes 13. The other 9 are
+  read-only dialects that nothing writes back — each arrived with its own paper, its
+  own table layout and its own parser.</p>
+  <pre><code>Distant Listening Corpus  dcml            I V64 I6 V7/V V
+Jazz Harmony Treebank     treebank        Dm7 G7 Cmaj7 A7 Dm7
+Choro Songbook            choro           C G7 C G7 C
+Key / Modulation (DDMAL)  key_modulation  I IV V I IV
+DiLeMMa pitch array       dilemma         I V7/V V   (4 notes -&gt; 3 harmonies)
+
+22 formats in, 13 out. The other 9 are read-only dialects nothing writes back.
+
+FlexOHR (DCMLab)          A7[of:ii] -&gt; C(SPC(A)) dominant_seventh root_position
+                                       P1 M3 P5 m7
+                          back -&gt; A major dom7   (the glyphs and [of:ii] stay behind)</code></pre>
+  <p class="hint">Among them: the
+  <a href="https://github.com/DCMLab/distant_listening_corpus">Distant Listening Corpus</a>
+  (Hentschel, Moss, Neuwirth, Rohrmeier), the
+  <a href="https://github.com/DCMLab/JazzHarmonyTreebank">Jazz Harmony Treebank</a>
+  (Harasim, Finkensiep et al.), the Choro Songbook above,
+  <a href="https://github.com/johentsch/dilemmadata">DiLeMMa</a> (Hentschel et al.) whose
+  note-level pitch arrays collapse back to one label per harmony, and the DDMAL
+  key/modulation set. The full list, with authors, licenses and download recipes, is the
+  <a href="https://github.com/OMR-PRAIG-UA-ES/hamon/blob/main/datasets/manifest.json">dataset manifest</a>.</p>
+</section>
+
+</main>
+<footer>HAMON — to be presented at <a href="https://digital.musicology.org/icccm-2026/" target="_blank" rel="noopener">ICCCM 2026</a> (Würzburg, 21–23 September 2026)
+ · © 2026 the authors · code <strong>Apache-2.0</strong>, standard &amp; data <strong>CC BY 4.0</strong> (see <a href="LICENSE" target="_blank" rel="noopener">LICENSE</a>)
+ · generated by <code>site/build.py</code></footer>
+
+</body>
+</html>

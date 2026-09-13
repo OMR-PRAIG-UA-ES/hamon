@@ -313,7 +313,7 @@
       "authors": ["Fabian C. Moss", "Willian Fernandes de Souza", "Martin Rohrmeier"],
       "homepage": "https://github.com/DCMLab/choro",
       "harmony_glob": "data/transcriptions/*.txt",
-      "license": "CC-BY-4.0",
+      "license": "CC-BY-NC-SA-4.0",
       "citation": "Moss, F. C., Souza, W. F., & Rohrmeier, M. Choro Songbook Corpus. DCMLab. https://doi.org/10.5281/zenodo.21219604",
       "format": "choro",
       "hamon_adapter": "hamonpy.adapters.choro",

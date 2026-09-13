@@ -16,7 +16,12 @@ NOTEBOOKS = Path(__file__).resolve().parents[2] / "use-cases" / "notebooks"
 _TOURS = sorted(NOTEBOOKS.glob("*.py"))
 
 # Tours whose execution needs an optional dependency.
-_OPTIONAL_DEPS = {"02_dcml_ms3_tour.py": "ms3", "03_flexohr_tour.py": "flexohr"}
+_OPTIONAL_DEPS = {
+    "02_dcml_ms3_tour.py": ("ms3",),
+    "03_flexohr_tour.py": ("flexohr",),
+    "06_analysis_from_scratch.py": ("music21", "flexohr"),
+    "07_corpora_tour.py": ("flexohr",),
+}
 
 
 def test_tours_present():
@@ -25,8 +30,15 @@ def test_tours_present():
 
 @pytest.mark.parametrize("path", _TOURS, ids=lambda p: p.stem)
 def test_tour_runs(path: Path):
-    dep = _OPTIONAL_DEPS.get(path.name)
-    if dep and importlib.util.find_spec(dep) is None:
-        pytest.skip(f"{path.name} needs optional dependency {dep!r}")
+    for dep in _OPTIONAL_DEPS.get(path.name, ()):
+        if importlib.util.find_spec(dep) is None:
+            pytest.skip(f"{path.name} needs optional dependency {dep!r}")
     # Runs every cell top-to-bottom; the inline asserts in each tour are the checks.
-    runpy.run_path(str(path), run_name="__main__")
+    # A tour whose input is not on disk (third-party corpus data we do not
+    # redistribute) says so and exits 0; that is a skip, not a failure.
+    try:
+        runpy.run_path(str(path), run_name="__main__")
+    except SystemExit as exc:
+        if exc.code not in (0, None):
+            raise
+        pytest.skip(f"{path.name} stood down: its input is not available here")

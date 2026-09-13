@@ -48,7 +48,12 @@ except NameError:
     HERE = Path.cwd()
 CHORO = HERE.parent / "choro"
 
-pieces = choro.read_tsv((CHORO / "choro-extract.tsv").read_text(encoding="utf-8"))
+_EXTRACT = CHORO / "choro-extract.tsv"
+if not _EXTRACT.exists():
+    print("the DCML Choro Songbook extract is CC BY-NC-SA 4.0 and is not redistributed with HAMON; fetch it with `hamon datasets download choro`.")
+    raise SystemExit(0)
+
+pieces = choro.read_tsv(_EXTRACT.read_text(encoding="utf-8"))
 
 
 def show(title):

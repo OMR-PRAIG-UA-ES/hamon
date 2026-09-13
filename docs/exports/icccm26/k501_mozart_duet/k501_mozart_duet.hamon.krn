@@ -1,0 +1,60 @@
+**mxhm	**harm	**function
+*G:	*G:	*G:
+=1	=1	=1
+G	I	T
+D7	V7	T
+=2	=2	=2
+G	I	T
+=3	=3	=3
+D/A	I64/V	D
+A7	V7/V	D
+=4	=4	=4
+D	V	D
+=5	=5	=5
+G7	V7/IV	PD
+=6	=6	=6
+C	IV	PD
+G/B	I6	PD
+=7	=7	=7
+Am/E	ii64	PD
+D	V	D
+=8	=8	=8
+D7	V7	D
+*-	*-	*-
+
+!!hamon: G
+!!hamon: I
+!!hamon: T
+!!hamon: D7
+!!hamon: V7
+!!hamon: T
+!!hamon: G
+!!hamon: I
+!!hamon: T
+!!hamon: D/A
+!!hamon: I64/V
+!!hamon: D
+!!hamon: A7
+!!hamon: V7/V
+!!hamon: D
+!!hamon: D
+!!hamon: V
+!!hamon: D
+!!hamon: G7
+!!hamon: V7/IV
+!!hamon: PD
+!!hamon: C
+!!hamon: IV
+!!hamon: PD
+!!hamon: G/B
+!!hamon: I6
+!!hamon: PD
+!!hamon: Am/E
+!!hamon: ii64
+!!hamon: PD
+!!hamon: D
+!!hamon: V
+!!hamon: D
+!!hamon: D7
+!!hamon: V7
+!!hamon: D

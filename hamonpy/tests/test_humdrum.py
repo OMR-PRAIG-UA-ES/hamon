@@ -170,3 +170,51 @@ def test_key_modulation_flat_key_dash():
 
 def test_key_modulation_empty_without_text_spine():
     assert key_modulation_to_hamon("**kern\n4c\n*-\n").groups == []
+
+
+# --- **harm as real corpora write it (TAVERN, Devaney et al. 2015) ------------
+# Three things that used to go wrong, all silently: the recip duration prefix was
+# read as part of the label, the inversion letter was not understood, and a bare
+# "P" for predominant was rejected outright, taking the whole file with it.
+
+TAVERN = (
+    "**function\t**harm\t**kern\n"
+    "*\t*\t*clefG2\n"
+    "*C:\t*C:\t*C:\n"
+    "=1\t=1\t=1\n"
+    "4T\t4I\t4cc\n"
+    "=2\t=2\t=2\n"
+    "4T\t4Ib\t4gg\n"
+    "=7\t=7\t=7\n"
+    "4P\t4iib\t4dd\n"
+    "4D\t4V7b\t4dd\n"
+    "*-\t*-\t*-\n"
+)
+
+
+def test_harm_recip_prefix_is_not_part_of_the_label():
+    seq = humdrum_to_hamon(TAVERN)
+    first = seq.groups[0].primary[-1]
+    assert first.surface == "I"
+    assert first.semantic.kind == "roman" and first.semantic.degree == "I"
+
+
+def test_harm_inversion_letter_becomes_a_figure():
+    seq = humdrum_to_hamon(TAVERN)
+    degrees = [lab.surface for g in seq.groups for lab in g.primary if lab.layer == "degree"]
+    assert degrees == ["I", "I6", "ii6", "V65"]
+    assert all(lab.semantic.kind == "roman"
+               for g in seq.groups for lab in g.primary if lab.layer == "degree")
+
+
+def test_function_spine_accepts_a_bare_predominant():
+    seq = humdrum_to_hamon(TAVERN)
+    functions = [(lab.surface, lab.semantic.chain)
+                 for g in seq.groups for lab in g.primary if lab.layer == "function"]
+    assert functions == [("T", ["T"]), ("T", ["T"]), ("P", ["PD"]), ("D", ["D"])]
+
+
+def test_a_nashville_label_parked_in_harm_keeps_its_digit():
+    # A workaround export writes "2m" into **harm; the 2 is the degree, not a duration.
+    seq = humdrum_to_hamon("**harm\n2m\n*-\n")
+    assert seq.groups[0].primary[0].surface == "2m"

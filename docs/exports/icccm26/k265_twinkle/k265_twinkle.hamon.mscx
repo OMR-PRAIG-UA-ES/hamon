@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<museScore version="4.20">
+  <Score>
+    <Staff id="1">
+      <Harmony>
+        <text>C</text>
+      </Harmony>
+      <Harmony>
+        <text>C/E</text>
+      </Harmony>
+      <Harmony>
+        <text>F</text>
+      </Harmony>
+      <Harmony>
+        <text>C/E</text>
+      </Harmony>
+      <Harmony>
+        <text>Dm</text>
+      </Harmony>
+      <Harmony>
+        <text>B°</text>
+      </Harmony>
+      <Harmony>
+        <text>C</text>
+      </Harmony>
+      <Harmony>
+        <text>Am</text>
+      </Harmony>
+      <Harmony>
+        <text>Dm/F</text>
+      </Harmony>
+      <Harmony>
+        <text>G</text>
+      </Harmony>
+      <Harmony>
+        <text>C</text>
+      </Harmony>
+    </Staff>
+  </Score>
+</museScore>
+
+<!-- hamon: C · I · T · C/E · I6 · T · F · IV · T · C/E · I6 · T · Dm · ii · T · B° · viio · T · C · I · T · Am · vi · T · Dm/F · ii6 · PD · G · V · D · C · I · T -->

@@ -1,0 +1,129 @@
+{
+  "file_metadata": {
+    "title": "",
+    "artist": "",
+    "release": "",
+    "duration": null,
+    "identifiers": {},
+    "jams_version": "0.3.4"
+  },
+  "annotations": [
+    {
+      "namespace": "chord",
+      "data": [
+        {
+          "time": null,
+          "duration": null,
+          "value": "C:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "C:maj/3",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "F:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "C:maj/3",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "D:min",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "B:dim",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "C:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "A:min",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "D:min/b3",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "G:maj",
+          "confidence": null
+        },
+        {
+          "time": null,
+          "duration": null,
+          "value": "C:maj",
+          "confidence": null
+        }
+      ],
+      "annotation_metadata": {
+        "corpus": "",
+        "version": "0.4.0",
+        "annotator": {},
+        "annotation_tools": "hamonpy",
+        "annotation_rules": "",
+        "validation": "",
+        "data_source": "HAMON",
+        "curator": {
+          "name": "",
+          "email": ""
+        }
+      },
+      "sandbox": {},
+      "time": 0,
+      "duration": null
+    },
+    {
+      "namespace": "key_mode",
+      "data": [
+        {
+          "time": 0,
+          "duration": null,
+          "value": "C:major",
+          "confidence": null
+        }
+      ],
+      "annotation_metadata": {
+        "corpus": "",
+        "version": "0.4.0",
+        "annotator": {},
+        "annotation_tools": "hamonpy",
+        "annotation_rules": "",
+        "validation": "",
+        "data_source": "HAMON",
+        "curator": {
+          "name": "",
+          "email": ""
+        }
+      },
+      "sandbox": {},
+      "time": 0,
+      "duration": null
+    }
+  ],
+  "sandbox": {}
+}
+
+"sandbox": {"hamon": ['C', 'I', 'T', 'C/E', 'I6', 'T', 'F', 'IV', 'T', 'C/E', 'I6', 'T', 'Dm', 'ii', 'T', 'B°', 'viio', 'T', 'C', 'I', 'T', 'Am', 'vi', 'T', 'Dm/F', 'ii6', 'PD', 'G', 'V', 'D', 'C', 'I', 'T']}

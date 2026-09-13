@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<museScore version="4.20">
+  <Score>
+    <Staff id="1">
+      <Harmony>
+        <text>G</text>
+      </Harmony>
+      <Harmony>
+        <text>D7</text>
+      </Harmony>
+      <Harmony>
+        <text>G</text>
+      </Harmony>
+      <Harmony>
+        <text>D/A</text>
+      </Harmony>
+      <Harmony>
+        <text>A7</text>
+      </Harmony>
+      <Harmony>
+        <text>D</text>
+      </Harmony>
+      <Harmony>
+        <text>G7</text>
+      </Harmony>
+      <Harmony>
+        <text>C</text>
+      </Harmony>
+      <Harmony>
+        <text>G/B</text>
+      </Harmony>
+      <Harmony>
+        <text>Am/E</text>
+      </Harmony>
+      <Harmony>
+        <text>D</text>
+      </Harmony>
+      <Harmony>
+        <text>D7</text>
+      </Harmony>
+    </Staff>
+  </Score>
+</museScore>

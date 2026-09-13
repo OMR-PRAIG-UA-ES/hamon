@@ -1,0 +1,43 @@
+X:1
+T:HAMON export
+M:4/4
+L:1/4
+K:C
+"G" z "D7" z "G" z "D/A" z "A7" z "D" z "G7" z "C" z "G/B" z "Am/E" z "D" z "D7" z |
+
+%%hamon G
+%%hamon I
+%%hamon T
+%%hamon D7
+%%hamon V7
+%%hamon T
+%%hamon G
+%%hamon I
+%%hamon T
+%%hamon D/A
+%%hamon I64/V
+%%hamon D
+%%hamon A7
+%%hamon V7/V
+%%hamon D
+%%hamon D
+%%hamon V
+%%hamon D
+%%hamon G7
+%%hamon V7/IV
+%%hamon PD
+%%hamon C
+%%hamon IV
+%%hamon PD
+%%hamon G/B
+%%hamon I6
+%%hamon PD
+%%hamon Am/E
+%%hamon ii64
+%%hamon PD
+%%hamon D
+%%hamon V
+%%hamon D
+%%hamon D7
+%%hamon V7
+%%hamon D

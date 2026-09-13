@@ -28,8 +28,11 @@ demand) that the test suite also executes, so they can't go stale.
 ### Real corpora (synthetic fixture + recipe for the actual dataset)
 
 Each folder identifies the dataset (authors, paper, license, homepage), ships a
-tiny **synthetic** fixture in the dataset's native format (we never bundle corpus
-data), and gives the HAMON recipe. The recipe also runs on the real corpus once you
+tiny **synthetic** fixture in the dataset's native format, and gives the HAMON recipe.
+One exception, deliberate and marked: [`choro/`](choro/) redistributes a three-piece
+extract of the real corpus, because the audit it demonstrates needs the corpus's own
+inconsistencies. It carries the upstream licence as `LICENSE-choro` (CC BY-NC-SA 4.0)
+and is governed by it, not by HAMON's terms. The recipe also runs on the real corpus once you
 fetch it via the [dataset hub](../datasets/README.md) (`hamonpy.datasets.resolve_local_path`).
 
 | Use case | Dataset | Adapter | Shows |
@@ -40,6 +43,23 @@ fetch it via the [dataset hub](../datasets/README.md) (`hamonpy.datasets.resolve
 | [`key-modulation/`](key-modulation/) | DDMAL key/modulation (Humdrum) | `humdrum` | `**harm`/`**function` spines → analytical layers |
 | [`interactive-melodic-analysis/`](interactive-melodic-analysis/) | Rizo/Illescas (HA-MEI) | `mei` | HT/NHT melodic analysis → `ToneSemantic` |
 | [`jazzmus-berklee-dezrann/`](jazzmus-berklee-dezrann/) | JAZZMUS (Humdrum) | `humdrum` + `dezrann` | full pipeline: JAZZMUS → HAMON Berklee analysis (tritone sub) → Dezrann `.dez` |
+| [`choro/`](choro/) | Choro Songbook (DCML) | `choro` | auditing a corpus: three encodings per chord, cross-checked in one model |
+
+## Tours ([`notebooks/`](notebooks/))
+
+Longer walkthroughs that stitch several cases together. They are jupytext
+`.py:percent` files — plain Python — and `hamonpy/tests/test_notebooks.py` executes
+every one of them, so the stories cannot go stale.
+
+| Tour | Shows | Needs |
+|---|---|---|
+| [`01_jazz_tour.py`](notebooks/01_jazz_tour.py) | a jazz lead sheet end to end | — |
+| [`02_dcml_ms3_tour.py`](notebooks/02_dcml_ms3_tour.py) | DCML tables through `ms3` | `ms3` |
+| [`03_flexohr_tour.py`](notebooks/03_flexohr_tour.py) | HAMON ↔ FlexOHR, DCMLab's harmony object model | `flexohr` |
+| [`04_grand_tour.py`](notebooks/04_grand_tour.py) | every system, every encoding | — |
+| [`05_choro_tour.py`](notebooks/05_choro_tour.py) | the Choro corpus audit, runnable | — |
+| [`06_analysis_from_scratch.py`](notebooks/06_analysis_from_scratch.py) | a score with **no** analysis: analyse it, carry it, write it everywhere, count what each format loses | `music21`, `flexohr` |
+| [`07_corpora_tour.py`](notebooks/07_corpora_tour.py) | the corpora read where they live, and the hand-off to FlexOHR | `flexohr` |
 
 ## Datasets
 

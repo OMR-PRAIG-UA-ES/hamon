@@ -47,7 +47,43 @@ _SPINE_LAYER: Dict[str, str] = {
 _LAYER_SYSTEM: Dict[str, str] = {
     "degree": "rn", "function": "fun", "bass": "fb", "chord": "cs",
 }
-_FUNC_TOKEN_RE = re.compile(r"^(T|S|D|PD|SD|DD)$")
+_FUNC_TOKEN_RE = re.compile(r"^(T|S|D|P|PD|SD|DD)$")
+# TAVERN and other **function encodings write predominant as a bare "P"; HAMON's
+# vocabulary calls it "PD". The glyph is kept as the surface, the meaning normalized.
+_FUNC_ALIAS = {"P": "PD"}
+# A spine token may carry a leading **recip duration ("4I", "8.V", "2T"). It is rhythm,
+# not harmony, and has to come off before the label is parsed — without this, "4I" falls
+# through to opaque text and "4Ib" lexes as the Nashville degree 4, silently wrong.
+#
+# The prefix comes off only when what is left behind is a label that spine could hold:
+# a Roman numeral for **harm, a functional token for **function. Anything else keeps its
+# leading digit, so figured bass ("6-5") survives, and so does a Nashville degree ("2m")
+# parked in a **harm spine by a workaround export.
+_RECIP_RE = re.compile(r"^\d+\.*(?=[^\d.])")
+_ROMAN_RE = re.compile(r"^[b#]*(?:III|II|IV|I|VII|VI|V|iii|ii|iv|i|vii|vi|v)")
+
+# **harm spells inversion with a trailing letter — a root position, b first, c second,
+# d third — where HAMON (and every Roman-numeral convention it speaks) uses the figured
+# bass. Without this, "Ib" and "iib" fall through to opaque text.
+_INVERSION_RE = re.compile(
+    r"^([b#]*(?:III|II|IV|I|VII|VI|V|iii|ii|iv|i|vii|vi|v)[o+\u00B0\u00F8]?)"
+    r"(7|9|11|13)?([abcd])$")
+_INVERSION_FIGURE = {
+    ("triad", "a"): "", ("triad", "b"): "6", ("triad", "c"): "64",
+    ("7th", "a"): "7", ("7th", "b"): "65", ("7th", "c"): "43", ("7th", "d"): "42",
+}
+
+
+def _expand_harm_inversion(token: str) -> str:
+    """`Ib` -> `I6`, `V7b` -> `V65`, `iic` -> `ii64`. Unchanged if it is not that shape."""
+    m = _INVERSION_RE.match(token)
+    if not m:
+        return token
+    degree, seventh, letter = m.groups()
+    figure = _INVERSION_FIGURE.get(("7th" if seventh == "7" else "triad", letter))
+    if figure is None:          # 9/11/13 inversions, or a triad "d": leave it alone
+        return token
+    return degree + figure
 _SPINE_RE = re.compile(r"^\*\*(harm|function|fb|mxhm|jazz|irb|harte)$", re.IGNORECASE)
 
 
@@ -59,6 +95,15 @@ def humdrum_file_to_hamon(path: str) -> HamonSequence:
 def _label_from_token(surface: str, layer: str) -> HarmonyLabel:
     """Normalize a single spine token into a layer-tagged HarmonyLabel."""
     norm = _normalize_kern_token(surface)
+    # Duration first, then spelling: the token off the page is "4Ib", so the recip has
+    # to go before the inversion letter can be recognized.
+    stripped = _RECIP_RE.sub("", norm, count=1)
+    if stripped != norm and (
+            (layer == "degree" and _ROMAN_RE.match(stripped))
+            or (layer == "function" and _FUNC_TOKEN_RE.match(stripped))):
+        norm = stripped
+    if layer == "degree":
+        norm = _expand_harm_inversion(norm)
     sub = parse_hamon_sequence(norm)
     base = sub.groups[0].primary[0] if sub.groups and sub.groups[0].primary else None
     if base is None:
@@ -68,8 +113,9 @@ def _label_from_token(surface: str, layer: str) -> HarmonyLabel:
 
     semantic = base.semantic
     # The **function spine intends a functional token, but 'D' is shadowed by NOTE.
-    if layer == "function" and isinstance(semantic, ChordSymbolSemantic) and _FUNC_TOKEN_RE.match(norm):
-        semantic = FunctionalSemantic(chain=[norm])
+    if layer == "function" and _FUNC_TOKEN_RE.match(norm) and not isinstance(
+            semantic, FunctionalSemantic):
+        semantic = FunctionalSemantic(chain=[_FUNC_ALIAS.get(norm, norm)])
     # The **fb spine is figured bass, even when a number lexes as a Nashville degree.
     if layer == "bass" and isinstance(semantic, NashvilleSemantic):
         semantic = FiguredBassSemantic(

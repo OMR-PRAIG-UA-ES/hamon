@@ -15,7 +15,15 @@ from hamonpy.normalize import degree_to_pitch
 from hamonpy.parse import parse_hamon_sequence
 
 CHORO = Path(__file__).resolve().parents[2] / "use-cases" / "choro"
-PIECES = choro.read_tsv((CHORO / "choro-extract.tsv").read_text(encoding="utf-8"))
+_EXTRACT = CHORO / "choro-extract.tsv"
+
+# The extract is third-party corpus data and does not ship in the public mirror, so the
+# whole module stands down when it is not on disk rather than failing to collect.
+pytestmark = pytest.mark.skipif(not _EXTRACT.exists(), reason=(
+    "the DCML Choro Songbook extract is CC BY-NC-SA 4.0 and is not redistributed with HAMON; fetch it with `hamon datasets download choro`"))
+
+PIECES = (choro.read_tsv(_EXTRACT.read_text(encoding="utf-8"))
+          if _EXTRACT.exists() else {})
 
 _PC = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 _ACC = {"sharp": 1, "flat": -1, "double-sharp": 2, "double-flat": -2, "natural": 0, None: 0}

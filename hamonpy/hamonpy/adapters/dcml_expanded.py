@@ -33,7 +33,7 @@ import csv
 import io
 from dataclasses import dataclass, replace
 from fractions import Fraction as _Fraction
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from hamonpy.ast import Fraction, HamonSequence, HarmonyAttributes, Position
 from hamonpy.adapters.dcml import (
@@ -84,24 +84,53 @@ def _parse_fraction(s: str) -> Optional[_Fraction]:
         return None
 
 
+def _beat_unit(row: dict) -> int:
+    """How many beats there are to a whole note, from the row's ``timesig``.
+
+    DCML writes within-measure onsets as fractions **of a whole note**, so turning
+    one into a beat number needs the beat unit: 4 in 4/4 or 3/4, 8 in 6/8. Simple
+    meters only — a compound meter's beat is the dotted unit, which this does not
+    model, so 6/8 counts eighths. Defaults to quarters when the row is silent.
+    """
+    timesig = (row.get("timesig") or "").strip()
+    if "/" in timesig:
+        try:
+            return int(timesig.split("/", 1)[1])
+        except ValueError:
+            pass
+    return 4
+
+
+def _row_measure_beat(row: dict) -> Tuple[Optional[int], Optional[float]]:
+    """Measure number and 1-based beat from ``mc``/``mn`` + ``mn_onset``, if stated."""
+    measure_raw = (row.get("mn") or row.get("mc") or "").strip()
+    if not measure_raw:
+        return None, None
+    try:
+        measure = int(measure_raw)
+    except ValueError:
+        return None, None
+    onset = _parse_fraction(row.get("mn_onset") or row.get("mc_onset") or "")
+    if onset is None:
+        return measure, None
+    return measure, float(onset) * _beat_unit(row) + 1.0
+
+
 def _row_position(row: dict) -> Optional[Position]:
     """Best-effort :class:`Position` for one DCML row.
 
-    Prefers the absolute ``quarterbeats`` offset; falls back to ``mc``/``mn``
-    measure number with the ``mn_onset`` (within-measure quarter offset, 0-based).
+    An expanded table states the position twice: ``quarterbeats`` is an absolute
+    offset from the start of the piece, and ``mc``/``mn`` + ``mn_onset`` say the
+    same thing as a measure and a beat within it. Both are kept — the absolute
+    offset is what aligns two analyses of the same piece, the measure and beat
+    are what a musician reads — so a row that carries both yields both.
     """
+    measure, beat = _row_measure_beat(row)
     qb = _parse_fraction(row.get("quarterbeats", ""))
     if qb is not None:
-        return Position(time=Fraction(numerator=qb.numerator, denominator=qb.denominator))
-
-    measure_raw = (row.get("mn") or row.get("mc") or "").strip()
-    if measure_raw:
-        try:
-            measure = int(measure_raw)
-        except ValueError:
-            return None
-        onset = _parse_fraction(row.get("mn_onset") or row.get("mc_onset") or "")
-        beat = (float(onset) + 1.0) if onset is not None else None
+        return Position(measure=measure, beat=beat,
+                        time=Fraction(numerator=qb.numerator, denominator=qb.denominator))
+    if measure is not None:
         return Position(measure=measure, beat=beat)
     return None
 

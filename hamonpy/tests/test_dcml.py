@@ -267,3 +267,56 @@ def test_region_roundtrip_preserves_keys():
         ]
 
     assert sig(seq1) == sig(seq2)
+
+
+# ---------------------------------------------------------------------------
+# Positions — the writer emits the expanded table's columns (2026-09-14)
+# ---------------------------------------------------------------------------
+
+def test_export_places_its_rows():
+    """A positioned Roman analysis lands in DCML with `mn`/`mn_onset`/`quarterbeats` in
+    front of the chord columns — the columns ms3 writes and `dcml_expanded` reads. Each
+    cell is written only when HAMON holds it: no clock is derived from another."""
+    seq = parse_hamon_sequence("@rn\n@meter:4/4\nm:1,ts:1,ii7\nm:3,ts:3,t:10/1,V7/ii[dur:2]")
+    tsv = hamon_to_dcml_tsv(seq)
+    assert tsv.splitlines()[0].split("\t")[:6] == [
+        "mn", "quarterbeats", "duration_qb", "mn_onset", "timesig", "chord"]
+    rows = _rows(tsv)
+    assert [(r["mn"], r["mn_onset"], r["timesig"]) for r in rows] == [
+        ("1", "0", "4/4"), ("3", "1/2", "4/4")]
+    assert [r["quarterbeats"] for r in rows] == ["", "10"]
+    assert [r["duration_qb"] for r in rows] == ["", "2"]
+
+
+def test_export_onset_uses_the_meter_beat_unit():
+    """DCML's `mn_onset` is a fraction of a whole note: beat 2 of 6/8 is `1/8`."""
+    rows = _rows(hamon_to_dcml_tsv(parse_hamon_sequence("@rn\n@meter:6/8\nm:1,ts:2,V")))
+    assert (rows[0]["mn_onset"], rows[0]["timesig"]) == ("1/8", "6/8")
+
+
+def test_export_without_positions_stays_the_plain_table():
+    tsv = hamon_to_dcml_tsv(parse_hamon_sequence("@rn\nI\nIV\nV"))
+    assert tsv.splitlines()[0].startswith("chord\t")
+
+
+def test_positions_round_trip_through_dcml():
+    """DCML → HAMON → DCML keeps measure, beat and quarterbeats: the written table is
+    read back by the expanded adapter, which the sniffer picks from the header."""
+    from hamonpy.cli import convert_text, detect_format
+    text = ("mn\tmn_onset\tquarterbeats\tglobalkey\tlocalkey\tchord\n"
+            "1\t0\t0\tC\tI\tii7\n3\t1/2\t10\tC\tI\tV7\n")
+    out = hamon_to_dcml_tsv(convert_text(text, "dcml_expanded"))
+    assert detect_format(None, out) == "dcml_expanded"
+    back = convert_text(out, "dcml_expanded")
+    assert [(g.position.measure, g.position.beat, g.position.time.numerator)
+            for g in back.groups] == [(1, 1.0, 0), (3, 3.0, 10)]
+
+
+def test_split_tail_major_seventh_spellings():
+    """`maj7` (HAMON) and `M7` (a DCML surface re-parsed by the native projection) are
+    both DCML's form `M` with figbass `7`."""
+    from hamonpy.adapters.dcml import _split_tail
+    assert _split_tail("maj7") == ("M", "7", "")
+    assert _split_tail("M7") == ("M", "7", "")
+    assert _split_tail("M65") == ("M", "65", "")
+    assert _split_tail("m7") == ("m", "7", "")

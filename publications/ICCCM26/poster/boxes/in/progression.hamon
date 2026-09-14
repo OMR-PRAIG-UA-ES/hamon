@@ -1,0 +1,8 @@
+@version:0.4.0
+@meter:4/4
+@key:C
+m:1,ts:1,cs:Dm7,rn:ii7
+m:2,ts:1,cs:G7,rn:V7
+m:3,ts:1,cs:Cmaj7,rn:Imaj7
+m:3,ts:3,cs:A7[of:ii],rn:V7/ii
+m:4,ts:1,cs:Dm7,rn:ii7

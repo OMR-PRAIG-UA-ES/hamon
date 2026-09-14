@@ -24,6 +24,14 @@ Secondary dominants (a Roman with a `secondary` target, e.g. `V7/ii`) also get a
 Roman whose degree matches). It renders in the Roman line as a `<slur curvedir="below">`,
 because Verovio only places analytical `<bracketSpan>`s above the staff.
 
+## Rendering one for print
+
+The site engraves these in the browser. For a poster you need a file, and
+`publications/ICCCM26/render_score.py` produces one — SVG, PNG and PDF — by calling the
+*same* `_overlay_score` the site calls, so the printed score and the web one cannot drift.
+It needs `pip install verovio` and `brew install librsvg`, which is why it is a one-off
+and not part of `build_all.sh`.
+
 ## How `K282-1.mei` was made (regenerate only if the score changes)
 
 Requires MuseScore (3 or 4) and the Verovio CLI — a one-off, not part of `build_all.sh`

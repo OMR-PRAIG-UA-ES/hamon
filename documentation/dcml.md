@@ -91,7 +91,7 @@ Example: `numeral=V`, `form=""`, `figbass=7`, `relativeroot=IV` → `chord=V7/IV
 
 - `changes` (chromatic alterations) round-trip as a raw tail suffix; HAMON doesn't model individual altered tones as first-class fields.
 - Region **import and export** both work. On export, `hamon_to_dcml_tsv` adds `localkey`/`globalkey` columns whenever the sequence has `regions`: it uses the **home (first) key region as the `globalkey`** and expresses every region's `localkey` relative to it (tonicizations become `relativeroot`). That keeps the absolute keys intact on a DCML→HAMON→DCML round-trip; the `globalkey` string matches the original only when the piece's home key is `I`.
-- The *plain* `dcml.py` adapter ignores `mc` / `onset` (the time positions). For time-aligned tables, use the **expanded** adapter below, which fills `HarmonyGroup.position` from `quarterbeats` (or `mc`/`mn_onset`).
+- The *plain* `dcml.py` reader ignores `mc` / `onset` (the time positions); any table whose header has a position column (`quarterbeats`, `mn` or `mc`) is routed to the **expanded** adapter below, which fills `HarmonyGroup.position` from them. The writer goes the other way: a placed sequence gets `mn` / `mn_onset` / `quarterbeats` / `duration_qb` (+ `timesig`) columns in front of the chord columns, so a DCML→HAMON→DCML round-trip keeps the positions and a HAMON analysis lands in DCML already aligned.
 
 ## Expanded (time-aligned) tables — the Hentschel annotation standard & ms3
 

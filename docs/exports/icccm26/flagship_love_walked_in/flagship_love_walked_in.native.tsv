@@ -1,10 +1,10 @@
-chord	numeral	form	figbass	changes	relativeroot	localkey	globalkey
-I	I					I	C
-IV	IV					I	C
-iv7	iv		7			I	C
-bVII7	bVII		7			I	C
-I	I					I	C
-V7/ii	V		7		ii	I	C
-ii7	ii		7			I	C
-V7	V		7			I	C
-I	I					I	C
+mn	mn_onset	timesig	chord	numeral	form	figbass	changes	relativeroot	localkey	globalkey
+25	0	4/4	I	I					I	C
+27	0	4/4	IV	IV					I	C
+28	1/2	4/4	iv7	iv		7			I	C
+28	3/4	4/4	bVII7	bVII		7			I	C
+29	0	4/4	I	I					I	C
+29	3/4	4/4	V7/ii	V		7		ii	I	C
+30	0	4/4	ii7	ii		7			I	C
+30	1/2	4/4	V7	V		7			I	C
+31	0	4/4	I	I					I	C

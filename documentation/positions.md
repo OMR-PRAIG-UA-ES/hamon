@@ -112,10 +112,11 @@ natively (`position` in the cell's itemised `lost_aspects`) — and since v0.5 t
 is asked **per clock**, because a target that holds one clock still loses the other. Most
 score and annotation formats carry `measure:beat` (`POSITION_NATIVE` in
 `hamonpy/capability.py`); the audio-time pair, Harte and JAMS, carry seconds instead
-(`SECONDS_NATIVE`). So a metric onset is lost by
-**plain DCML** (its `chord/localkey/globalkey` writer has no `mc/mn/quarterbeats` columns —
-the *expanded* tables do), **Harte** and **JAMS**; a `s:` onset is lost by everything
-except those last two. A position counts as dropped only when the target can carry **none**
+(`SECONDS_NATIVE`). So a metric onset is lost by **Harte** and **JAMS** only; a `s:` onset
+is lost by everything except those two. DCML used to be counted with them because its
+writer emitted the plain `chord/localkey/globalkey` table; it now writes the expanded
+table's `mn`/`mn_onset`/`quarterbeats` columns for every placed group, so the format is
+credited with what it has always held. A position counts as dropped only when the target can carry **none**
 of the clocks it states.
 
 ## Mapping to/from formats
@@ -123,12 +124,12 @@ of the clocks it states.
 | Format | Carries position as |
 |---|---|
 | **MEI** | `<harm @tstamp>` (measure:beat) or `@startid` (→ `ref`) |
-| **DCML expanded** (ms3) | `mc`/`mn` → measure, `mn_onset` → beat, `quarterbeats` → `time` |
+| **DCML** (the expanded table, ms3) | `mc`/`mn` → measure, `mn_onset` → beat, `quarterbeats` → `time` — read and written; a table with any of those columns is read as expanded |
 | **DiLeMMa pitch arrays** | one row per **note**; the harmony's onset is the first note carrying it (`quarterbeats_playthrough` / `j_offset` → `time`) — see [dcml.md](dcml.md#pitch-arrays--the-dilemma-training-tables) |
 | **Humdrum** | spine row alignment (implicit measure:beat) |
 | **Harte `.lab`** | `start end label`; the `start` seconds → `s:` (v0.5) — a different clock, not a metric position |
 | **JAMS** | observation `time` in seconds → `s:` (v0.5) |
-| plain **DCML**, **RomanText**, **iReal**, bare **Harte labels** | measure numbers only, or none |
+| **RomanText**, **iReal**, bare **Harte labels** | measure numbers only, or none |
 
 ## Extent — how long a harmony lasts (v0.4.1, seconds since v0.5)
 
@@ -148,7 +149,7 @@ Where the extent comes from, and where it still does not:
 | Format | States extent as | HAMON |
 |---|---|---|
 | Dezrann `.dez` | `start` + `duration` (quarters) | ✅ read and written; the writer no longer fills the gap |
-| DCML expanded | `quarterbeats` + `duration_qb` | ✅ read |
+| DCML expanded | `quarterbeats` + `duration_qb` | ✅ read and written |
 | DiLeMMa (AugmentedNet) | `a_duration` | ✅ read |
 | MEI `<harm>` | `@tstamp2`, `@endid` | ✅ `@endid` → `endRef`; `@tstamp2` needs the meter, not read yet |
 | Harte `.lab` | start + end, in **seconds** | ✅ read as `s:` + `[dur:…s]` (v0.5) — the [physical clock](#the-two-clocks-s-physical-time-v05) |

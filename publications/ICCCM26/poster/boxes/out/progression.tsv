@@ -1,0 +1,6 @@
+mn	mn_onset	timesig	chord	numeral	form	figbass	changes	relativeroot	localkey	globalkey
+1	0	4/4	ii7	ii		7			I	C
+2	0	4/4	V7	V		7			I	C
+3	0	4/4	IM7	I	M	7			I	C
+3	1/2	4/4	V7/ii	V		7		ii	I	C
+4	0	4/4	ii7	ii		7			I	C

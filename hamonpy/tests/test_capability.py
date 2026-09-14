@@ -130,3 +130,13 @@ def test_applied_on_a_chord_symbol_is_hamon_only():
     assert native_loss(d, "", "humdrum")["applied"] == 1
     assert native_loss(d, "", "romantext")["applied"] == 1
     assert "applied" not in native_loss(d, "", "hamon")
+
+
+def test_dcml_carries_a_metric_onset():
+    """DCML places every row (`mn`/`mn_onset`/`quarterbeats`), and since the writer emits
+    those columns the matrix must not charge DCML with losing an onset it holds."""
+    from hamonpy.capability import POSITION_NATIVE, position_loss
+    d = sequence_to_dict(parse_hamon_sequence("@rn\nm:1,ts:1,I\nm:2,ts:1,V"))
+    assert "dcml" in POSITION_NATIVE
+    assert position_loss(d, "dcml") == 0
+    assert position_loss(d, "harte") == 2

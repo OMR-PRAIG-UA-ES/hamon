@@ -1,0 +1,7 @@
+@rn
+@key:C
+m:1,ts:1,t:0/1,ii7
+m:2,ts:1,t:4/1,V7
+m:3,ts:1,t:8/1,IM7
+@key:ii
+m:3,ts:3,t:10/1,V7/ii

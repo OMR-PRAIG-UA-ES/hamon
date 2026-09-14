@@ -137,11 +137,12 @@ def _collapse_dlc(rows: List[dict]) -> List[dict]:
     for row in _first_per_group(rows, "unfolded_harmony_index"):
         beat = _parse_fraction(_blank(row.get("beat_float")))
         collapsed.append({
-            # ``_row_position`` reads mn_onset as a 0-based beat offset, so beat_float - 1
-            # gives back the pitch array's own 1-based beat.
+            # The pitch array states a 1-based ``beat_float``; DCML states the same
+            # thing as ``mn_onset``, a fraction of a whole note. Convert, in quarters,
+            # so ``_row_position`` reads it back as the beat the array meant.
             "quarterbeats": _blank(row.get("quarterbeats_playthrough")),
             "mn": _blank(row.get("mn")) or _blank(row.get("mc")),
-            "mn_onset": str(beat - 1) if beat is not None else "",
+            "mn_onset": str((beat - 1) / 4) if beat is not None else "",
             "chord": _blank(row.get("chord")),
             "numeral": _blank(row.get("numeral")),
             "form": _blank(row.get("form")),

@@ -29,14 +29,13 @@ OUTPUTS_DIR = ROOT / "outputs"
 
 # Curated order: flagship first, then the satellites, then the synthetic pangram.
 EXAMPLE_ORDER = [
-    # First is the hub figure's example (build_hub_figure takes results[0]): eight bars
-    # everybody can read, carrying three coordinated systems at once, so the spokes
-    # measure something a visitor can check against the score printed beside them.
-    "k501_mozart_duet",
+    # First is the hub figure's example (build_hub_figure takes results[0]): the one with
+    # a real engraved score, so a visitor can check the spokes against the notes printed
+    # beside them rather than taking the figure on trust.
+    "sat_mozart_fb",
     "flagship_love_walked_in",
     "sat_roman_dcml",
     "sat_figured_bass",
-    "sat_mozart_fb",
     "sat_nashville",
     "sat_positions",
     "pangram",
@@ -44,7 +43,6 @@ EXAMPLE_ORDER = [
 
 # Short human labels for the poster / figures.
 EXAMPLE_LABELS = {
-    "k501_mozart_duet": "Chord + Roman + function\n(Mozart K501, theme)",
     "flagship_love_walked_in": "Chord + Roman\n(Love Walked In)",
     "sat_roman_dcml": "Roman / DCML\nanalysis",
     "sat_figured_bass": "Figured bass",

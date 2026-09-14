@@ -145,3 +145,25 @@ def test_readme_lists_every_example_in_run_order():
         f"  README: {listed}\n  code:   {EXAMPLE_ORDER}")
     assert sorted(listed) == on_disk, (
         f"the README describes {sorted(listed)} but examples/ holds {on_disk}")
+
+
+# ---------------------------------------------------------------------------
+# The poster's code boxes must print what the poster says they print
+# ---------------------------------------------------------------------------
+
+def test_poster_boxes_are_current():
+    """`BOXES.md` is pasted onto the poster, so it cannot drift from the code.
+
+    `build.py --check` re-runs the four boxes and compares the whole document —
+    inputs, code, console output and generated files — against the committed one.
+    """
+    import subprocess
+    import sys
+
+    boxes = ROOT / "publications" / "ICCCM26" / "poster" / "boxes"
+    done = subprocess.run([sys.executable, "build.py", "--check"], cwd=boxes,
+                          capture_output=True, text=True)
+    assert done.returncode == 0, (
+        f"{done.stdout}{done.stderr}\n"
+        "Regenerate with: cd publications/ICCCM26/poster/boxes && python build.py"
+    )

@@ -23,7 +23,7 @@ sniff as a fallback. Override it with `--format` (CLI) or the `fmt` argument (Py
 | `.mei` | `mei` |
 | `.xml` / `.mxl` | `musicxml` (or `mei` by content) |
 | `.krn` | `humdrum` (`**text`/`KEY=>:` → `key_modulation`) |
-| `.tsv` | `dcml` (`quarterbeats` → `dcml_expanded`; note-level pitch arrays → `dilemma`) |
+| `.tsv` | `dcml` (a `quarterbeats`/`mn`/`mc` column → `dcml_expanded`; note-level pitch arrays → `dilemma`) |
 | `.rntxt` | `romantext` |
 | `.lab` | `harte` |
 | `.abc` | `abc` |

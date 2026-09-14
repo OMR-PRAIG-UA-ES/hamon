@@ -192,23 +192,65 @@ def hamon_to_musicxml(seq: HamonSequence) -> str:
 # RomanText
 # ---------------------------------------------------------------------------
 
+def _romantext_beat(beat: Optional[float]) -> str:
+    """A RomanText ``b`` token: ``b3``, ``b4.5`` — trailing zeros trimmed."""
+    if beat is None:
+        return ""
+    return f"b{beat:g} "
+
+
 def hamon_to_romantext(seq: HamonSequence) -> str:
-    """RomanText (``m1 C: I`` …) — one measure per group; the home key (from the
-    first region, else ``C``) is emitted on the first measure. Best for the rn system."""
-    key = "C"
-    if seq.regions:
-        k = seq.regions[0].key
+    """RomanText (``m1 Eb: I b3 V6`` …) — the home key (from the first region, else
+    ``C``) on the first measure. Best for the rn system.
+
+    A sequence that knows where its labels are is written where they are: one ``m<n>``
+    line per measure, with a ``b<beat>`` token before every label that does not fall on
+    the downbeat, which is the shape ``adapters/romantext.py`` reads back. A sequence
+    with no positions has nothing to place, so it falls back to one measure per label.
+
+    A modulation is an inline key token where it starts (``m7 Bb: V7``), like the home
+    key. A tonicization is not: RomanText says that with the numeral itself (``V7/V``),
+    which the surface already carries.
+    """
+    def key_name(k) -> str:
         tonic = k.tonic.note + _ACC_GLYPH.get(k.tonic.accidental or "", "")
-        key = tonic.lower() if (k.mode or "major") == "minor" else tonic
+        return tonic.lower() if (k.mode or "major") == "minor" else tonic
+
+    key = key_name(seq.regions[0].key) if seq.regions else "C"
+    # Where the tonal centre moves, and to what: index of the opening group → key token.
+    modulations = {r.from_group: key_name(r.key) for r in (seq.regions or [])
+                   if r.kind in ("key", "modulation") and r.from_group is not None}
+
+    # A group is one instant: its labels are layers of a single analysis (`cs:C rn:I`),
+    # so the beat is stated once for the group, not once per layer.
+    indexed = [(gi, g.position, [l.surface for l in g.primary if l.surface])
+               for gi, g in enumerate(seq.groups)]
+    indexed = [item for item in indexed if item[2]]
+    original_index = [gi for gi, _, _ in indexed]
+    groups = [(pos, surfaces) for _, pos, surfaces in indexed]
+    positioned = any(pos is not None and pos.measure is not None for pos, _ in groups)
+
     lines = ["Time Signature: 4/4"]
-    n = 0
-    for g in seq.groups:
-        for label in g.primary:
-            if not label.surface:
-                continue
-            n += 1
+    if not positioned:
+        for n, (_, surfaces) in enumerate(groups, start=1):
             prefix = f"{key}: " if n == 1 else ""
-            lines.append(f"m{n} {prefix}{label.surface}")
+            lines.append(f"m{n} {prefix}{' '.join(surfaces)}")
+        return "\n".join(lines) + "\n"
+
+    measure = None
+    for gi, (pos, surfaces) in enumerate(groups):
+        at = pos.measure if pos is not None else None
+        beat = pos.beat if pos is not None else None
+        chords = " ".join(surfaces)
+        moved = modulations.get(original_index[gi])
+        prefix = f"{key}: " if len(lines) == 1 else (f"{moved}: " if moved else "")
+        if at != measure:
+            measure = at
+            # The downbeat is where a measure starts, so saying so adds nothing.
+            opening = "" if beat in (None, 1) else _romantext_beat(beat)
+            lines.append(f"m{at} {prefix}{opening}{chords}")
+        else:
+            lines[-1] += f" {_romantext_beat(beat)}{prefix}{chords}"
     return "\n".join(lines) + "\n"
 
 

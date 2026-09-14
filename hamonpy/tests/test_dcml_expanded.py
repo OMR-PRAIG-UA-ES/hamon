@@ -50,4 +50,27 @@ def test_falls_back_to_measure_beat_without_quarterbeats():
     seq = expanded_tsv_text_to_hamon(tsv)
     pos = seq.groups[0].position
     assert pos.measure == 3
-    assert pos.beat == 1.5
+    # DCML writes onsets as fractions of a whole note: half a whole is the third
+    # quarter-note beat, not beat 1.5.
+    assert pos.beat == 3.0
+
+
+def test_beat_unit_follows_the_time_signature():
+    tsv = (
+        "mn\tmn_onset\ttimesig\tchord\tnumeral\tlocalkey\tglobalkey\n"
+        "1\t1/8\t6/8\tV\tV\tI\tC\n"
+        "2\t1/4\t3/4\tI\tI\tI\tC\n"
+    )
+    seq = expanded_tsv_text_to_hamon(tsv)
+    assert [g.position.beat for g in seq.groups] == [2.0, 2.0]
+
+
+def test_quarterbeats_and_measure_beat_are_both_kept():
+    """An expanded table states the position twice; neither statement is dropped."""
+    seq = expanded_tsv_text_to_hamon(EXPANDED_TSV)
+    assert [(g.position.measure, g.position.beat) for g in seq.groups] == [
+        (1, 1.0), (1, 3.0), (2, 1.0),
+    ]
+    assert [(g.position.time.numerator, g.position.time.denominator) for g in seq.groups] == [
+        (0, 1), (5, 2), (4, 1),
+    ]

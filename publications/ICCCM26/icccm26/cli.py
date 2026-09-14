@@ -1,15 +1,16 @@
 """Entry point: run the whole ICCCM26 pipeline and emit the poster assets.
 
     python -m icccm26            # analyze, write JSON report + figures, print summary
-    python -m icccm26 --snippets # also print the poster code boxes
     python -m icccm26 --no-figures
+
+The poster's code boxes are not here: they live in `poster/boxes/`, which runs them and
+generates `BOXES.md` from what they actually print.
 """
 from __future__ import annotations
 
 import argparse
 
 from .roundtrip import analyze_all, write_report, OUTPUTS_DIR
-from .snippets import print_snippets
 
 
 def _summary_table(results) -> str:
@@ -31,7 +32,6 @@ def _summary_table(results) -> str:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="icccm26", description=__doc__)
-    ap.add_argument("--snippets", action="store_true", help="print the poster code boxes")
     ap.add_argument("--no-figures", action="store_true", help="skip matplotlib figures")
     args = ap.parse_args(argv)
 
@@ -48,8 +48,6 @@ def main(argv=None) -> int:
         for p in build_figures(results):
             print(f"figure            → {p}  (+ .svg)")
 
-    if args.snippets:
-        print_snippets()
     return 0
 
 

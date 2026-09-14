@@ -41,6 +41,9 @@ ASPECT_LABEL = {
     "roman": "roman fn.", "applied": "applied/secondary", "key": "key/region",
     "scale": "chord-scale", "figuredbass": "figured bass", "functional": "T-S-D",
     "nashville": "Nashville", "tone": "non-harm. tone", "nochord": "N.C.", "text": "text",
+    # `native_loss` also reports where a label is, which is not a kind of label but is
+    # just as lost when the target has nowhere to put it.
+    "position": "position",
 }
 
 _CS = {"root", "quality", "tensions", "bass"}  # chord-symbol core
@@ -139,11 +142,12 @@ def capability_table_markdown() -> str:
 # Which targets natively carry a harmony's METRIC onset position (measure:beat)? Score
 # and time-aligned annotation formats do; a plain label list or an audio-time list does not.
 POSITION_NATIVE = {
-    "hamon", "mei", "musicxml", "humdrum", "romantext",
+    "hamon", "mei", "musicxml", "humdrum", "romantext", "dcml",
     "lilypond", "abc", "musescore", "dezrann", "ireal",
 }
-# NOT native:  dcml   — the plain writer has no mc/mn/quarterbeats columns (expanded does)
-#              harte  — .lab carries audio seconds, not a metric measure:beat
+# dcml is native since its writer emits the expanded table's `mn`/`mn_onset`/`quarterbeats`
+# columns — the ones ms3 writes and `dcml_expanded` reads — for every placed group.
+# NOT native:  harte  — .lab carries audio seconds, not a metric measure:beat
 #              jams   — observations are audio seconds, not a metric measure:beat
 
 # …and the mirror question, since v0.5: which targets natively carry a harmony's
@@ -259,6 +263,11 @@ def clean_native(text: str, fmt: str) -> str:
     # export (Humdrum **fb etc.), but keep it in HAMON's own canonical text.
     if fmt != "hamon":
         text = re.sub(r"\b(?:fb|bass):(?=[\d#b])", "", text)
+        # …and so does the extent. `project_native` leaves `[dur:…]`/`[endref:…]` on the
+        # surface for the writers that carry it, but none of them carries it *as those
+        # glyphs*: the ones that can (Dezrann, JAMS) have a field of their own and read
+        # the extent from the label's attributes. `m1 Eb: I[dur:2]` is not RomanText.
+        text = re.sub(r"\[(?:dur|endref):[^\]]*\]", "", text)
     return text
 
 
@@ -286,11 +295,15 @@ def native_loss(seq_dict: dict, hamon_text: str, fmt: str) -> "Counter":
         if ("applied" in needed and fmt not in CHORD_APPLIED_NATIVE
                 and (label.get("semantic") or {}).get("kind") == "chordSymbol"):
             missing.add("applied")
-        for aspect in missing:
+        for aspect in sorted(missing):
             lost[aspect] += 1
     if (seq_dict.get("regions") or "@key:" in hamon_text) and "key" not in cap:
         lost["key"] += 1
     positions = position_loss(seq_dict, fmt)
     if positions:
         lost["position"] = positions
-    return lost
+    # `missing` is a set, so without a fixed order the *same* input prints its aspects
+    # differently from one run to the next. Callers show this straight to a reader, and
+    # one of them is a poster, so the order is part of the answer: heaviest loss first,
+    # ties broken by name.
+    return Counter(dict(sorted(lost.items(), key=lambda kv: (-kv[1], kv[0]))))

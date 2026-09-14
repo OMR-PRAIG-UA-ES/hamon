@@ -1,10 +1,7 @@
 Time Signature: 4/4
-m1 C: I
-m2 IV
-m3 iv7
-m4 bVII7
-m5 I
-m6 V7/ii
-m7 ii7
-m8 V7
-m9 I
+m25 C: I
+m27 IV
+m28 b3 iv7 b4 bVII7
+m29 I b4 V7/ii
+m30 ii7 b3 V7
+m31 I

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Thin launcher so the demo runs without installing the package.
 
-    cd publications/ICCCM26 && python run.py [--snippets] [--no-figures]
+    cd publications/ICCCM26 && python run.py [--no-figures]
 """
 import sys
 from pathlib import Path

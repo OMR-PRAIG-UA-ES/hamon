@@ -158,3 +158,12 @@ def test_main_validate_many_files_json(tmp_path: Path, capsys):
     data = json.loads(capsys.readouterr().out)
     assert isinstance(data, list) and len(data) == 2
     assert data[1]["kinds"] == {"chordSymbol": 1}
+
+
+def test_detect_format_reads_a_measured_tsv_as_expanded():
+    """A DCML table whose header places its rows goes to the expanded reader, whether it
+    says `quarterbeats` or only `mn`/`mc`; the plain chord table stays `dcml`."""
+    from pathlib import Path
+    from hamonpy.cli import detect_format
+    assert detect_format(Path("x.tsv"), "mn\tmn_onset\tglobalkey\tchord\n1\t0\tC\tI\n") == "dcml_expanded"
+    assert detect_format(Path("x.tsv"), "chord\tglobalkey\nI\tC\n") == "dcml"

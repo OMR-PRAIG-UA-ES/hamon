@@ -11,6 +11,7 @@ from __future__ import annotations
 import csv
 import io
 import re
+from fractions import Fraction as _Fraction
 from typing import Dict, List, Optional, Tuple
 
 from hamonpy.ast import (
@@ -280,12 +281,64 @@ def _region_for_group(regions, gi: int, kinds) -> Optional[TonalRegion]:
     return found
 
 
+# The expanded table's position columns, in DCML's own order. Written only when a row
+# states them — a sequence without positions still gets the plain chord table.
+_POSITION_COLUMNS = ("mn", "quarterbeats", "duration_qb", "mn_onset", "timesig")
+
+
+def _fraction_text(value: _Fraction) -> str:
+    """A DCML fraction cell: ``0``, ``4``, ``129/2`` — an integer when it is one."""
+    return str(value.numerator) if value.denominator == 1 else f"{value.numerator}/{value.denominator}"
+
+
+def _meter_at(seq: HamonSequence, gi: int):
+    """The time signature governing group *gi*, or None when the sequence states none."""
+    found = None
+    for meter in (seq.meters or []):
+        if meter.from_group <= gi:
+            found = meter
+    return found
+
+
+def _position_cells(seq: HamonSequence, gi: int, group: HarmonyGroup,
+                    label: HarmonyLabel) -> Dict[str, str]:
+    """The position columns for one row — the mirror of ``dcml_expanded._row_position``.
+
+    ``mn`` + ``mn_onset`` say measure and within-measure onset (a fraction of a whole
+    note, so beat 3 of 4/4 is ``1/2``, which needs the beat unit from ``timesig``);
+    ``quarterbeats`` is the absolute offset in quarters and ``duration_qb`` the label's
+    extent. Each cell is written only when HAMON holds it: the clocks coexist and
+    none is derived from another.
+    """
+    cells: Dict[str, str] = {}
+    pos = group.position
+    meter = _meter_at(seq, gi)
+    if pos is not None:
+        if pos.measure is not None:
+            cells["mn"] = str(pos.measure)
+            if pos.beat is not None:
+                unit = meter.denominator if meter is not None else 4
+                onset = _Fraction(pos.beat - 1).limit_denominator(64) / unit
+                cells["mn_onset"] = _fraction_text(onset)
+        if pos.time is not None:
+            cells["quarterbeats"] = _fraction_text(_Fraction(pos.time.numerator, pos.time.denominator))
+    duration = label.attributes.duration if label.attributes is not None else None
+    if duration is not None:
+        cells["duration_qb"] = _fraction_text(_Fraction(duration.numerator, duration.denominator))
+    if cells and meter is not None:
+        cells["timesig"] = f"{meter.numerator}/{meter.denominator}"
+    return cells
+
+
 def hamon_to_dcml_tsv(seq: HamonSequence) -> str:
     """Serialize a HamonSequence (Roman-numeral system) to DCML TSV text.
 
     Only RomanSemantic labels are exported; others are skipped. Columns:
     chord, numeral, form, figbass, changes, relativeroot — plus localkey and
-    globalkey when the sequence carries tonal regions (the analytical layer).
+    globalkey when the sequence carries tonal regions (the analytical layer), and
+    the expanded table's ``mn`` / ``mn_onset`` / ``quarterbeats`` / ``duration_qb``
+    (+ ``timesig``) when the groups are placed, so a positioned analysis comes back
+    through :mod:`hamonpy.adapters.dcml_expanded` with its positions intact.
     """
     regions = seq.regions or []
     home = _region_for_group(regions, 0, ("key", "region", "modulation"))
@@ -297,6 +350,7 @@ def hamon_to_dcml_tsv(seq: HamonSequence) -> str:
             if not isinstance(label.semantic, RomanSemantic):
                 continue
             row = _roman_to_dcml_row(label)
+            row.update(_position_cells(seq, gi, group, label))
 
             if global_key is not None:
                 local_region = _region_for_group(regions, gi, ("key", "region", "modulation"))
@@ -315,7 +369,8 @@ def hamon_to_dcml_tsv(seq: HamonSequence) -> str:
     if not rows:
         return ""
 
-    fieldnames = ["chord", "numeral", "form", "figbass", "changes", "relativeroot"]
+    fieldnames = [c for c in _POSITION_COLUMNS if any(c in r for r in rows)]
+    fieldnames += ["chord", "numeral", "form", "figbass", "changes", "relativeroot"]
     if global_key is not None:
         fieldnames += ["localkey", "globalkey"]
 
@@ -364,9 +419,12 @@ def _split_tail(tail: str) -> Tuple[str, str, str]:
     # Detect form prefix
     form = ""
     fb = tail_no_changes
-    if tail_no_changes.startswith("maj7") or tail_no_changes.startswith("Maj7"):
+    major = re.match(r"^(?:maj|Maj|M)(\d.*)?$", tail_no_changes)
+    if major:
+        # `maj7` from HAMON, `M7`/`M65` from a DCML surface re-parsed by the native
+        # projection: both are DCML's form `M` + the figures.
         form = "M"
-        fb = "7"
+        fb = major.group(1) or ""
     elif tail_no_changes.startswith("ø"):
         form = "%"
         fb = tail_no_changes[1:]

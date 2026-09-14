@@ -48,3 +48,11 @@ def test_non_roman_token_kept_as_text():
 def test_headers_ignored():
     seq = romantext_to_hamon("Composer: X\nTitle: Y\n\nm1 C: I")
     assert len(seq.groups) == 1 and seq.groups[0].primary[0].semantic.degree == "I"
+
+
+def test_positions_come_from_the_measure_and_beat_tokens():
+    """RomanText states where each label is; reading it back must keep that."""
+    seq = romantext_to_hamon("m1 b1 Eb: I b3 V6 b4.5 viio6/V\nm17 V7\n")
+    assert [(g.position.measure, g.position.beat) for g in seq.groups] == [
+        (1, 1.0), (1, 3.0), (1, 4.5), (17, 1.0),
+    ]

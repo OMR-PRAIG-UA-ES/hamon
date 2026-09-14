@@ -41,7 +41,6 @@ python -m pip install "hamonpy==0.4.0"     # the version these numbers came from
 python -m pip install matplotlib           # the figures need it
 
 cd publications/ICCCM26
-python run.py --snippets                   # table + JSON report + figures + code boxes
 # or, as a module:  python -m icccm26
 ```
 
@@ -76,14 +75,21 @@ The same two readings are available from the command line for any file:
 loses, and `--mode workaround` (the default) lets the HAMON surface ride along in the
 target's text slot.
 
-The outputs land in [`outputs/`](outputs/):
+The outputs land in [`outputs/`](outputs/). Two of them are about **all** the examples at
+once, which is why they carry no piece in their name:
 
 | File | What |
 |---|---|
-| `figure_loss_matrix.(png/svg)` | **the main figure** — heatmap of what each encoding cannot natively express, examples × encodings (the site shows this same file) |
-| `figure_hub_flagship_*.(png/svg)` | hub-and-spoke: HAMON centre, one spoke per encoding |
-| `xencoding_report.json` | full field-level loss report for every example × format |
-| `<example>.hamon.json` | canonical HAMON JSON for each example |
+| `figure_loss_matrix.(png/svg)` | **the main figure** — a heatmap over every example × every encoding, so no single piece names it. The site shows this same file. |
+| `xencoding_report.json` | the field-level loss report behind that heatmap, every example × every format, stamped with the `hamonpy` version that produced it |
+
+The rest belong to **one** example each, and say so in the filename:
+
+| File | What |
+|---|---|
+| `<example>.hamon.json` | the canonical HAMON JSON — one per example, seven in all |
+| `figure_hub_<example>.(png/svg)` | hub-and-spoke for a single piece: HAMON at the centre, one spoke per encoding, thickness = what that encoding cannot say. **Only the first example in `EXAMPLE_ORDER` gets one**; changing which example leads sweeps the previous figure away. |
+| `score_<example>.(svg/png/pdf)` | the engraved excerpt with HAMON's harmony placed on it, for print. Only examples in `SOURCE_SCORES` have one — see [Rendering one for print](scores/README.md). `score_<example>.annotated.mei` is the intermediate. |
 
 ## The examples ([`examples/`](examples/))
 
@@ -100,14 +106,28 @@ the code on the poster runs against a real file rather than an imaginary one.
 
 | File | System | Showcases |
 |---|---|---|
-| `k501_mozart_duet.hamon` | layered `cs:` + `rn:` + `fn:` | **The hub figure's example, and the only one whose analysis is not ours.** Mozart, *Andante with variations* for piano four hands, K. 501 (1786), mm. 1–8 in G major, carrying three coordinated readings of the same bars: the chord symbols, the Roman numerals, and the T–PD–D function underneath. Two applied dominants (`V7/V`, `V7/IV`) and a cadential six-four over the dominant (`I64/V`), so the figure measures the analytical vocabulary and not just the chords. The Roman and functional readings come from **TAVERN** (Devaney, Arthur, Condit-Schultz & Nisula, ISMIR 2015), where two annotators marked the piece independently and reconciled the result; the chord symbols follow from those numerals in G major. TAVERN is CC BY-SA 4.0 and Mozart is public domain; we cite them rather than redistributing their file. |
+| `sat_mozart_fb.hamon` | figured bass (`@fb`) | **Real music, not a hand-made snippet** — Mozart K282, 22 labels of continuo figures. The longest example, and the one the other encodings lose the most of. |
 | `flagship_love_walked_in.hamon` | layered `cs:` + `rn:` | **Two coordinated analyses of the same bars** — the chord symbols *and* the Roman-numeral reading, time-aligned (position-first `m:`/`ts:`). *Love Walked In* (Gershwin), the closing phrase (mm. 25–31), a harmony-only academic excerpt: a backdoor cadence (`Fm7 Bb7` → `C`, read `iv7 bVII7 I`) and an applied dominant (`A7` = `V7/ii`). Shows off HAMON's multi-modal layering: most target formats carry one analysis or the other; only HAMON and Humdrum keep both, and only HAMON keeps the key with them everywhere. |
 | `sat_roman_dcml.hamon` | Roman (`@rn`) | Roman/DCML analysis with a secondary dominant (`V7/V`) and a modulation (`@key:V`). |
 | `sat_figured_bass.hamon` | figured bass (`@fb`) | Baroque continuo figures (`6-4`, `5-3`, `7`, `6-5`). |
-| `sat_mozart_fb.hamon` | figured bass (`@fb`) | **Real music, not a hand-made snippet** — Mozart K282, 22 labels of continuo figures. The longest example, and the one the other encodings lose the most of. |
 | `sat_nashville.hamon` | Nashville (`@ns`) | Nashville number chart with qualities (`6m`, `5sus`). |
 | `sat_positions.hamon` | chord symbol (`@cs`) | Time-aligned positions: `m:`/`ts:` against `@meter:4/4`, so the figure asks each target whether it can carry *when* a harmony happens, not just which one. |
 | `pangram.hamon` | mixed (`@auto`) | **Every system in one sequence** — the harmony analogue of a *pangram* (a phrase that uses every letter). One auto-detected line touches all five systems plus the analytical layer: chord symbol (`+ [scale:]`), Roman secondary (`V7/V`), figured bass (`6-5`), Nashville (`2m`), functional chains (`DD->D->T`, `PD->T`), and a non-harmonic tone (`[NHT:passing]`). |
+
+### What each example is drawn as
+
+Naming a real piece is not the same as shipping its notation, and `scores/` holds only two
+files on purpose. Every example is engraved on the site one of three ways:
+
+| | Examples | What you see |
+|---|---|---|
+| **Real notation** | `sat_mozart_fb`, `sat_figured_bass` | The composer's notes, from the MEI in [`scores/`](scores/), with the example's HAMON harmony injected as positioned `<harm>`/`<fb>` at build time. The mapping is `SOURCE_SCORES` in `site/build.py`. |
+| **Realized harmony** | `sat_roman_dcml`, `sat_nashville`, `sat_positions`, `pangram` | music21 voices the labels into chords. Correct pitches, **not the piece's own notes** — for K501 that means block harmony rather than Mozart's theme. |
+| **No notation at all** | `flagship_love_walked_in` | Harmony alone, listed in `HARMONY_ONLY`. The music is still in copyright where the site is read, and the notes were never part of the measurement. |
+
+The figure's example is `sat_mozart_fb`, and it is deliberately one of the two with real
+notation: a reader can hold the spokes against the notes printed beside them instead of
+taking the count on trust.
 
 ## How the loss is computed (xencoding)
 
@@ -146,7 +166,13 @@ the others readable.
 ```
 ICCCM26/
 ├── examples/         # the .hamon source examples (+ changes.lab, a Harte file)
-├── icccm26/          # the package (roundtrip, figure, snippets, cli)
+├── icccm26/          # the package (roundtrip, figure, cli)
 ├── outputs/          # generated report + figures
+├── poster/boxes/     # the poster's four code boxes, and BOXES.md ready to paste
 └── run.py            # thin launcher (no install needed)
 ```
+
+The figures and the report come from `run.py`; the **code boxes** are their own thing,
+with their own tiny inputs, in [`poster/boxes/`](poster/boxes/) — `build.py` runs the four
+scripts and writes `BOXES.md` from what they really print, and a test fails if the two
+drift apart.

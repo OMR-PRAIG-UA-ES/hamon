@@ -177,8 +177,20 @@ def _save(fig, stem: Path) -> Path:
 
 
 def build_figures(results: list[ExampleResult]) -> list[Path]:
-    """Build the loss matrix, and a hub figure for the first example in EXAMPLE_ORDER."""
+    """Build the loss matrix, and a hub figure for the first example in EXAMPLE_ORDER.
+
+    Only the first example gets a hub, so changing which example leads leaves the old
+    one's figure sitting in `outputs/`. Two hub figures in a directory is exactly the
+    kind of thing that ends up on a poster by mistake, so the stale ones are swept.
+    """
     paths = [build_matrix_figure(results)]
-    if results:
-        paths.append(build_hub_figure(results[0]))
+    if not results:
+        return paths
+
+    hub = build_hub_figure(results[0])
+    paths.append(hub)
+    for stale in OUTPUTS_DIR.glob("figure_hub_*"):
+        if stale.stem != hub.stem:
+            stale.unlink()
+            print(f"  removed stale hub figure: {stale.name}")
     return paths

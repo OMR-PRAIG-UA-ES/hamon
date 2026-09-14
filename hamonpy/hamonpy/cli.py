@@ -19,7 +19,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 from .ast import HamonSequence, HarmonyGroup, HarmonyLabel, RenderingHints, TextSemantic
 from .parse import parse_hamon_sequence
@@ -42,6 +42,14 @@ def _is_pitch_array(head: str) -> bool:
     return looks_like_pitch_array(head)
 
 
+def _dcml_flavour(head: str) -> str:
+    """Plain or *expanded* DCML: a table whose header places its rows — ``quarterbeats``,
+    or a measure column ``mn``/``mc`` — goes to the expanded reader, the one that keeps
+    positions. The header row decides, not the body, so a chord called ``mc`` cannot."""
+    columns = set(head.splitlines()[0].split("\t")) if head else set()
+    return "dcml_expanded" if columns & {"quarterbeats", "mn", "mc"} else "dcml"
+
+
 def detect_format(path: Optional[Path], text: str) -> str:
     ext = path.suffix.lower() if path else ""
     head = text.lstrip()[:4000]
@@ -57,7 +65,7 @@ def detect_format(path: Optional[Path], text: str) -> str:
             return "choro"
         if _is_pitch_array(head):     # before the quarterbeats sniff: DLC arrays have
             return "dilemma"          # a quarterbeats_playthrough column
-        return "dcml_expanded" if "quarterbeats" in head else "dcml"
+        return _dcml_flavour(head)
     if ext == ".dez":
         return "dezrann"
     if ext == ".jams":
@@ -104,7 +112,7 @@ def detect_format(path: Optional[Path], text: str) -> str:
     if "\t" in head and _is_pitch_array(head):
         return "dilemma"
     if "\t" in head and "globalkey" in head:
-        return "dcml_expanded" if "quarterbeats" in head else "dcml"
+        return _dcml_flavour(head)
     if re.search(r"^\s*[\d.]+\s+[\d.]+\s+-\s+\d+\s+-?\d+\s+\d+", head, re.MULTILINE):
         return "kp"                       # Kostka-Payne chord-list rows
     return "hamon"
@@ -209,14 +217,21 @@ def convert_text(text: str, fmt: str) -> HamonSequence:
     raise ValueError(f"Unknown format {fmt!r}. Known: {', '.join(FORMATS)}")
 
 
-def detect_file_format(path: Path) -> str:
+def detect_file_format(path: Union[str, Path]) -> str:
     """Detect a file's format without reading binary content as text."""
+    path = Path(path)
     if path.suffix.lower() == ".xlsx":
         return "bps_fh"
     return detect_format(path, path.read_text(encoding="utf-8"))
 
 
-def convert_file(path: Path, fmt: Optional[str] = None) -> HamonSequence:
+def convert_file(path: Union[str, Path], fmt: Optional[str] = None) -> HamonSequence:
+    """Read a harmony file into a :class:`HamonSequence`, detecting its format.
+
+    ``path`` may be a string: ``convert_file("changes.lab")`` is the first line of
+    almost every example, and making the caller wrap it in ``Path`` buys nothing.
+    """
+    path = Path(path)
     fmt = fmt or detect_file_format(path)
     if fmt == "bps_fh":
         from .adapters.bps_fh import bps_fh_chords_file_to_hamon

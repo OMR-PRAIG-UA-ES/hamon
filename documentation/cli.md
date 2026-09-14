@@ -32,8 +32,8 @@ are `hamon`, `dcml`, `dcml_expanded`, `dilemma`, `romantext`, `treebank`, `humdr
 
 Two extensions carry more than one format, so the sniff decides: for `.krn`, the DDMAL
 `**text`/`KEY=>:` encoding is `key_modulation` and standard `**harm`/`**function`/`**fb`
-spines are `humdrum`; for `.tsv`, a `quarterbeats` column means `dcml_expanded`, a
-note-level pitch array means `dilemma`, and anything else `dcml`.
+spines are `humdrum`; for `.tsv`, a position column (`quarterbeats`, `mn` or `mc`) means
+`dcml_expanded`, a note-level pitch array means `dilemma`, and anything else `dcml`.
 
 `hamonpy.serialize.sequence_to_json` produces the JSON. It has the same
 canonical, camelCase shape as `grammar/hamon-schema.json` (and the TS AST).

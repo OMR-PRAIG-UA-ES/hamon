@@ -6,17 +6,14 @@ We design this module to work well in a conda environment.
 
 ## We install
 
-This package lives in the `hamonpy/` subdirectory of the repo (the repo root is not a
-Python package).
-
-**Using it** — once published to PyPI (after ICCCM'26):
-
 ```bash
 pip install hamonpy
 ```
 
-**Contributing** (and the only way until the PyPI release) — clone the full repo and
-install editable with the dev extra, from the repository root:
+This package lives in the `hamonpy/` subdirectory of the
+[repository](https://github.com/OMR-PRAIG-UA-ES/hamon) (the repository root is not a
+Python package). To run it from a checkout, with the test dependencies, install it
+editable from the repository root:
 
 ```bash
 conda create -n hamonpy python=3.11
@@ -24,8 +21,8 @@ conda activate hamonpy
 python -m pip install -e "./hamonpy[dev]"
 ```
 
-Changes land through **pull requests** (branch, push, open a PR — no direct commits to
-`main`); see [`CONTRIBUTING.md`](../CONTRIBUTING.md) for the full workflow.
+Questions and bug reports go to the
+[issue tracker](https://github.com/OMR-PRAIG-UA-ES/hamon/issues).
 
 ## We run unit tests
 

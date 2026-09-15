@@ -52,7 +52,7 @@ Getting started, with the command line too:
 | `mei-customization/` | the ODD for carrying HAMON labels in MEI |
 | `datasets/` | a registry of corpora HAMON reads — pointers and licences, never the data |
 
-## Contributing
+## Issues
 
 This repository is a **published mirror**: it is regenerated from a working repository,
 so pull requests here would be overwritten. **Issues are the way in** — bug reports,

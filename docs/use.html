@@ -91,11 +91,10 @@ print(sequence_to_hamon_text(seq))  # back to the surface, unchanged</code></pre
   <h2>3 · Convert between encodings</h2>
   <p>Reading a real file needs no more than this. The format is detected from the
   extension, or you can name it.</p>
-  <pre><code>from pathlib import Path
-from hamonpy.cli import convert_file
+  <pre><code>from hamonpy.cli import convert_file
 
-seq = convert_file(Path("song.mei"))          # MEI, MusicXML, Humdrum, DCML, Harte…
-seq = convert_file(Path("changes.lab"), "harte")</code></pre>
+seq = convert_file("song.mei")               # MEI, MusicXML, Humdrum, DCML, Harte…
+seq = convert_file("changes.lab", "harte")</code></pre>
 
   <h2>4 · Or from the command line</h2>
   <pre><code>hamon convert  changes.tsv            # any supported format → canonical HAMON JSON

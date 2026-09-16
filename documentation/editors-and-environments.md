@@ -95,11 +95,10 @@ python -m ipykernel install --user --name hamonpy --display-name "Python (hamonp
 In a cell:
 
 ```python
-from pathlib import Path
 from hamonpy.cli import convert_file, transcode
 from hamonpy.serialize import sequence_to_json
 
-seq = convert_file(Path("your-score.mei"))         # a file in your own project
+seq = convert_file("your-score.mei")               # a file in your own project
 tc  = transcode("your-score.mei", "harte")         # any → any, with the loss report
 tc.report                                          # what Harte dropped
 ```

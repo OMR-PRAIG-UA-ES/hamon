@@ -53,12 +53,11 @@ hamon convert chart.txt --format ireal          # force the input format
 **Python**
 
 ```python
-from pathlib import Path
 from hamonpy.cli import convert_file, convert_text
 from hamonpy.serialize import sequence_to_json, sequence_to_hamon_text
 
-seq = convert_file(Path("examples/song.mei"))          # auto-detect
-seq = convert_file(Path("chart.txt"), "ireal")         # force the format
+seq = convert_file("examples/song.mei")                # auto-detect (a str or a Path)
+seq = convert_file("chart.txt", "ireal")               # force the format
 seq = convert_text("@cs\nCmaj7\nAm7\nDm7\nG7", "hamon")  # from a string (fmt required)
 
 print(sequence_to_json(seq))         # the canonical JSON
@@ -115,8 +114,8 @@ from pathlib import Path
 from hamonpy.cli import convert_file
 from hamonpy.report import write_to, WRITERS
 
-text = write_to(convert_file(Path("examples/song.mei")), "harte")  # target ∈ WRITERS
-Path("out.ly").write_text(write_to(convert_file(Path("examples/changes.tsv")), "lilypond"),
+text = write_to(convert_file("examples/song.mei"), "harte")  # target ∈ WRITERS
+Path("out.ly").write_text(write_to(convert_file("examples/changes.tsv"), "lilypond"),
                           encoding="utf-8")
 ```
 
@@ -175,7 +174,7 @@ hamon validate corpus/*.hamon --json        # many files at once
 from hamonpy.cli import convert_file
 from hamonpy.validate import validate_positions
 
-seq = convert_file(Path("examples/corpus.hamon"))
+seq = convert_file("examples/corpus.hamon")
 position_warnings = validate_positions(seq)
 opaque = [lab.surface
           for g in seq.groups for lab in g.primary

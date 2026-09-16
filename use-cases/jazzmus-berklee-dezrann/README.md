@@ -40,7 +40,7 @@ print([g.primary[0].surface for g in raw.groups])
 [`analysis.hamon`](analysis.hamon) adds the functional reading and time anchors:
 
 ```
-@version:0.4.0
+@version:0.5.0
 @key:C
 t:0/1,Cmaj7
 t:4/1,A7b9[of:ii]

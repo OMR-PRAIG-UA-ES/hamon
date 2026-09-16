@@ -27,7 +27,7 @@ a **1-based decimal**, with fractions allowed (`ts:2.5`).
 ever computed from the other; see [Hold, don't convert](#the-two-clocks-hold-dont-convert).
 
 ```
-@version:0.4.0
+@version:0.5.0
 @meter:4/4
 @key:C
 m:25,ts:1,cs:C,rn:I

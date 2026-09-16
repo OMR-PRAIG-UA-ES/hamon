@@ -9,7 +9,7 @@ carries this on `HarmonyGroup.position`, and the v0.4 `.hamon` text writes it
 **Input.** [`progression.hamon`](progression.hamon):
 
 ```
-@version:0.4.0
+@version:0.5.0
 @cs
 @meter:4/4
 m:1,ts:1,C

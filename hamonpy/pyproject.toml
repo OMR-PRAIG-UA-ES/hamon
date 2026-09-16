@@ -3,18 +3,18 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Published to PyPI after ICCCM'26 (21-23 September 2026). The *source repository*
-# opens later, with the journal paper — publishing the package does not open the repo,
-# but note that a wheel carries the .py sources, so the implementation is public from
-# the first upload. The grammar, conformance corpus, fixtures and documentation are
-# not in the package.
-# Release: tag, then GitHub Release → .github/workflows/publish-pypi.yml uploads it.
+# On PyPI since 2026-09-12. The *source repository* opens later, with the journal paper —
+# publishing the package does not open the repo, but note that a wheel carries the .py
+# sources, so the implementation is public from the first upload. The grammar, conformance
+# corpus, fixtures and documentation are not in the package.
+# Release: publish the mirror, then run the manual workflow in the PUBLIC repo — see
+# ../RELEASING.md. A tag here builds an internal GitHub Release only, never PyPI.
 # The code is Apache-2.0; the standard and its data are CC BY 4.0 — see ./LICENSE.
 # ─────────────────────────────────────────────────────────────────────────────
 
 [project]
 name = "hamonpy"
-version = "0.4.0"
+version = "0.5.0"
 description = "HAMON (Harmony Model and Notation) — a universal, lossless harmony-label interlingua (Python reference implementation)"
 readme = "README.md"
 requires-python = ">=3.10"

@@ -76,6 +76,10 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
 .panel pre { margin: 0; padding: 12px; overflow-x: auto; font-size: 13px; max-height: 340px; }
 .panel pre .ln { display: block; padding: 0 4px; border-radius: 3px; }
 .panel pre .ln.hl { background: #fff3cd; }
+.panel pre table.tsv { border-collapse: collapse; font: inherit; }
+.panel pre table.tsv td { padding: 0 14px 0 4px; white-space: pre; vertical-align: top; }
+.panel pre table.tsv tr.th td { font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--line); }
+.panel pre table.tsv tr.ln { display: table-row; }
 
 /* collapsible HAMON canonical JSON */
 .jsonwrap > summary { cursor: pointer; font-size: 12px; font-weight: 600; color: var(--muted);

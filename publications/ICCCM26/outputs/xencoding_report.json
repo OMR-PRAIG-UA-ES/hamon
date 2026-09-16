@@ -1,5 +1,5 @@
 {
-  "hamonpy_version": "0.4.0",
+  "hamonpy_version": "0.5.0",
   "writers": [
     "hamon",
     "dcml",

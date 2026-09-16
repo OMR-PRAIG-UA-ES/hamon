@@ -37,14 +37,14 @@ From a clone of the repository, because the pipeline reads the examples in
 conda create -n hamon-icccm26 python=3.11 -y   # or: python3.11 -m venv .venv
 conda activate hamon-icccm26
 
-python -m pip install "hamonpy==0.4.0"     # the version these numbers came from
+python -m pip install "hamonpy==0.5.0"     # the version these numbers came from
 python -m pip install matplotlib           # the figures need it
 
 cd publications/ICCCM26
 # or, as a module:  python -m icccm26
 ```
 
-**0.4.0 is the version this material was produced with**, and pinning it is the point:
+**0.5.0 is the version this material was produced with**, and pinning it is the point:
 `pip install hamonpy` would give you whatever is on PyPI today, which will move.
 `outputs/xencoding_report.json` records the version that produced it, so if you ever see
 a different number there than the one you installed, the report and the library have
@@ -61,7 +61,7 @@ only want the library, see [Use HAMON](https://omr-praig-ua-es.github.io/hamon/u
 Run the `pip` lines from the repository root.
 
 The environment is deliberately **not** called `hamonpy`. That name is the one a HAMON
-developer already has, holding an editable install of the checkout; pinning 0.4.0 into it
+developer already has, holding an editable install of the checkout; pinning 0.5.0 into it
 would replace their working copy with a released one and leave them debugging a library
 they did not change. A separate environment costs nothing and cannot do that.
 

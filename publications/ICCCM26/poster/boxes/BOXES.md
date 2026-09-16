@@ -112,7 +112,7 @@ m:4,A7
 **input · in/progression.hamon**
 
 ```
-@version:0.4.0
+@version:0.5.0
 @meter:4/4
 @key:C
 m:1,ts:1,cs:Dm7,rn:ii7
@@ -206,7 +206,7 @@ mn	mn_onset	timesig	chord	numeral	form	figbass	changes	relativeroot	localkey	glo
 **input · in/progression.hamon**
 
 ```
-@version:0.4.0
+@version:0.5.0
 @meter:4/4
 @key:C
 m:1,ts:1,cs:Dm7,rn:ii7
@@ -257,7 +257,7 @@ ireal      {'roman': 5, 'applied': 2, 'key': 1}
 **input · in/progression.hamon**
 
 ```
-@version:0.4.0
+@version:0.5.0
 @meter:4/4
 @key:C
 m:1,ts:1,cs:Dm7,rn:ii7

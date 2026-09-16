@@ -21,18 +21,30 @@ const el = (tag, attrs = {}, html = "") => {
 const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"]/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])));
 
-/** A scrollable code panel whose lines can be highlighted by substring. */
+/** A scrollable code panel whose lines can be highlighted by substring.
+ *  Tab-separated text (DCML .tsv) is drawn as a table: in a <pre> the tabs jump to
+ *  8-column stops and the columns drift. Blank and `#` comment lines span the row. */
 function codePanel(title, text, extraHead = "") {
   const lines = (text || "").replace(/\n$/, "").split("\n");
+  const head = `<div class="panel"><div class="phead"><span>${esc(title)}</span><span>${extraHead}</span></div>`;
+  if (lines.some((l) => l.includes("\t"))) {
+    const width = Math.max(...lines.filter((l) => !l.startsWith("#")).map((l) => l.split("\t").length));
+    const rows = lines.map((l, i) => {
+      const attrs = `class="ln${i === 0 && !l.startsWith("#") ? " th" : ""}" data-i="${i}" data-text="${esc(l)}"`;
+      if (!l.trim() || l.startsWith("#") || !l.includes("\t"))
+        return `<tr ${attrs}><td colspan="${width}">${esc(l) || "&nbsp;"}</td></tr>`;
+      return `<tr ${attrs}>${l.split("\t").map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`;
+    }).join("");
+    return head + `<pre><table class="tsv">${rows}</table></pre></div>`;
+  }
   const body = lines.map((l, i) =>
     `<span class="ln" data-i="${i}">${esc(l) || "&nbsp;"}</span>`).join("");
-  return `<div class="panel"><div class="phead"><span>${esc(title)}</span><span>${extraHead}</span></div>`
-    + `<pre>${body}</pre></div>`;
+  return head + `<pre>${body}</pre></div>`;
 }
 
 function highlightLines(panelPre, needles) {
   panelPre.querySelectorAll(".ln").forEach((ln) => {
-    const t = ln.textContent;
+    const t = ln.dataset.text ?? ln.textContent;
     ln.classList.toggle("hl", needles.some((n) => n && t.includes(n)));
   });
 }

@@ -270,6 +270,8 @@ Jump straight to the format you are working with.
 - **MuseScore MSCX** → [`musescore.md`](musescore.md)
 - **MNX (planned)** → [`mnx.md`](mnx.md)
 
+**Reference:** [chord-tail catalog](chord-tail-catalog.md), the vocabulary real corpora put after a chord root and what HAMON reads of it.
+
 **Third-party annotation and audio formats:**
 - **DCML** (Hentschel et al. Roman numeral TSV corpora; plain + time-aligned *expanded* tables with cadences/phrases) → [`dcml.md`](dcml.md)
 - **Harte** (MIREX / audio chord recognition) → [`harte.md`](harte.md)

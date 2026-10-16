@@ -29,7 +29,8 @@ def leadsheet_chord_to_hamon_surface(chord: str) -> str:
         return chord.strip()
     root, qual = m.group(1), m.group(2)
     # Quality sigils → hamon equivalents (order matters: 'h' before generic).
-    qual = qual.replace("^", "maj").replace("h", "ø").replace("o", "°")
+    # `%` is the treebank's own half-diminished sigil (its readme); `h` is iReal's.
+    qual = qual.replace("^", "maj").replace("%", "ø").replace("h", "ø").replace("o", "°")
     # Leadsheet '-' = minor; hamon also accepts '-', keep it.
     return root + qual
 

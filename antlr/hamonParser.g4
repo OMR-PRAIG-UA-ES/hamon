@@ -151,6 +151,7 @@ accidental
 
 slashBass
   : SLASH pitch
+  | SLASH WORD      // maximal munch lexes a flat bass ('/Bb', '/Eb') as one WORD; read by the surface path
   ;
 
 /* chordPart is permissive:

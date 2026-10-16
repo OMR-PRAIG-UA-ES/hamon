@@ -19,8 +19,8 @@ from .ast import (
 _GLYPH_TO_ACC: Dict[str, Accidental] = {
     "#": "sharp", "♯": "sharp",
     "b": "flat",  "♭": "flat",
-    "x": "double-sharp", "𝄪": "double-sharp",
-    "𝄫": "double-flat",
+    "x": "double-sharp", "𝄪": "double-sharp", "##": "double-sharp",
+    "𝄫": "double-flat", "bb": "double-flat",
     "n": "natural", "♮": "natural",
 }
 
@@ -104,7 +104,7 @@ def _coerce_seventh(quality: ChordQuality, seventh: SeventhQuality, saw_explicit
 # ---------------------------------------------------------------------------
 
 def _parse_alteration(part: str):
-    m = re.match(r"^([#b♯♭x𝄪𝄫n♮])([0-9]+)$", part)
+    m = re.match(r"^(##|bb|[#b♯♭x𝄪𝄫n♮])([0-9]+)$", part)
     if not m: return None, None, None
     glyph, deg = m.group(1), int(m.group(2))
     acc = _to_accidental(glyph)
@@ -122,6 +122,39 @@ def _parse_add_omit_sus(part: str):
 # ---------------------------------------------------------------------------
 
 _KNOWN_QUAL = re.compile(r"^(maj|Maj|MAJ|min|Min|MIN|dim|Dim|DIM|aug|Aug|AUG|sus|Sus|SUS|add|Add|ADD|omit|Omit|OMIT|no|No|NO)")
+
+# A run of letters in a chord tail is usually one word (`maj`, `dim`), but maximal munch
+# also glues a quality to what follows it: `mb9` is `m` + `b9`, `dimadd9` is `dim` +
+# `add9`. The run is split only when it is made entirely of known words, so an unknown
+# word (`Ger`, `foo`) stays whole and is never half-read.
+_RUN_WORD = re.compile(r"omit|Omit|OMIT|maj|Maj|MAJ|min|Min|MIN|dim|Dim|DIM|aug|Aug|AUG"
+                       r"|add|Add|ADD|sus|Sus|SUS|no|No|NO|m|M|o")
+_NEEDS_NUMBER = ("add", "omit", "no", "sus")
+
+
+def _split_letter_run(run: str, digit_follows: bool):
+    """``(pieces, used)``: the words in ``run`` and how many of its letters they consume.
+
+    Letters left unconsumed (a flat, or an add/omit/no/sus keyword that wants the number
+    after it) are read again by the caller together with that number."""
+    pieces: List[str] = []
+    pos = 0
+    while pos < len(run):
+        m = _RUN_WORD.match(run, pos)
+        if not m:
+            break
+        if digit_follows and m.end() == len(run) and m.group(0).lower() in _NEEDS_NUMBER:
+            return (pieces, pos) if pieces else ([run], len(run))
+        pieces.append(m.group(0)); pos = m.end()
+    left = run[pos:]
+    if not pieces:
+        return [run], len(run)
+    if left == "":
+        return pieces, len(run)
+    if digit_follows and left in ("b", "bb"):
+        return pieces, pos          # the flat belongs to the number: `b9`, `bb9`
+    return [run], len(run)
+
 
 def _tokenize_chord_tail(tail: str) -> List[str]:
     out: List[str] = []
@@ -164,14 +197,16 @@ def _tokenize_chord_tail(tail: str) -> List[str]:
                 out.append(aos.group(0)); i += len(aos.group(0)); continue
 
             # accidental + digit
-            acc_dig = re.match(r"^[#b♯♭x𝄪𝄫n♮][0-9]+", rest)
+            acc_dig = re.match(r"^(?:##|bb|[#b♯♭x𝄪𝄫n♮])[0-9]+", rest)
             if acc_dig:
                 out.append(acc_dig.group(0)); i += len(acc_dig.group(0)); continue
 
             # word (quality token etc.)
             word = re.match(r"^[a-zA-Z]+", rest)
             if word:
-                out.append(word.group(0)); i += len(word.group(0)); continue
+                run = word.group(0)
+                pieces, used = _split_letter_run(run, rest[len(run):len(run) + 1].isdigit())
+                out.extend(pieces); i += used; continue
 
             # number
             num = re.match(r"^[0-9]+", rest)
@@ -213,15 +248,26 @@ def _expand_paren_groups(parts: List[str]) -> List[str]:
     return out
 
 
+#: When a list, every chord-tail part the normalizer could not interpret is appended to
+#: it. Off (None) by default; `tools/scripts/chord_tail_catalog.py` switches it on to
+#: measure which words real corpora put in a chord tail.
+UNREAD_SINK: Optional[List[str]] = None
+
+
 def normalize_chord_symbol_from_ctx(note: str, acc_glyph: Optional[str], parts: List[str],
-                                     bass_note: Optional[str], bass_acc_glyph: Optional[str]):
+                                     bass_note: Optional[str], bass_acc_glyph: Optional[str],
+                                     strict: bool = False):
     root, r0 = _normalize_pitch(note, acc_glyph)
     r: Dict = _rendering_to_dict(r0)
 
     bass: Optional[PitchClass] = None
     if bass_note:
         bass, rb = _normalize_pitch(bass_note, bass_acc_glyph)
-        r.update(_rendering_to_dict(rb))
+        rbd = _rendering_to_dict(rb)
+        # Root and bass each keep their own glyph: `F#m7/Bb` is sharp `#` *and* flat `b`.
+        if "accidentalGlyphs" in r and "accidentalGlyphs" in rbd:
+            rbd["accidentalGlyphs"] = {**r["accidentalGlyphs"], **rbd["accidentalGlyphs"]}
+        r.update(rbd)
 
     quality: Optional[ChordQuality] = None
     seventh: Optional[SeventhQuality] = None
@@ -231,6 +277,7 @@ def normalize_chord_symbol_from_ctx(note: str, acc_glyph: Optional[str], parts: 
     omits: List[int] = []
     suspensions: List[Optional[int]] = []
     saw_explicit_major = False
+    unread: List[str] = []   # tail parts nothing above could interpret
 
     for t in _expand_paren_groups(parts):
         # Combined quality+seventh tokens produced by _tokenize_chord_tail
@@ -276,10 +323,22 @@ def normalize_chord_symbol_from_ctx(note: str, acc_glyph: Optional[str], parts: 
             n_int = int(t)
             if n_int in (6, 9, 11, 13):
                 extensions.append(n_int); continue
+            if n_int in (2, 4):
+                # `G7(4)`, as the Choro songbook writes it: a plain 2 or 4 is an added tone.
+                adds.append(n_int); continue
         except ValueError:
             pass
 
         r.setdefault("rawParts", []).append(t)
+        unread.append(t)
+
+    if unread and UNREAD_SINK is not None:
+        UNREAD_SINK.extend(unread)
+    if strict and any(re.search(r"[A-Za-z]", u) for u in unread):
+        # A word nothing here understands (`Ger65`, `Cmajfoo`) would otherwise vanish and
+        # leave an ordinary chord that says nothing of what was lost. The caller keeps
+        # the label as text instead.
+        return None
 
     if quality is None:
         quality = "major"
@@ -312,11 +371,15 @@ def normalize_chord_symbol_from_ctx(note: str, acc_glyph: Optional[str], parts: 
     return semantic, rendering, "cs"
 
 
-def normalize_chord_symbol_from_surface(surface: str):
-    """Fallback: parse a chord symbol from its raw surface string (no ANTLR context)."""
+def normalize_chord_symbol_from_surface(surface: str, strict: bool = False):
+    """Fallback: parse a chord symbol from its raw surface string (no ANTLR context).
+
+    With ``strict``, a tail word nothing here understands makes it return None instead of
+    a chord that silently lost the word; the caller then keeps the label as text. Readers
+    of foreign formats that expect leniency (iReal, music21) leave it off."""
     # The ASCII natural `n` only counts as an accidental when a letter does NOT follow it,
     # so `Cno3` reads as C + `no3` (omit 3), not C♮ + `o3` (diminished). See _accidental note.
-    m = re.match(r"^([A-G])([#b♯♭x𝄪𝄫♮]|n(?![A-Za-z]))?", surface)
+    m = re.match(r"^([A-G])(##|bb|[#b♯♭x𝄪𝄫♮]|n(?![A-Za-z]))?", surface)
     if not m:
         return None
     note = m.group(1)
@@ -328,13 +391,20 @@ def normalize_chord_symbol_from_surface(surface: str):
     if slash_ix >= 0:
         before, after = head[:slash_ix], head[slash_ix + 1:]
         head = before
-        mb = re.match(r"^([A-G])([#b♯♭x𝄪𝄫♮]|n(?![A-Za-z]))?", after)
+        mb = re.match(r"^([A-G])(##|bb|[#b♯♭x𝄪𝄫♮]|n(?![A-Za-z]))?", after)
         if mb:
             bass_note = mb.group(1)
             bass_acc_glyph = mb.group(2)
+            rest = after[mb.end():]
+        else:
+            rest = after
+        # Letters after the bass (`/Bbfoo`) or a bass that is no note (`/foo`) say something
+        # nothing here reads. Slashes inside a paren group are not a bass at all.
+        if strict and before.count("(") == before.count(")") and re.search(r"[A-Za-z]", rest):
+            return None
 
     parts = _tokenize_chord_tail(head)
-    return normalize_chord_symbol_from_ctx(note, acc_glyph, parts, bass_note, bass_acc_glyph)
+    return normalize_chord_symbol_from_ctx(note, acc_glyph, parts, bass_note, bass_acc_glyph, strict=strict)
 
 
 def normalize_roman_from_parts(degree: str, prefix_accidentals: List[str],
@@ -425,7 +495,7 @@ def normalize_text_from_surface(text: str, quoted: bool):
 
         # Chord-symbol heuristic
         if _looks_like_chord_symbol(text):
-            result = normalize_chord_symbol_from_surface(text)
+            result = normalize_chord_symbol_from_surface(text, strict=True)
             if result:
                 return result
 
@@ -433,7 +503,7 @@ def normalize_text_from_surface(text: str, quoted: bool):
 
 
 def _looks_like_chord_symbol(surface: str) -> bool:
-    m = re.match(r"^([A-G])([#b♯♭x𝄪𝄫♮]|n(?![A-Za-z]))?", surface)
+    m = re.match(r"^([A-G])(##|bb|[#b♯♭x𝄪𝄫♮]|n(?![A-Za-z]))?", surface)
     if not m:
         return False
     rest = surface[m.end():]

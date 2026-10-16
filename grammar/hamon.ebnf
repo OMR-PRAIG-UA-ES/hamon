@@ -86,7 +86,7 @@ pitch ::= NOTE accidentalGlyph?
 
 NOTE ::= "A" | "B" | "C" | "D" | "E" | "F" | "G"
 
-accidentalGlyph ::= "#" | "b" | "x" | "♯" | "♭" | "𝄪" | "𝄫" | "♮" | "n"
+accidentalGlyph ::= "##" | "bb" | "#" | "b" | "x" | "♯" | "♭" | "𝄪" | "𝄫" | "♮" | "n"
 
 /** We keep chordPart permissive: we parse what we recognize and keep the rest for lossless roundtrip. */
 chordPart ::= seventhMark

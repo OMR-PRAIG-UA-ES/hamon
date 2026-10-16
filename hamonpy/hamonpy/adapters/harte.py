@@ -22,6 +22,7 @@ from hamonpy.ast import (
     PitchClass,
     Position,
     RenderingHints,
+    TextSemantic,
 )
 from hamonpy.normalize import normalize_chord_symbol_from_surface
 
@@ -174,9 +175,128 @@ def _pitch_to_degree(root: PitchClass, bass: PitchClass) -> Optional[str]:
 # The bass is a scale degree, and a degree may be altered (`/b7`, `/#4`) — not just
 # a bare number. Admitting digits only used to drop the whole line: no match, no
 # label, no group, so `report.py` never saw a loss to report either.
+#
+# Strict Harte spells the bass as a degree, but BPSD and SWD spell it as a note name
+# (`C:min7/G`), so that is a dialect we read too: the bass is then already a pitch.
+#
+# Groups: root, root accidental, shorthand, degree list, bass accidental, bass degree,
+# bass note name, bass note accidental. The shorthand stops at `(` so that the degree
+# list is read on its own.
 _TOKEN_RE = re.compile(
-    r"^([A-G])([#b]{1,2})?(?::([^/]+))?(?:/([#b]{0,2})(\d+))?$"
+    r"^([A-G])([#b]{1,2})?"
+    r"(?::([^/(]*)(?:\(([^)]*)\))?)?"
+    r"(?:/(?:([#b]{0,2})(\d+)|([A-G])([#b]{1,2})?))?$"
 )
+
+# One entry of a degree list: `b7`, `#11`, `9`, or `*3` (remove the degree).
+_DEGREE_RE = re.compile(r"^(\*)?([#b]{0,2})(\d+)$")
+
+_ACC_GLYPH_NAME: Dict[str, str] = {
+    "b": "flat", "#": "sharp", "bb": "double-flat", "##": "double-sharp",
+}
+
+
+def _parse_degrees(text: str) -> Optional[List[Tuple[bool, str, int]]]:
+    """``"b5,*3"`` → ``[(False, "b", 5), (True, "", 3)]``; None if any entry is unreadable."""
+    items: List[Tuple[bool, str, int]] = []
+    for raw in text.split(","):
+        m = _DEGREE_RE.match(raw.strip())
+        if not m:
+            return None
+        items.append((bool(m.group(1)), m.group(2), int(m.group(3))))
+    return items
+
+
+def _with_tension(fields: dict, acc: str, degree: int) -> None:
+    """Add one stated degree above the chord's own tones to ``fields``.
+
+    An altered tension (`b9`, `#11`) is an alteration; a plain 9/11/13 is an extension
+    once a seventh is there to stack on, and an `add` before that; a 6 is the sixth."""
+    if acc:
+        fields["alterations"].append(
+            {"accidental": _ACC_GLYPH_NAME[acc], "degree": degree, "glyph": acc})
+    elif degree == 6:
+        fields["extensions"].append(6)
+    elif degree in (9, 11, 13) and fields["seventh"]:
+        fields["extensions"].append(degree)
+    else:
+        fields["adds"].append(degree)
+
+
+def _apply_degrees(sem: ChordSymbolSemantic, items: List[Tuple[bool, str, int]]) -> ChordSymbolSemantic:
+    """A shorthand plus a degree list: the list edits the shorthand (`C:min(*3)`, `C:7(b9)`)."""
+    fields = {
+        "extensions": list(sem.extensions or []), "alterations": list(sem.alterations or []),
+        "adds": list(sem.adds or []), "omits": list(sem.omits or []), "seventh": sem.seventh,
+    }
+    for remove, acc, degree in items:
+        if remove:
+            if degree not in fields["omits"]:
+                fields["omits"].append(degree)
+        else:
+            _with_tension(fields, acc, degree)
+    return replace(sem, **{k: (v or None) if k != "seventh" else v for k, v in fields.items()})
+
+
+def _complete_chord(root: PitchClass, items: List[Tuple[bool, str, int]]) -> ChordSymbolSemantic:
+    """A degree list with no shorthand *is* the chord: the root plus what is listed.
+
+    Nothing is implied. A third that is not listed is an omitted third (`F#:(b5,b7)` has
+    no A#), and the same for the fifth; the HAMON AST says that with `omits`."""
+    stated = {(acc, degree) for remove, acc, degree in items if not remove}
+    removed = {degree for remove, _acc, degree in items if remove}
+    third = next((a for a, d in stated if d == 3), None)
+    fifth = next((a for a, d in stated if d == 5), None)
+    seventh_acc = next((a for a, d in stated if d == 7), None)
+
+    quality = "minor" if third == "b" else "major"
+    seventh: Optional[str] = None
+    if seventh_acc is not None:
+        if quality == "minor" and fifth == "b" and seventh_acc == "bb":
+            quality, seventh = "diminished", "dim7"
+        elif quality == "minor" and fifth == "b" and seventh_acc == "b":
+            quality, seventh = "half-diminished", "hdim7"
+        elif seventh_acc == "":
+            seventh = "maj7"
+        else:
+            seventh = "min7" if quality == "minor" else "dom7"
+    elif quality == "minor" and fifth == "b":
+        quality = "diminished"
+    elif third == "" and fifth == "#":
+        quality = "augmented"
+
+    suspensions = None
+    if third is None:
+        if any(d == 4 and a == "" for a, d in stated):
+            suspensions = [4]
+        elif any(d == 2 and a == "" for a, d in stated):
+            suspensions = [2]
+
+    fields = {"extensions": [], "alterations": [], "adds": [], "seventh": seventh}
+    for acc, degree in sorted(stated, key=lambda p: p[1]):
+        if degree in (1, 3, 7) or (degree == 5 and (acc == "" or quality in ("diminished", "augmented", "half-diminished"))):
+            continue
+        if suspensions and degree == suspensions[0] and not acc:
+            continue
+        _with_tension(fields, acc, degree)
+
+    omits = [d for d in (3, 5) if d not in {d for _a, d in stated} or d in removed]
+    if suspensions:
+        omits = [d for d in omits if d != 3]
+    return ChordSymbolSemantic(
+        root=root, quality=quality, seventh=seventh,
+        extensions=fields["extensions"] or None, alterations=fields["alterations"] or None,
+        suspensions=suspensions, adds=fields["adds"] or None, omits=omits or None,
+    )
+
+
+def _text_label(token: str) -> HarmonyLabel:
+    """A token we could not read, kept as text rather than dropped: the surface survives
+    and `report.py` sees what a writer then fails to carry."""
+    return HarmonyLabel(
+        surface=token, semantic=TextSemantic(text=token), rendering=RenderingHints(),
+        detected_system="cs", system="cs", sequence_system_hint="cs",
+    )
 
 
 def harte_token_to_hamon_label(token: str) -> Optional[HarmonyLabel]:
@@ -191,28 +311,44 @@ def harte_token_to_hamon_label(token: str) -> Optional[HarmonyLabel]:
 
     m = _TOKEN_RE.match(t)
     if not m:
-        return None
+        return _text_label(t)
 
     note = m.group(1)
-    acc_raw = m.group(2) or ""
-    shorthand = m.group(3) or "maj"
-    bass_acc = m.group(4) or ""
-    bass_degree = m.group(5)
+    acc = m.group(2) or ""
+    shorthand = (m.group(3) or "").strip()
+    degree_list = m.group(4)
+    bass_acc = m.group(5) or ""
+    bass_degree = m.group(6)
 
-    # Map accidental glyph: Harte uses 'b'/'#'
-    acc = acc_raw  # 'b', '#', 'bb', '##', or ''
+    items = None
+    if degree_list is not None:
+        items = _parse_degrees(degree_list)
+        if items is None:
+            return _text_label(t)
 
-    # Build a hamon-compatible surface string and parse it
-    suffix = _SHORTHAND_TO_HAMON_SUFFIX.get(shorthand.strip(), shorthand)
-    hamon_surface = f"{note}{acc}{suffix}"
+    if items is not None and not shorthand:
+        # No shorthand: the degree list is the whole chord.
+        root = PitchClass(note=note, accidental=_ACC_NAME[_ACC_OFFSET[acc]])
+        semantic: ChordSymbolSemantic = _complete_chord(root, items)
+        rendering = RenderingHints()
+    else:
+        suffix = _SHORTHAND_TO_HAMON_SUFFIX.get(shorthand or "maj")
+        if suffix is None:
+            # An unknown shorthand would parse as the bare triad, a different chord.
+            return _text_label(t)
+        result = normalize_chord_symbol_from_surface(f"{note}{acc}{suffix}", strict=True)
+        if result is None:
+            return _text_label(t)
+        semantic, rendering, _detected = result
+        if items is not None and isinstance(semantic, ChordSymbolSemantic):
+            semantic = _apply_degrees(semantic, items)
 
-    result = normalize_chord_symbol_from_surface(hamon_surface)
-    if result is None:
-        return None
-    semantic, rendering, _detected = result
-
-    if bass_degree is not None and isinstance(semantic, ChordSymbolSemantic):
-        bass = _degree_to_pitch(semantic.root, bass_acc, int(bass_degree))
+    if isinstance(semantic, ChordSymbolSemantic):
+        bass = None
+        if bass_degree is not None:
+            bass = _degree_to_pitch(semantic.root, bass_acc, int(bass_degree))
+        elif m.group(7) is not None:
+            bass = PitchClass(note=m.group(7), accidental=_ACC_NAME[_ACC_OFFSET[m.group(8) or ""]])
         if bass is not None:
             semantic = replace(semantic, bass=bass)
     return HarmonyLabel(
@@ -376,7 +512,33 @@ def _label_to_harte_token(label: HarmonyLabel) -> Optional[str]:
     shorthand = _semantic_to_shorthand(sem)
     bass = _pitch_to_degree(sem.root, sem.bass) if sem.bass else None
     tail = f"/{bass}" if bass else ""
-    return f"{root_note}{root_acc}:{shorthand}{tail}"
+    return f"{root_note}{root_acc}:{shorthand}{_degree_list(sem, shorthand)}{tail}"
+
+
+def _degree_list(sem: ChordSymbolSemantic, shorthand: str) -> str:
+    """What the shorthand does not already say, as a Harte degree list (`(*3,b5)`).
+
+    The reader turns `*n` into `omits`, an altered degree into `alterations` and a plain
+    one into `adds`/`extensions`, so writing them back is what makes a chord read from a
+    degree list survive the trip. The shorthand already carries the power-chord
+    omissions, the sixth, and the tensions up to the one it names."""
+    stated: List[str] = []
+    consumed = {"1": {3, 5}, "5": {3}}.get(shorthand, set())
+    for degree in sem.omits or []:
+        if degree not in consumed:
+            stated.append(f"*{degree}")
+    for alt in sem.alterations or []:
+        glyph = alt.get("glyph") or _HAMON_TO_HARTE_ACC.get(alt.get("accidental") or "", "")
+        stated.append(f"{glyph}{alt.get('degree')}")
+    for degree in sem.adds or []:
+        stated.append(str(degree))
+    named = re.search(r"(\d+)$", shorthand)
+    reach = int(named.group(1)) if named and int(named.group(1)) > 7 else 0
+    for degree in sem.extensions or []:
+        implied = degree == 6 and shorthand.endswith("6") or 0 < degree <= reach
+        if not implied:
+            stated.append(str(degree))
+    return f"({','.join(stated)})" if stated else ""
 
 
 # The extended shorthands, keyed by (quality, seventh) — Harte spells the tension in
@@ -405,7 +567,9 @@ def _semantic_to_shorthand(sem: ChordSymbolSemantic) -> str:
         return f"sus{n}" if n else "sus4"
 
     # The root alone, and the third-less power chord: HAMON states them as omissions.
-    if not seventh and not extensions:
+    # Only when the quality is the default major: a minor chord with no third is still
+    # minor, and `5` would have written it back as a major one.
+    if not seventh and not extensions and quality == "major":
         if omits >= {3, 5}:
             return "1"
         if 3 in omits:

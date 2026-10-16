@@ -10,6 +10,22 @@ We design this module to work well in a conda environment.
 pip install hamonpy
 ```
 
+## We upgrade
+
+If an older version is installed, upgrade it in place:
+
+```bash
+pip install --upgrade hamonpy            # keeps your extras only if you name them again:
+pip install --upgrade "hamonpy[music21]" # e.g. with an extra
+pip show hamonpy                         # check the version you now have
+```
+
+If `pip` keeps the old version just after a release, wait a minute (the index takes a moment
+to propagate) or pin it: `pip install hamonpy==0.5.1`. An editable install from a checkout is
+not upgraded by `pip`: `git pull`, then `python -m pip install -e "./hamonpy[dev]"` again so
+the reported version follows the code. What changed in each version is in the
+[changelog](https://github.com/OMR-PRAIG-UA-ES/hamon/blob/main/CHANGELOG.md).
+
 This package lives in the `hamonpy/` subdirectory of the
 [repository](https://github.com/OMR-PRAIG-UA-ES/hamon) (the repository root is not a
 Python package). To run it from a checkout, with the test dependencies, install it

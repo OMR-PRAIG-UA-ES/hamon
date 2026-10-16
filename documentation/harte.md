@@ -76,13 +76,16 @@ Harte tokens map to HAMON `ChordSymbolSemantic`:
 | `root` note name | `root.note` | Uppercase |
 | `root` accidental | `root.accidental` | `#` or `b` |
 | `shorthand` | `quality` + `seventh` | See table above |
+| `(degrees)` | `omits`, `alterations`, `adds`, `extensions`, `seventh` | After a shorthand the list edits it (`min7(b9)`, `min(*3)` → `omits=[3]`). With **no** shorthand the list is the whole chord and nothing is implied: `(b5,b7)` has no third, so `omits=[3]`. |
 | `/bass_interval` | `bass` | Harte names the bass as an altered degree above the root (`/b7`), HAMON as a pitch class. The two convert both ways — the degree fixes the letter, the accidental fixes the pitch — so this is a mapping, not a guess. |
 
 On import, HAMON drops the `:` separator and rewrites the shorthands: `min` becomes `m`, `dim` becomes `°`, and so on.
 
 ## Known limitations
 
-- Extended degree lists like `(*3,b7)` have no first-class fields in HAMON; they land in `tail`.
+- The **writer** states what the shorthand does not: omissions (`*3`), alterations (`b9`) and added degrees, as a degree list. A chord read from `F#:(b5,b7)` is written `F#:7(*3,b5)`: the same chord, spelled with a shorthand. Tensions the shorthand names (`9`, `maj6`, the power chords) are not repeated.
+- The **bass** is read as a degree (`/5`, strict Harte) or as a note name (`/G`, the BPSD and SWD dialect). It is always written back as a degree.
+- A token that cannot be read (`C:foo`, a malformed degree list) is kept as a **text** label with its surface, never dropped and never read as a different chord. The writer cannot carry it, so `report.py` shows it.
 - A **compound** bass degree returns as its simple equivalent (`/9` → `/2`): the two name the same pitch, and HAMON's `bass` is a pitch class, which does not record the octave that told them apart. A re-spelling, not a loss — `report.py` finds nothing, because the semantics are identical.
 - `X` (unknown/don't care) has no HAMON equivalent, so HAMON skips it on import.
 - `minmaj7` maps to a `mMaj7` tail in HAMON, and that round-trips losslessly. (Until 2026-09-01 it did not: the letter-led spellings `mmaj7`/`mM7` normalized to a **dominant** seventh, because the chord-tail tokenizer swallowed `mmaj` as one word and left a bare `7`. Every spelling is now pinned in `conformance/corpus.txt`.)

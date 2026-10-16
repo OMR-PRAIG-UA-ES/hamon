@@ -480,6 +480,8 @@ def _chord_symbol_figure(sem: ChordSymbolSemantic) -> str:
         figure += f"{glyph}{alt.get('degree', '')}"
     for add in (sem.adds or []):
         figure += f"add{add}"
+    for omit in (sem.omits or []):
+        figure += f" omit{omit}"
     if sem.bass is not None:
         figure += "/" + _pitchclass_to_str(sem.bass)
 
@@ -505,7 +507,15 @@ def _roman_to_m21(sem: RomanSemantic, surface: str, key=None):
         figure += f"/{sem.secondary}"
     try:
         if key is not None:
-            return music21.roman.RomanNumeral(figure, key)
+            # DCML and RomanText write the raised sixth and seventh of a minor key as
+            # `#vi` / `#vii`. music21's default convention already reads a bare `vii` as
+            # the raised degree, so the `#` would raise it twice; CAUTIONARY reads the
+            # figure as written.
+            return music21.roman.RomanNumeral(
+                figure, key,
+                sixthMinor=music21.roman.Minor67Default.CAUTIONARY,
+                seventhMinor=music21.roman.Minor67Default.CAUTIONARY,
+            )
         return music21.roman.RomanNumeral(figure)
     except Exception:
         try:

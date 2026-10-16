@@ -16,14 +16,15 @@ def test_hamon_roundtrip_is_lossless():
     assert rep.semantic == []
 
 
-def test_harte_drops_alterations_and_applied():
+def test_harte_drops_applied_but_keeps_alterations():
     seq = parse_hamon_sequence(SAMPLE)
     rep = lossy_report(seq, "harte")
     assert rep.error is None
     assert not rep.lossless
     paths = {f.path for f in rep.semantic}
-    # b9 alteration and the applied function should be flagged as lost.
-    assert any("alterations" in p for p in paths)
+    # The applied function is lost. The b9 alteration used to be too; since the Harte
+    # writer states degree lists (issue #3) it survives.
+    assert not any("alterations" in p for p in paths)
     assert any("attributes" in p for p in paths)
 
 

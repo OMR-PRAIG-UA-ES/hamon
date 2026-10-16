@@ -12,6 +12,7 @@ from .ast import (
 )
 from .normalize import (
     normalize_chord_symbol_from_ctx,
+    normalize_chord_symbol_from_surface,
     normalize_functional_from_chain,
     normalize_key_decl,
     normalize_no_chord,
@@ -37,9 +38,20 @@ def _normalize_atom(atom: hamonParser.HarmonyAtomContext):
         pitch_ctx = cs.pitch()
         note = pitch_ctx.NOTE().getText()
         acc_glyph = pitch_ctx.accidental().getText() if pitch_ctx.accidental() else None
+        sb = cs.slashBass()
+        if (any(p.WORD() is not None or p.OTHER() is not None for p in cs.chordPart())
+                or (sb is not None and sb.WORD() is not None)):
+            # Maximal munch glues letters into one WORD (`mb9` → `mb` + `9`, `/Bb` → `Bb`).
+            # The surface path knows how to split a run of known words and how to read a
+            # flat bass, so it reads the label instead.
+            stream = cs.start.getInputStream()
+            surface = stream.getText(cs.start.start, cs.stop.stop)
+            result = normalize_chord_symbol_from_surface(surface, strict=True)
+            # None: a word in the tail that nothing here understands. Keep the label as
+            # text rather than as a chord that quietly lost part of what it said.
+            return result if result is not None else normalize_text_from_surface(surface, False)
         parts: List[str] = [p.getText() for p in cs.chordPart()]
         bass_note = bass_acc_glyph = None
-        sb = cs.slashBass()
         if sb:
             bp = sb.pitch()
             bass_note = bp.NOTE().getText()

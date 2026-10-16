@@ -47,8 +47,8 @@ NOTE : [A-G] ;
 /* Unicode + ASCII accidentals (we keep token text for lossless rendering) */
 SHARP      : '#' | '♯' ;
 FLAT       : 'b' | '♭' ;
-DBLSHARP   : 'x' | '𝄪' ;
-DBLFLAT    : '𝄫' ;
+DBLSHARP   : 'x' | '𝄪' | '##' ;   // ASCII `##` and `x` are the surface forms of the double sharp
+DBLFLAT    : '𝄫' | 'bb' ;         // ASCII `bb` is the surface form of the double flat
 NATURAL    : '♮' | 'n' ;
 
 /* chord-quality & symbols (surface variants) */

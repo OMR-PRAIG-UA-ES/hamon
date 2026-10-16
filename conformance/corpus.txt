@@ -176,3 +176,36 @@ m:25,ts:1,t:96/1,s:48.5,ref:note-9,Dm7
 C[dur:1.85s]
 s:0,Cmaj7[dur:2.5s]
 # (the bare `G7[dur:1.5]` above stays quarter notes — the suffix is the whole difference)
+# --- Issue #4: a letter quality glued to what follows it (`mb9` is m + b9, not one word) ---
+Cmb9
+Cminb9
+Cdimb9
+Cdimb5
+Cdimadd9
+C7mb5
+# --- Issue #4: ASCII double accidentals are the surface forms of 𝄫 and 𝄪 ---
+Ebbmaj7
+Ebb
+Bbbm
+C##7
+Cx7
+Cm7/Gbb
+C7bb9
+# a single b stays a flat: Bb is B-flat, not a word
+Bbm7
+# --- Issue #5: a word in the tail that nothing understands keeps the label as text ---
+Ger65
+Fr43
+Cmajfoo
+C7zz
+Gfoo
+# a plain 4 is an added tone (as the Choro songbook writes `G7(4)`)
+G7(4)
+# a flat bass after a chord with a tail lexed as one WORD (`/Bb`) used to be a syntax error
+F#m7/Bb
+Dm7b5/Ab
+G7(b9)/Bb
+Cmaj7/Ebb
+# letters after the bass say something nothing reads: text
+C/foo
+F#m7/Bbfoo

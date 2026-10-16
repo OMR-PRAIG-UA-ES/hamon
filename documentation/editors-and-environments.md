@@ -7,9 +7,12 @@ everything works. This page shows how to get it there and wire it into the commo
 ## Get HAMON into your environment
 
 The Python package is the `hamonpy/` **subdirectory** of the repo (the repo root is not a
-package). Once it's published to PyPI (after ICCCM'26) using it is just
-`pip install hamonpy` into your project's environment. **Until then — and always if you
-want to edit HAMON — you install from a checkout**, as follows.
+package). It is on PyPI, so using it is just
+`pip install hamonpy` into your project's environment, and `pip install --upgrade hamonpy`
+brings an older install up to date (`pip show hamonpy` tells you the version; name your extras
+again, e.g. `"hamonpy[music21]"`). **To edit HAMON, or to try what is not released yet,
+you install from a checkout**, as follows. An editable install is not upgraded by `pip`:
+`git pull` and run the editable install again.
 
 First get the code:
 

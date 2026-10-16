@@ -144,9 +144,45 @@ Rule:
 - `pitch : NOTE accidental?`
 - `slashBass : '/' pitch`
 
+### Accidentals
+
+`accidental : SHARP | FLAT | DBLSHARP | DBLFLAT | NATURAL`. The double accidentals have an
+ASCII spelling as well as a Unicode one:
+
+| Accidental | Spellings |
+|---|---|
+| double flat | `𝄫`, `bb` |
+| double sharp | `𝄪`, `x`, `##` |
+
+The longest spelling wins, so `Bb` is B-flat and `Bbb` is B-double-flat; `Ebbmaj7` is E-double-flat
+major seventh. The same spellings serve the bass (`/Gbb`) and the altered degrees (`C7bb9`).
+
 ### `chordPart` and losslessness
 
 `chordPart` is permissive. Anything it doesn't recognize is still kept as `WORD`/`OTHER`, and later lands in `rendering.rawParts`.
+
+#### Letters glued together
+
+Maximal munch lexes a run of letters as one `WORD`, so `Cmb9` reaches the parser as `m b` fused
+into `mb` followed by `9`. Whenever a chord's tail holds a `WORD`, the chord is read from its
+surface, and the tail tokenizer splits a run that is made *entirely* of known words
+(`maj min dim aug add omit no sus m M o`): `mb9` is `m` + `b9`, `dimadd9` is `dim` + `add9`.
+A run that holds anything else (`Ger`, `majfoo`) stays whole.
+
+The same happens to a flat bass: `/Bb` lexes as one `WORD`, so `slashBass` accepts
+`SLASH WORD` and the chord is read from its surface. Letters left after the bass
+(`C/foo`) make the label text, as in the next section.
+
+#### A word nothing understands
+
+A tail part that no rule interprets and that contains a letter (`Ger65`, `Cmajfoo`, `C7zz`) makes
+the whole label a `TextSemantic`. Dropping the word would leave an ordinary-looking chord that
+says nothing of what was lost (issue #5). The rule does not depend on a trailing number:
+`Gfoo` and `Gfoo7` are both text. Unread parts that are not words (a stray number or symbol)
+are still kept in `rawParts` and the chord stays a chord.
+
+The [chord-tail catalog](chord-tail-catalog.md) measures what real corpora put in a tail, and
+so what this rule would cost them: nothing, in the sources we hold.
 
 #### Disambiguation: `maj7` vs `maj + 7`
 

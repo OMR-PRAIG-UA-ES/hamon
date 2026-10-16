@@ -282,3 +282,39 @@ def test_subconverter_write_and_parse_by_extension(tmp_path):
     s2 = converter.parse(str(fp))
     figs = [e.figure for e in s2.flatten().getElementsByClass(music21.harmony.ChordSymbol)]
     assert figs == ["C", "Am", "F", "G7"]
+
+
+# ---------------------------------------------------------------------------
+# Issue #1 — `#vi` / `#vii` in a minor key were raised twice
+# ---------------------------------------------------------------------------
+
+def _roman_pitches(figure: str, key: str) -> str:
+    """The pitches music21 realises for ``figure`` in ``key``, via a HAMON label."""
+    from music21 import roman
+    from hamonpy.adapters.romantext import romantext_to_hamon
+
+    seq = romantext_to_hamon(
+        f"Composer: x\nTitle: x\nTime Signature: 4/4\nm1 {key}: {figure}\n")
+    stream = hamon_to_music21_stream(seq)
+    (rn,) = stream.recurse().getElementsByClass(roman.RomanNumeral)
+    return " ".join(p.name for p in rn.pitches)
+
+
+@pytest.mark.parametrize("figure, expected", [
+    ("#viio7", "B D F A-"),    # the leading-tone diminished seventh: raised once, not twice
+    ("#vi", "A C E"),
+    ("viio7", "B D F A-"),     # unchanged: no accidental to double
+    ("VI", "A- C E-"),         # unchanged
+])
+def test_raised_sixth_and_seventh_in_minor_are_raised_once(figure, expected):
+    assert _roman_pitches(figure, "c") == expected
+
+
+def test_dcml_and_romantext_agree_on_the_raised_leading_tone():
+    from music21 import roman
+    from hamonpy.adapters.dcml import dcml_tsv_text_to_hamon
+
+    dcml = "mc\tmn\tglobalkey\tlocalkey\tlabel\tchord\n1\t1\tc\ti\t.c.i.#viio7\t#viio7\n"
+    stream = hamon_to_music21_stream(dcml_tsv_text_to_hamon(dcml))
+    (rn,) = stream.recurse().getElementsByClass(roman.RomanNumeral)
+    assert " ".join(p.name for p in rn.pitches) == _roman_pitches("#viio7", "c")

@@ -9,7 +9,7 @@ from hamonpy.adapters.harte import (
     harte_token_to_hamon_label,
     _SHORTHAND_TO_HAMON_SUFFIX,
 )
-from hamonpy.ast import ChordSymbolSemantic, NoChordSemantic, PitchClass
+from hamonpy.ast import ChordSymbolSemantic, NoChordSemantic, PitchClass, TextSemantic
 from hamonpy.parse import parse_hamon_sequence
 
 
@@ -201,3 +201,119 @@ def test_minor_major_seventh_is_not_a_dominant():
     sem = harte_token_to_hamon_label("C:minmaj7").semantic
     assert sem.quality == "minor"
     assert sem.seventh == "maj7"
+
+
+# ---------------------------------------------------------------------------
+# Issue #2 — a bass spelled as a note name (BPSD, SWD) used to drop the whole line
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("note_token, degree_token", [
+    ("C:min7/G", "C:min7/5"),
+    ("Bb:maj/D", "Bb:maj/3"),
+    ("Bb:maj/Db", "Bb:maj/b3"),
+    ("F#:7/C#", "F#:7/5"),
+])
+def test_note_name_bass_is_the_same_chord_as_the_degree_bass(note_token, degree_token):
+    by_note = harte_token_to_hamon_label(note_token).semantic
+    by_degree = harte_token_to_hamon_label(degree_token).semantic
+    assert isinstance(by_note, ChordSymbolSemantic)
+    assert by_note.bass is not None
+    assert by_note == by_degree
+
+
+def test_note_name_bass_keeps_the_line():
+    assert len(harte_text_to_hamon("C:min7/G\n").groups) == 1
+
+
+@pytest.mark.parametrize("token", ["C:foo", "H:maj", "C:maj/", "C:(b5", "C:(b5,zz)"])
+def test_unreadable_token_is_kept_as_text_not_dropped(token):
+    seq = harte_text_to_hamon(token + "\n")
+    assert len(seq.groups) == 1
+    assert isinstance(seq.groups[0].primary[0].semantic, TextSemantic)
+    assert seq.groups[0].primary[0].surface == token
+
+
+def test_unreadable_token_does_not_become_a_different_chord():
+    # `C:foo` used to come out as a plain C major triad.
+    assert not isinstance(harte_token_to_hamon_label("C:foo").semantic, ChordSymbolSemantic)
+
+
+# ---------------------------------------------------------------------------
+# Issue #3 — degree lists: the complete chord, and `*n` as an omission
+# ---------------------------------------------------------------------------
+
+def test_degree_list_without_shorthand_does_not_imply_a_third():
+    sem = harte_token_to_hamon_label("F#:(b5,b7)").semantic
+    assert sem.omits == [3]
+    assert sem.seventh == "dom7"
+    assert [a["degree"] for a in sem.alterations] == [5]
+
+
+def test_degree_list_with_a_third_has_no_omission():
+    sem = harte_token_to_hamon_label("C:(3,5,b7)").semantic
+    assert (sem.quality, sem.seventh, sem.omits) == ("major", "dom7", None)
+
+
+@pytest.mark.parametrize("token, quality, seventh", [
+    ("C:(b3,b5)", "diminished", None),
+    ("C:(b3,b5,bb7)", "diminished", "dim7"),
+    ("C:(b3,b5,b7)", "half-diminished", "hdim7"),
+    ("C:(3,#5)", "augmented", None),
+])
+def test_degree_list_names_the_quality(token, quality, seventh):
+    sem = harte_token_to_hamon_label(token).semantic
+    assert (sem.quality, sem.seventh) == (quality, seventh)
+
+
+def test_omission_in_a_degree_list_goes_to_omits():
+    sem = harte_token_to_hamon_label("C:min(*3)").semantic
+    assert (sem.quality, sem.omits) == ("minor", [3])
+
+
+def test_degree_list_after_a_shorthand_adds_to_it():
+    sem = harte_token_to_hamon_label("C:min7(b9)").semantic
+    assert (sem.quality, sem.seventh) == ("minor", "min7")
+    assert [a["degree"] for a in sem.alterations] == [9]
+
+
+def test_degree_list_pitches_in_music21():
+    m21 = pytest.importorskip("music21")
+    from hamonpy.adapters.music21_adapter import hamon_to_music21_stream
+
+    def pitches(token):
+        stream = hamon_to_music21_stream(harte_text_to_hamon(token + "\n"))
+        (h,) = stream.recurse().getElementsByClass("Harmony")
+        return " ".join(p.name for p in h.pitches)
+
+    assert pitches("F#:(b5,b7)") == "F# C E"
+    assert pitches("C:min(*3)") == "C G"
+
+
+# ---------------------------------------------------------------------------
+# Issue #3 (writer) — what the reader takes from a degree list must be written back
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("token", [
+    "C:min(*3)",
+    "C:7(*3,b5)",        # what F#:(b5,b7) reads as: no third, flat fifth, minor seventh
+    "C:min7(b9)",
+    "C:7(#9,b13)",
+    "C:maj(9)",
+    "C:min(*5)",
+    "C:7(*3,b5)/b7",
+])
+def test_degree_list_round_trips_exactly(token):
+    seq = harte_text_to_hamon(token + "\n")
+    assert hamon_to_harte_text(seq).strip() == token
+
+
+def test_complete_chord_degree_list_is_written_and_read_back_as_the_same_chord():
+    first = harte_text_to_hamon("F#:(b5,b7)\n")
+    again = harte_text_to_hamon(hamon_to_harte_text(first))
+    assert again.groups[0].primary[0].semantic == first.groups[0].primary[0].semantic
+
+
+def test_degree_list_writer_leaves_shorthand_covered_degrees_alone():
+    # `9` names the ninth, `1` and `5` name their omissions, `maj6` the sixth.
+    for token in ("C:9", "C:1", "C:5", "C:maj6"):
+        assert hamon_to_harte_text(harte_text_to_hamon(token + "\n")).strip() == token
